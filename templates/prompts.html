@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Prompt Library — AI Kurd{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
+        <p class="font-mono text-xs text-white/40 mb-4">❯_ interactive</p>
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">Prompt Library</h1>
+        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">کتێبخانەی پرۆمپت</h1>
+        <p class="mt-4 text-white/60 max-w-2xl en-only">Ready-to-use prompts for text and image generation — with example results. Filter by category, click to copy, paste into any AI tool.</p>
+        <p class="rtl mt-4 text-white/60 max-w-2xl ku-only">پرۆمپتی ئامادە بۆ نووسین و دروستکردنی وێنە — لەگەڵ نموونەی ئەنجام. پۆلێن هەڵبژێرە، کلیک بکە بۆ کۆپیکردن.</p>
+    </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+
+    <!-- Filters + search -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
+        <div class="flex gap-2 flex-wrap" id="prompt-filters">
+            <button data-filter="all" class="pfilter active text-xs border border-white/40 bg-white text-black rounded-full px-4 py-2 font-semibold transition-colors">All</button>
+            {% for cat in categories %}
+            <button data-filter="{{ cat }}" class="pfilter text-xs border border-white/15 rounded-full px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition-colors">{{ cat }}</button>
+            {% endfor %}
+        </div>
+        <input id="prompt-search" type="text" placeholder="Search prompts…"
+               class="sm:ms-auto bg-black border border-white/15 rounded-xl px-4 py-2.5 text-sm placeholder-white/30 focus:outline-none focus:border-white/50 transition-colors w-full sm:w-64">
+    </div>
+
+    <!-- Prompt cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="prompt-grid">
+        {% for p in prompts %}
+        <article class="prompt-card reveal glow-card border border-white/10 rounded-2xl p-6 flex flex-col"
+                 data-category="{{ p.category }}" data-search="{{ p.title|lower }} {{ p.text|lower }}">
+            {% if p.image %}
+            <img src="{{ p.image }}" alt="Example result for {{ p.title }}" loading="lazy"
+                 class="w-full aspect-video object-cover rounded-xl mb-5 border border-white/10">
+            {% endif %}
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-[11px] uppercase tracking-widest border border-white/15 rounded-full px-2.5 py-1 text-white/50">{{ p.category }}</span>
+                <span class="font-mono text-[11px] text-white/25">#{{ "%02d"|format(loop.index) }}</span>
+            </div>
+            <h3 class="font-bold">{{ p.title }}</h3>
+            <div class="mt-4 flex-1 bg-white/[0.03] border border-white/10 rounded-xl p-4 text-sm text-white/70 leading-relaxed font-mono prompt-text">{{ p.text }}</div>
+            <button class="copy-btn mt-4 w-full border border-white/20 rounded-xl py-2.5 text-sm text-white/70 hover:text-black hover:bg-white hover:border-white font-medium transition-all">
+                Copy prompt
+            </button>
+        </article>
+        {% endfor %}
+    </div>
+    <p id="no-prompts" class="hidden text-white/40 text-sm mt-6">No prompts match your filter.</p>
+</section>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 bg-white text-black text-sm font-semibold px-5 py-3 rounded-xl transition-all duration-300 pointer-events-none z-50">
+    ✓ Copied to clipboard
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/prompts.js') }}"></script>
+{% endblock %}

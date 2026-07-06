@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}AI Kurd Bot — AI Kurd{% endblock %}
+
+{% block head_extra %}
+<style>
+    .bubble-user { background: #fff; color: #000; border-radius: 18px 18px 4px 18px; }
+    .bubble-bot { border: 1px solid rgba(255,255,255,.15); border-radius: 18px 18px 18px 4px; }
+    .msg-in { animation: msgIn .3s ease both; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.6); animation: tblink 1.2s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: .2s; }
+    .typing-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes tblink { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+
+    /* Auto-direction: Kurdish text renders RTL automatically */
+    .msg-text { unicode-bidi: plaintext; text-align: start; white-space: pre-line; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 text-center">
+        <div class="inline-flex items-center gap-2 border border-white/15 rounded-full px-4 py-1.5 mb-6 text-xs text-white/60 tracking-wide">
+            <span class="w-1.5 h-1.5 rounded-full {{ 'bg-white animate-pulse' if ai_enabled else 'bg-white/30' }}"></span>
+            {{ 'online' if ai_enabled else 'sleeping' }}
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight">AI Kurd Bot</h1>
+        <p class="mt-3 text-white/50 en-only">Ask about AI, tech, learning — or just say how you feel. Kurdish or English.</p>
+        <p class="rtl mt-3 text-white/50 ku-only">پرسیار بکە دەربارەی زیرەکیی دەستکرد، تەکنەلۆژیا، فێربوون — یان تەنها بڵێ هەستت چۆنە. بە کوردی یان ئینگلیزی.</p>
+    </div>
+</section>
+
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% if ai_enabled %}
+    <div class="border border-white/15 rounded-2xl overflow-hidden">
+
+        <!-- Messages -->
+        <div id="chat-box" class="h-[55vh] overflow-y-auto p-5 space-y-4"></div>
+
+        <!-- Suggestions -->
+        <div id="suggestions" class="px-5 pb-3 flex gap-2 flex-wrap">
+            <button class="sugg text-xs border border-white/15 rounded-full px-3.5 py-1.5 text-white/60 hover:text-white hover:border-white/40 transition-colors">What is AI, simply?</button>
+            <button class="sugg rtl font-kurdish text-xs border border-white/15 rounded-full px-3.5 py-1.5 text-white/60 hover:text-white hover:border-white/40 transition-colors">چۆن دەست بکەم بە فێربوونی بەرنامەسازی؟</button>
+            <button class="sugg text-xs border border-white/15 rounded-full px-3.5 py-1.5 text-white/60 hover:text-white hover:border-white/40 transition-colors">Explain AI Safety in 3 sentences</button>
+            <button class="sugg rtl font-kurdish text-xs border border-white/15 rounded-full px-3.5 py-1.5 text-white/60 hover:text-white hover:border-white/40 transition-colors">ئەمڕۆ ماندووم</button>
+        </div>
+
+        <!-- Input -->
+        <div class="border-t border-white/10 p-4 flex gap-3">
+            <textarea id="chat-input" rows="1" placeholder="Write a message… / نامەیەک بنووسە…"
+                      class="flex-1 bg-black border border-white/15 rounded-xl px-4 py-3 text-sm placeholder-white/30 focus:outline-none focus:border-white/50 resize-none msg-text"></textarea>
+            <button id="chat-send" class="bg-white text-black font-semibold px-6 rounded-xl hover:bg-white/85 transition-colors text-sm shrink-0">Send</button>
+        </div>
+    </div>
+    <p class="text-xs text-white/30 mt-3 text-center">AI Kurd Bot can make mistakes. It's not a doctor or therapist.</p>
+
+    {% else %}
+    <!-- Sleeping state -->
+    <div class="border border-dashed border-white/15 rounded-2xl py-24 px-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 grid-bg grid-fade opacity-40"></div>
+        <div class="relative">
+            <p class="text-5xl mb-6">🤖</p>
+            <h2 class="text-2xl font-black en-only">The bot is sleeping</h2>
+            <h2 class="rtl text-2xl font-black ku-only">بۆتەکە خەوتووە</h2>
+            <p class="mt-3 text-white/50 max-w-md mx-auto en-only">AI Kurd Bot will wake up soon. Check back later!</p>
+            <p class="rtl mt-3 text-white/50 max-w-md mx-auto ku-only">بۆتی AI Kurd بەم زووانە بەئاگا دێتەوە. دواتر سەردانمان بکەرەوە!</p>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+{% if ai_enabled %}
+<script>
+(function () {
+    const box = document.getElementById('chat-box');
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chat-send');
+    const suggestions = document.getElementById('suggestions');
+    const history = [];  // {role, content} — real exchanges only
+    let busy = false;
+
+    const BOT_AVATAR = '<div class="shrink-0 w-8 h-8 border border-white/20 rounded-lg flex items-center justify-center text-[10px] font-black">AI</div>';
+
+    function addMsg(role, text) {
+        const wrap = document.createElement('div');
+        wrap.className = 'msg-in flex gap-3 ' + (role === 'user' ? 'justify-end' : 'justify-start');
+        wrap.innerHTML = role === 'user'
+            ? `<div class="bubble-user max-w-[80%] px-4 py-3 text-sm leading-relaxed msg-text"></div>`
+            : `${BOT_AVATAR}<div class="bubble-bot max-w-[80%] px-4 py-3 text-sm leading-relaxed text-white/85 msg-text"></div>`;
+        wrap.querySelector('.msg-text').textContent = text;
+        box.appendChild(wrap);
+        box.scrollTop = box.scrollHeight;
+        return wrap;
+    }
+
+    function addTyping() {
+        const wrap = document.createElement('div');
+        wrap.className = 'msg-in flex gap-3 justify-start';
+        wrap.id = 'typing';
+        wrap.innerHTML = `${BOT_AVATAR}<div class="bubble-bot px-4 py-4 flex gap-1.5 items-center"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+        box.appendChild(wrap);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    async function send(text) {
+        if (busy || !text.trim()) return;
+        busy = true;
+        suggestions.style.display = 'none';
+        addMsg('user', text.trim());
+        history.push({ role: 'user', content: text.trim() });
+        input.value = '';
+        addTyping();
+        sendBtn.disabled = true;
+
+        try {
+            const r = await fetch('/bot/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: history })
+            });
+            const data = await r.json();
+            document.getElementById('typing')?.remove();
+            const reply = data.reply || data.error || 'Something went wrong.';
+            addMsg('bot', reply);
+            if (data.reply) history.push({ role: 'assistant', content: data.reply });
+            else history.pop();  // failed — let them retry
+        } catch (e) {
+            document.getElementById('typing')?.remove();
+            addMsg('bot', 'Could not connect. Please try again.');
+            history.pop();
+        }
+        busy = false;
+        sendBtn.disabled = false;
+        input.focus();
+    }
+
+    sendBtn.addEventListener('click', () => send(input.value));
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(input.value); }
+    });
+    document.querySelectorAll('.sugg').forEach(b => b.addEventListener('click', () => send(b.textContent)));
+
+    // Welcome message (client-side only, not sent to the API)
+    addMsg('bot', 'سڵاو! 👋 من بۆتی AI Kurd م — هەر پرسیارێکت هەیە دەربارەی AI و تەکنەلۆژیا، بە کوردی بیکە.\nHi! I\'m AI Kurd Bot — ask me anything about AI, tech, or learning, in Kurdish or English.');
+})();
+</script>
+{% endif %}
+{% endblock %}

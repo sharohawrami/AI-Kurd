@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Articles — AI Kurd{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">Articles & Tutorials</h1>
+        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">وتار و فێرکارییەکان</h1>
+        <p class="mt-4 text-white/60 max-w-2xl en-only">Everything we've published — tutorials, articles, and videos, in Kurdish and English.</p>
+        <p class="rtl mt-4 text-white/60 max-w-2xl ku-only">هەموو ئەوەی بڵاومان کردووەتەوە — فێرکاری، وتار و ڤیدیۆ، بە کوردی و ئینگلیزی.</p>
+    </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+    {% if articles %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {% for item in articles %}
+        <a href="/articles/{{ item.slug }}" class="reveal glow-card border border-white/10 rounded-2xl p-6 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-[11px] uppercase tracking-widest border border-white/15 rounded-full px-2.5 py-1 text-white/50">{{ item.type }}</span>
+                <span class="text-[11px] text-white/30 font-mono">{{ item.lang }}</span>
+            </div>
+            <h3 class="font-bold text-lg leading-snug">{{ item.title_en }}</h3>
+            <p class="rtl text-sm text-white/50 mt-1.5 font-kurdish">{{ item.title_ku }}</p>
+            <p class="text-sm text-white/50 mt-3 leading-relaxed flex-1">{{ item.desc_en }}</p>
+            <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/10">
+                <time class="text-xs text-white/30 font-mono">{{ item.date }}</time>
+                <span class="text-sm text-white/60">Read →</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-white/40">No articles yet — add the first one from the admin panel.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "Tutorial",
+    "title_en": "Getting Started with AI — A Beginner's Roadmap",
+    "title_ku": "دەستپێکردن لەگەڵ زیرەکیی دەستکرد — نەخشەڕێگای دەستپێکەران",
+    "desc_en": "What AI actually is, how it works, and where to begin learning.",
+    "date": "2026-06-28",
+    "lang": "EN + KU"
+  },
+  {
+    "type": "Article",
+    "title_en": "Why AI Alignment Matters",
+    "title_ku": "بۆچی هاوڕێککردنی زیرەکیی دەستکرد گرنگە",
+    "desc_en": "A clear introduction to the alignment problem — no math required.",
+    "date": "2026-06-21",
+    "lang": "EN + KU"
+  },
+  {
+    "type": "Tutorial",
+    "title_en": "Prompt Engineering in Kurdish: 10 Patterns That Work",
+    "title_ku": "ئەندازیاری پرۆمپت بە کوردی: ١٠ شێوازی کاریگەر",
+    "desc_en": "Write better prompts in Kurdish and get dramatically better answers.",
+    "date": "2026-06-14",
+    "lang": "KU"
+  },
+  {
+    "type": "Video",
+    "title_en": "Build Your First Chatbot with Python",
+    "title_ku": "یەکەم چاتبۆتت بە پایسۆن دروست بکە",
+    "desc_en": "Step-by-step Flask + LLM API walkthrough for beginners.",
+    "date": "2026-06-07",
+    "lang": "EN + KU"
+  },
+  {
+    "type": "Article",
+    "title_en": "Open Models vs. Closed Models — What's the Difference?",
+    "title_ku": "مۆدێلی کراوە بەرامبەر داخراو — جیاوازییەکە چییە؟",
+    "desc_en": "Understanding the trade-offs shaping the AI ecosystem.",
+    "date": "2026-05-30",
+    "lang": "EN"
+  },
+  {
+    "type": "Tutorial",
+    "title_en": "Using AI for Study & Research the Right Way",
+    "title_ku": "بەکارهێنانی زیرەکیی دەستکرد بۆ خوێندن و توێژینەوە",
+    "desc_en": "Honest, effective AI study workflows for students.",
+    "date": "2026-05-23",
+    "lang": "EN + KU"
+  }
+]

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — AI Kurd{% endblock %}
+
+{% macro field_input(name, value='') -%}
+    {% set rtl = name.endswith('_ku') %}
+    {% if name in ['text', 'desc', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku'] %}
+    <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 3 if name == 'text' else 2 }}" {% if rtl %}dir="rtl"{% endif %}
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">{{ value }}</textarea>
+    {% elif name == 'image' %}
+    <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /static/uploads/… (or upload a file below)"
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+    {% else %}
+    <input name="{{ name }}" value="{{ value }}" {% if rtl %}dir="rtl"{% endif %}
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">
+    {% endif %}
+{%- endmacro %}
+
+{% macro image_upload(item=None) -%}
+    <div class="md:col-span-2">
+        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">Upload example image (optional — overrides the URL)</label>
+        <input type="file" name="image_file" accept="image/*"
+               class="w-full text-sm text-white/50 file:me-3 file:bg-white file:text-black file:border-0 file:rounded-lg file:px-4 file:py-2 file:text-sm file:font-medium file:cursor-pointer">
+        {% if item and item.get('image') %}
+        <img src="{{ item.get('image') }}" alt="current example" class="mt-3 h-24 rounded-lg border border-white/10 object-cover">
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-2">
+        <div>
+            <p class="font-mono text-xs text-white/40 mb-1">❯ admin panel</p>
+            <h1 class="text-3xl sm:text-4xl font-black">Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-xs border border-white/15 rounded-full px-3 py-1.5 text-white/60">
+                {{ me.username }} · {{ me.role }}{% if me.role == 'superadmin' %} ★{% endif %}
+            </span>
+            <a href="{{ url_for('admin.backup') }}" class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/60 hover:text-white hover:border-white/50 transition-colors">⬇ Download backup</a>
+            <a href="{{ url_for('admin.logout') }}" class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/60 hover:text-white hover:border-white/50 transition-colors">Log out</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+        <p class="mt-4 text-sm border {{ 'border-white/40' if cat == 'error' else 'border-white/20' }} rounded-xl px-4 py-2.5 text-white/80">{{ msg }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- ======== SITE SETTINGS ======== -->
+    <details class="mt-8 border border-white/15 rounded-2xl overflow-hidden" open>
+        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">⚙ Site Settings — hero & featured tool</summary>
+        <form method="POST" action="{{ url_for('admin.save_settings') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for f in ['hero_en_1','hero_en_2','sub_en','hero_ku_1','hero_ku_2','sub_ku'] %}
+            <div>
+                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                {{ field_input(f, settings.get(f,'')) }}
+            </div>
+            {% endfor %}
+            <div class="md:col-span-2 border-t border-white/10 pt-4 mt-2">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-4">Featured tool</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for f in ['name','category','url','badge','tagline_en','tagline_ku'] %}
+                    <div>
+                        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        {{ field_input('featured_' + f, settings.get('featured',{}).get(f,'')) }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save settings</button>
+            </div>
+        </form>
+    </details>
+
+    <!-- ======== COLLECTIONS ======== -->
+    {% for coll, meta in collections.items() %}
+    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">
+            {{ meta.label }} <span class="text-white/30 font-normal text-sm">({{ data[coll]|length }})</span>
+        </summary>
+        <div class="border-t border-white/10 divide-y divide-white/10">
+
+            {% for item in data[coll] %}
+            <details class="group">
+                <summary class="cursor-pointer px-6 py-3.5 text-sm text-white/70 hover:bg-white/5 flex items-center justify-between transition-colors">
+                    <span>{{ item.get('name') or item.get('title') or item.get('title_en') or 'Item ' ~ loop.index }}</span>
+                    <span class="text-white/30 text-xs">edit ▾</span>
+                </summary>
+                <div class="px-6 pb-5">
+                    <form method="POST" action="{{ url_for('admin.edit_item', coll=coll, idx=loop.index0) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {% for f in meta.fields %}
+                        <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
+                            <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                            {{ field_input(f, item.get(f,'')) }}
+                        </div>
+                        {% endfor %}
+                        {% if 'image' in meta.fields %}{{ image_upload(item) }}{% endif %}
+                        <div class="md:col-span-2">
+                            <button class="bg-white text-black font-semibold px-5 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Save</button>
+                        </div>
+                    </form>
+                    <form method="POST" action="{{ url_for('admin.delete_item', coll=coll, idx=loop.index0) }}"
+                          onsubmit="return confirm('Delete this item?')" class="mt-3">
+                        <button class="border border-white/20 text-white/60 px-5 py-2 rounded-xl hover:border-white/60 hover:text-white transition-colors text-sm">Delete</button>
+                    </form>
+                </div>
+            </details>
+            {% endfor %}
+
+            <!-- Add new -->
+            <div class="px-6 py-5 bg-white/[0.02]">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-3">+ Add new</p>
+                <form method="POST" action="{{ url_for('admin.add_item', coll=coll) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {% for f in meta.fields %}
+                    <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
+                        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        {{ field_input(f) }}
+                    </div>
+                    {% endfor %}
+                    {% if 'image' in meta.fields %}{{ image_upload() }}{% endif %}
+                    <div class="md:col-span-2">
+                        <button class="border border-white/30 px-6 py-2.5 rounded-xl hover:bg-white hover:text-black transition-all text-sm font-medium">Add item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </details>
+    {% endfor %}
+
+    <!-- ======== ADMINS (superadmin only) ======== -->
+    {% if me.role == 'superadmin' %}
+    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">★ Admins <span class="text-white/30 font-normal text-sm">({{ users|length }})</span></summary>
+        <div class="border-t border-white/10">
+            <div class="divide-y divide-white/10">
+                {% for u in users %}
+                <div class="px-6 py-3.5 flex items-center justify-between">
+                    <p class="text-sm">{{ u.username }} <span class="text-white/40 text-xs ms-2">{{ u.role }}{% if u.role == 'superadmin' %} ★{% endif %}</span></p>
+                    {% if u.username != me.username %}
+                    <form method="POST" action="{{ url_for('admin.delete_user', username=u.username) }}" onsubmit="return confirm('Remove admin {{ u.username }}?')">
+                        <button class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/50 hover:text-white hover:border-white/60 transition-colors">Remove</button>
+                    </form>
+                    {% else %}
+                    <span class="text-xs text-white/30">you</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="px-6 py-5 bg-white/[0.02] border-t border-white/10">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-3">+ Add admin</p>
+                <form method="POST" action="{{ url_for('admin.add_user') }}" class="flex flex-col sm:flex-row gap-3">
+                    <input name="username" placeholder="username" required class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                    <input name="password" type="password" placeholder="password (min 6)" required class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                    <select name="role" class="bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                        <option value="admin">admin</option>
+                        <option value="superadmin">superadmin ★</option>
+                    </select>
+                    <button class="bg-white text-black font-semibold px-6 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Create</button>
+                </form>
+            </div>
+        </div>
+    </details>
+    {% endif %}
+
+    <!-- ======== MY PASSWORD ======== -->
+    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">🔑 Change my password</summary>
+        <form method="POST" action="{{ url_for('admin.change_password') }}" class="p-6 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+            <input name="new_password" type="password" placeholder="new password (min 6 characters)" required
+                   class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+            <button class="bg-white text-black font-semibold px-6 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Change</button>
+        </form>
+    </details>
+
+</section>
+{% endblock %}

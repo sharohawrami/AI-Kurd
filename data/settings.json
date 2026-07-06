@@ -1,0 +1,16 @@
+{
+  "hero_en_1": "Learn AI.",
+  "hero_en_2": "In your language.",
+  "hero_ku_1": "زیرەکیی دەستکرد فێربە.",
+  "hero_ku_2": "بە زمانی خۆت.",
+  "sub_en": "AI tools, tech tutorials, and AI Safety — explained clearly, in Kurdish and English.",
+  "sub_ku": "ئامرازەکانی زیرەکیی دەستکرد، فێرکاری تەکنەلۆژیا و سەلامەتی AI — بە ڕوونی، بە کوردی و ئینگلیزی.",
+  "featured": {
+    "name": "Claude",
+    "category": "Research",
+    "tagline_en": "A frontier AI assistant for deep reasoning, writing, and coding.",
+    "tagline_ku": "یاریدەدەری زیرەکیی دەستکرد بۆ بیرکردنەوەی قووڵ، نووسین و کۆدنووسین.",
+    "url": "https://claude.ai",
+    "badge": "Featured Tool of the Week"
+  }
+}

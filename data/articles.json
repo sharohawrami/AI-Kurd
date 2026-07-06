@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "getting-started-with-ai",
+    "type": "Tutorial",
+    "lang": "EN + KU",
+    "date": "2026-06-28",
+    "title_en": "Getting Started with AI — A Beginner's Roadmap",
+    "title_ku": "دەستپێکردن لەگەڵ زیرەکیی دەستکرد — نەخشەڕێگای دەستپێکەران",
+    "desc_en": "What AI actually is, how it works, and where to begin learning.",
+    "image": "",
+    "body_en": "Artificial intelligence sounds intimidating, but the core idea is simple: computers learning patterns from examples instead of following hand-written rules. When you show a system millions of photos, sentences, or chess games, it gradually learns what tends to follow what — and that lets it recognize faces, write text, or play games at a superhuman level.\n\n## Start with using, not building\n\nThe fastest way to understand AI is to use it every day. Pick an assistant like Claude or ChatGPT and bring it your real tasks: summarizing something you must read, explaining a concept from class, planning your week. Pay attention to what it does well and where it fails — that intuition is the real foundation, and no course teaches it better than practice.\n\n## Then learn the ideas\n\nAfter a few weeks of daily use, learn the basic vocabulary: what a model is, what training means, what a prompt does, why models sometimes 'hallucinate' wrong answers. Our Resource Hub has beginner tutorials for exactly this stage.\n\n## Only then, consider code\n\nIf you want to build with AI, Python is the language to learn — and you need less of it than you think. A beginner who knows variables, loops, and functions can already call an AI model from a script. Start small, build something useless but fun, and keep going.\n\nThe roadmap in one line: use AI daily → learn the concepts → learn a little Python → build tiny projects.",
+    "body_ku": "زیرەکیی دەستکرد لەوانەیە ترسناک دیاربێت، بەڵام بیرۆکە سەرەکییەکەی سادەیە: کۆمپیوتەرەکان لە نموونەکانەوە فێری شێوازەکان دەبن، نەک لە یاساکانی دەستنووس.\n\n## بە بەکارهێنان دەست پێبکە، نەک دروستکردن\n\nخێراترین ڕێگا بۆ تێگەیشتن لە AI ئەوەیە کە ڕۆژانە بەکاری بهێنیت. یاریدەدەرێک وەک Claude یان ChatGPT هەڵبژێرە و کارە ڕاستەقینەکانتی بۆ ببە: کورتکردنەوەی بابەتێک، ڕوونکردنەوەی وانەیەک، پلاندانانی هەفتەکەت. سەرنج بدە لە چی باشە و لە کوێ هەڵە دەکات.\n\n## پاشان بیرۆکەکان فێربە\n\nدوای چەند هەفتەیەک لە بەکارهێنانی ڕۆژانە، زاراوە بنەڕەتییەکان فێربە: مۆدێل چییە، ڕاهێنان واتای چییە، پرۆمپت چی دەکات. ناوەندی سەرچاوەکانمان فێرکاری تایبەت بەم قۆناغە هەیە.\n\n## دواتر، بیر لە کۆد بکەرەوە\n\nئەگەر دەتەوێت شت دروست بکەیت، پایسۆن ئەو زمانەیە کە دەبێت فێری بیت — و کەمتر لەوەی بیری لێدەکەیتەوە پێویستە. بچووک دەست پێبکە و بەردەوام بە."
+  },
+  {
+    "slug": "why-ai-alignment-matters",
+    "type": "Article",
+    "lang": "EN + KU",
+    "date": "2026-06-21",
+    "title_en": "Why AI Alignment Matters",
+    "title_ku": "بۆچی هاوڕێککردنی زیرەکیی دەستکرد گرنگە",
+    "desc_en": "A clear introduction to the alignment problem — no math required.",
+    "image": "",
+    "body_en": "Imagine hiring the world's most capable employee — brilliant, tireless, and fast — but every instruction you give gets followed *literally* instead of *as you meant it*. Tell them to 'get rid of the emails piling up' and they might delete your entire inbox. That gap between what we say and what we mean is the heart of the alignment problem.\n\n## Why it gets harder as AI gets better\n\nWith weak systems, misunderstandings cause small, funny failures. But as AI becomes more capable and more autonomous — writing code, managing money, controlling infrastructure — the cost of pursuing the wrong objective grows enormously. A system optimizing the wrong goal doesn't need to be evil to cause harm; it just needs to be competent and mistaken.\n\n## What alignment researchers actually do\n\nAlignment research asks: how do we specify what we really want? How do we check what a model has actually learned? How do we keep systems honest, correctable, and safe to shut down? Techniques range from training models on human feedback to interpretability — reading a model's internals like an MRI for artificial minds.\n\n## Why this matters for us\n\nAI will shape Kurdistan's future too — in education, health, and work. Understanding alignment isn't only for researchers in California; it's for everyone who will live with these systems. That's why AI Kurd has a dedicated AI Safety Hub — start there if this article sparked your curiosity.",
+    "body_ku": "بیهێنە بەرچاوت باشترین کارمەندی جیهان دادەمەزرێنیت — زۆر زیرەک و ماندوونەناس — بەڵام هەر ڕێنماییەک بدەیت بە واتا وشە بە وشەکەی جێبەجێی دەکات، نەک بەو واتایەی کە تۆ مەبەستت بوو. ئەم بۆشاییە لە نێوان ئەوەی دەیڵێین و ئەوەی مەبەستمانە، ناوکی کێشەی هاوڕێککردنە.\n\n## بۆچی گرنگترە کاتێک AI بەهێزتر دەبێت\n\nلەگەڵ سیستەمە لاوازەکان، هەڵە تێگەیشتنەکان کێشەی بچووک دروست دەکەن. بەڵام کاتێک AI توانادارتر و سەربەخۆتر دەبێت، تێچووی بەدواداچوونی ئامانجی هەڵە زۆر گەورە دەبێت.\n\n## گرنگی بۆ ئێمە\n\nزیرەکیی دەستکرد داهاتووی کوردستانیش شێوە دەدات — لە پەروەردە و تەندروستی و کاردا. تێگەیشتن لە هاوڕێککردن تەنها بۆ توێژەرانی دەرەوە نییە؛ بۆ هەموو ئەو کەسانەیە کە لەگەڵ ئەم سیستەمانە دەژین. بۆیە AI Kurd ناوەندێکی تایبەتی سەلامەتی هەیە."
+  },
+  {
+    "slug": "prompt-engineering-in-kurdish",
+    "type": "Tutorial",
+    "lang": "KU",
+    "date": "2026-06-14",
+    "title_en": "Prompt Engineering in Kurdish: 10 Patterns That Work",
+    "title_ku": "ئەندازیاری پرۆمپت بە کوردی: ١٠ شێوازی کاریگەر",
+    "desc_en": "Write better prompts in Kurdish and get dramatically better answers.",
+    "image": "",
+    "body_en": "AI assistants respond in Kurdish far better when the prompt itself is well-structured. The patterns below work in any language, but we focus on Kurdish examples throughout — see the Kurdish version of this article for all ten patterns with copy-ready examples.\n\n## The three that matter most\n\n**Give context first.** Instead of 'وەڵامم بدەرەوە' alone, say who you are and what you need: a student preparing for an exam gets a different answer than a teacher preparing a lesson.\n\n**Show the format you want.** If you want a table, say 'بە خشتەیەک'. If you want five bullet points, say so. Models follow structure instructions remarkably well.\n\n**Iterate.** Your first prompt is a draft. When the answer misses, don't start over — reply with what was wrong: 'کورتتری بکەرەوە' or 'بە نموونەوە ڕوونی بکەرەوە'.\n\nFor all ten patterns, switch to Kurdish with the language button — or explore our Prompt Library for ready-made prompts you can copy with one click.",
+    "body_ku": "یاریدەدەرەکانی AI زۆر باشتر بە کوردی وەڵام دەدەنەوە کاتێک پرۆمپتەکە خۆی باش بنیات نرابێت. لێرەدا گرنگترین شێوازەکان:\n\n## ١. سەرەتا پاشخان بدە\n\nلە جیاتی تەنها پرسیارکردن، بڵێ تۆ کێیت و چیت پێویستە: «من قوتابیم و خۆم ئامادە دەکەم بۆ تاقیکردنەوە...» وەڵامێکی جیاواز وەردەگرێت لە «من مامۆستام و وانەیەک ئامادە دەکەم...».\n\n## ٢. ئەو شێوەیە پیشان بدە کە دەتەوێت\n\nئەگەر خشتەت دەوێت، بڵێ «بە خشتەیەک». ئەگەر پێنج خاڵت دەوێت، بیڵێ. مۆدێلەکان بە باشی گوێڕایەڵی ڕێنمایی شێوە دەبن.\n\n## ٣. دووبارە هەوڵ بدەرەوە\n\nیەکەم پرۆمپتت ڕەشنووسە. کاتێک وەڵامەکە کەموکوڕی هەبوو، لە سەرەتاوە دەست پێمەکەرەوە — وەڵام بدەرەوە بەوەی کە هەڵە بوو: «کورتتری بکەرەوە» یان «بە نموونەوە ڕوونی بکەرەوە».\n\n## ٤. ڕۆڵ بدە بە مۆدێلەکە\n\n«وەک مامۆستایەکی بیرکاری ڕوونی بکەرەوە» — ئەمە ئاستی وەڵامەکە دیاری دەکات.\n\n## ٥. داوای هەنگاو بە هەنگاو بکە\n\nبۆ کێشە ئاڵۆزەکان بڵێ: «هەنگاو بە هەنگاو بیری لێبکەرەوە». وردی وەڵامەکان بەرز دەبێتەوە.\n\nبۆ پرۆمپتی ئامادە، سەردانی کتێبخانەی پرۆمپتەکەمان بکە — بە یەک کلیک کۆپییان بکە."
+  },
+  {
+    "slug": "build-your-first-chatbot",
+    "type": "Video",
+    "lang": "EN + KU",
+    "date": "2026-06-07",
+    "title_en": "Build Your First Chatbot with Python",
+    "title_ku": "یەکەم چاتبۆتت بە پایسۆن دروست بکە",
+    "desc_en": "Step-by-step Flask + LLM API walkthrough for beginners.",
+    "image": "",
+    "body_en": "You need surprisingly little code to build a working chatbot: a small Flask web server, one API call to a language model, and a simple HTML page. This walkthrough builds exactly that, from an empty folder to a chatbot you can show your friends.\n\n## What you'll need\n\nPython installed on your computer, a free code editor like VS Code, and an API key from an AI provider. Total cost to experiment: a few cents.\n\n## The architecture in one paragraph\n\nYour web page sends the visitor's message to your Flask server. The server adds a system prompt (the bot's personality and rules), sends everything to the model's API, and returns the reply to the page. That's the entire pattern — every chatbot, including the AI Kurd Bot on this website, is a variation of it.\n\n## Follow along\n\nThe video walks through every line. Pause often, type the code yourself instead of copying, and break things on purpose — seeing how it fails teaches more than seeing it work. When you finish, you'll have a real project for your portfolio and the confidence to build the next one.\n\n(Video coming soon — the written guide covers the same steps.)",
+    "body_ku": "بۆ دروستکردنی چاتبۆتێکی کارا، کۆدێکی زۆر کەمت پێویستە: سێرڤەرێکی بچووکی Flask، یەک داواکاری API بۆ مۆدێلێکی زمانی، و پەڕەیەکی سادەی HTML.\n\n## چیت پێویستە\n\nپایسۆن لەسەر کۆمپیوتەرەکەت، ئێدیتۆرێکی خۆڕایی وەک VS Code، و کلیلی API لە دابینکەرێکی AI.\n\n## بیناسازییەکە بە یەک بڕگە\n\nپەڕەکەت نامەی میوانەکە دەنێرێت بۆ سێرڤەرەکەت. سێرڤەرەکە پرۆمپتی سیستەم زیاد دەکات (کەسایەتی و یاساکانی بۆتەکە)، هەمووی دەنێرێت بۆ API ی مۆدێلەکە، و وەڵامەکە دەگەڕێنێتەوە بۆ پەڕەکە. هەموو چاتبۆتێک — بە بۆتی AI Kurd ی ئەم ماڵپەڕەشەوە — گۆڕانکارییەکی ئەم شێوازەیە.\n\nکۆدەکە خۆت بنووسە لە جیاتی کۆپیکردن، و بە ئەنقەست شتەکان تێکبدە — بینینی چۆنیەتی شکستهێنان زیاتر فێرت دەکات لە بینینی سەرکەوتن."
+  },
+  {
+    "slug": "open-vs-closed-models",
+    "type": "Article",
+    "lang": "EN",
+    "date": "2026-05-30",
+    "title_en": "Open Models vs. Closed Models — What's the Difference?",
+    "title_ku": "مۆدێلی کراوە بەرامبەر داخراو — جیاوازییەکە چییە؟",
+    "desc_en": "Understanding the trade-offs shaping the AI ecosystem.",
+    "image": "",
+    "body_en": "Some AI models are released openly — anyone can download the weights, run them locally, and modify them. Others are closed: you access them only through an API, and the company controls everything behind it. This single difference shapes cost, privacy, safety, and who gets to innovate.\n\n## The case for open models\n\nOpen models can run on your own hardware, which means your data never leaves your machine — valuable for hospitals, governments, and anyone with sensitive information. They're free to use once you have the hardware, and researchers can study exactly how they work. For languages like Kurdish, open models also mean the community can fine-tune them on Kurdish text without waiting for a big company to care.\n\n## The case for closed models\n\nClosed frontier models are typically more capable — the biggest companies spend enormous resources training and safety-testing them. The API model also allows safety controls: a provider can refuse harmful requests, monitor for misuse, and fix problems centrally. When a model can help design weapons or write malware, 'anyone can download and modify it' becomes a real risk.\n\n## The honest answer\n\nNeither side is simply right. The ecosystem needs both: open models for access, privacy, and community innovation; closed models pushing the frontier with stronger safety controls. What matters is understanding the trade-off — which this article hopefully made a little clearer.",
+    "body_ku": ""
+  },
+  {
+    "slug": "using-ai-for-study",
+    "type": "Tutorial",
+    "lang": "EN + KU",
+    "date": "2026-05-23",
+    "title_en": "Using AI for Study & Research the Right Way",
+    "title_ku": "بەکارهێنانی زیرەکیی دەستکرد بۆ خوێندن و توێژینەوە",
+    "desc_en": "Honest, effective AI study workflows for students.",
+    "image": "",
+    "body_en": "There are two ways to use AI as a student. One makes you smarter; the other makes you dependent. The difference isn't the tool — it's the workflow.\n\n## The dependency trap\n\nAsking AI to do your homework produces the assignment but not the learning. You feel productive while your actual skills stand still. Exams, interviews, and real work eventually reveal the gap.\n\n## Workflows that make you smarter\n\n**Explain-back:** read the material yourself first, then ask the AI to quiz you on it. Answer from memory, and let it correct you. This is active recall — the single most effective study technique known.\n\n**The confused-student method:** when you don't understand something, don't ask for the answer. Describe your confusion: 'I understand X but I don't see why Y follows.' The targeted explanation you get back is worth ten generic ones.\n\n**Draft, then compare:** write your own answer or essay first, then ask the AI to write one, and compare. You'll see immediately what yours is missing — structure, evidence, clarity.\n\n**Source-checking for research:** ask for counterarguments to your thesis, ask what evidence would disprove your claim, and always verify citations yourself — models sometimes invent references.\n\n## The one-line rule\n\nUse AI to increase the amount of thinking you do, never to replace it.",
+    "body_ku": "دوو ڕێگا هەیە بۆ بەکارهێنانی AI وەک قوتابی. یەکێکیان زیرەکترت دەکات؛ ئەوی تریان پشتبەستەت دەکات. جیاوازییەکە ئامرازەکە نییە — شێوازی کارەکەیە.\n\n## داوی پشتبەستن\n\nداواکردن لە AI بۆ ئەنجامدانی ئەرکەکانت، ئەرکەکە بەرهەم دەهێنێت بەڵام فێربوونەکە نا. هەست بە بەرهەمداری دەکەیت لە کاتێکدا تواناکانت لە جێی خۆیان وەستاون.\n\n## شێوازەکانی زیرەکبوون\n\n**ڕوونکردنەوەی بەرامبەر:** سەرەتا خۆت بابەتەکە بخوێنەرەوە، پاشان داوا لە AI بکە تاقیت بکاتەوە. لە یادگەوە وەڵام بدەرەوە و با ڕاستت بکاتەوە.\n\n**شێوازی قوتابی سەرگەردان:** کاتێک لە شتێک تێناگەیت، داوای وەڵامەکە مەکە. سەرگەردانییەکەت باس بکە: «لە X تێدەگەم بەڵام نازانم بۆچی Y لێی دەردەچێت.»\n\n**ڕەشنووس، پاشان بەراورد:** سەرەتا خۆت وەڵامەکەت بنووسە، پاشان داوا لە AI بکە یەکێک بنووسێت، و بەراوردیان بکە.\n\n## یاسای یەک دێڕی\n\nAI بەکاربهێنە بۆ زیادکردنی ئەو بیرکردنەوەیەی کە دەیکەیت، هەرگیز بۆ جێگرتنەوەی."
+  }
+]

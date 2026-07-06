@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Claude",
+    "category": "Research",
+    "desc_en": "Frontier assistant for reasoning, analysis, and long documents.",
+    "desc_ku": "یاریدەدەری پێشکەوتوو بۆ شیکاری و بەڵگەنامە درێژەکان.",
+    "url": "https://claude.ai"
+  },
+  {
+    "name": "ChatGPT",
+    "category": "Productivity",
+    "desc_en": "General-purpose AI chat for everyday tasks and brainstorming.",
+    "desc_ku": "چاتی گشتی بۆ کارە ڕۆژانەکان و بیرۆکە دۆزینەوە.",
+    "url": "https://chat.openai.com"
+  },
+  {
+    "name": "GitHub Copilot",
+    "category": "Coding",
+    "desc_en": "AI pair programmer inside your editor.",
+    "desc_ku": "هاوکاری کۆدنووسین لەناو ئێدیتۆرەکەت.",
+    "url": "https://github.com/features/copilot"
+  },
+  {
+    "name": "Cursor",
+    "category": "Coding",
+    "desc_en": "AI-first code editor for building software faster.",
+    "desc_ku": "ئێدیتۆری کۆد بە زیرەکیی دەستکرد بۆ دروستکردنی خێراتری سۆفتوێر.",
+    "url": "https://cursor.com"
+  },
+  {
+    "name": "Notion AI",
+    "category": "Productivity",
+    "desc_en": "Writing and organization assistant built into Notion.",
+    "desc_ku": "یاریدەدەری نووسین و ڕێکخستن لەناو نۆشن.",
+    "url": "https://notion.so"
+  },
+  {
+    "name": "Perplexity",
+    "category": "Research",
+    "desc_en": "AI-powered search engine with cited answers.",
+    "desc_ku": "بزوێنەری گەڕان بە وەڵامی سەرچاوەدار.",
+    "url": "https://perplexity.ai"
+  },
+  {
+    "name": "Elicit",
+    "category": "Research",
+    "desc_en": "Analyze research papers and extract key findings.",
+    "desc_ku": "شیکاری توێژینەوە زانستییەکان و دەرهێنانی ئەنجامە سەرەکییەکان.",
+    "url": "https://elicit.com"
+  },
+  {
+    "name": "Excalidraw",
+    "category": "Productivity",
+    "desc_en": "Sketch diagrams fast — with AI diagram generation.",
+    "desc_ku": "وێنەکێشانی خێرای هێڵکاری بە یارمەتی زیرەکیی دەستکرد.",
+    "url": "https://excalidraw.com"
+  },
+  {
+    "name": "Replit",
+    "category": "Coding",
+    "desc_en": "Build and deploy apps in the browser with AI help.",
+    "desc_ku": "دروستکردن و بڵاوکردنەوەی ئەپ لە وێبگەڕەکەت.",
+    "url": "https://replit.com"
+  }
+]

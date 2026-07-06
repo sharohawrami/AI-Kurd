@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../routes"
+		},
+		{
+			"path": "../../static"
+		},
+		{
+			"path": "../../templates"
+		}
+	]
+}

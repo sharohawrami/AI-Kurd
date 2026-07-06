@@ -1,0 +1,44 @@
+[
+  {
+    "mood": "happy", "emoji": "😊", "label_en": "Happy", "label_ku": "دڵخۆش",
+    "response_en": "That's wonderful! Happiness grows when you use it — today is a perfect day to learn something new or help someone else start their journey.",
+    "response_ku": "زۆر جوانە! دڵخۆشی گەشە دەکات کاتێک بەکاری دەهێنیت — ئەمڕۆ ڕۆژێکی نایابە بۆ فێربوونی شتێکی نوێ یان یارمەتیدانی کەسێکی تر.",
+    "action_en": "Share one thing you know with someone today.",
+    "action_ku": "ئەمڕۆ شتێک کە دەیزانیت لەگەڵ کەسێک هاوبەشی بکە."
+  },
+  {
+    "mood": "excited", "emoji": "🤩", "label_en": "Excited", "label_ku": "بە جۆش",
+    "response_en": "That energy is precious — point it at something! Big excitement plus one clear goal is how great projects begin.",
+    "response_ku": "ئەم وزەیە بەنرخە — ئاراستەی شتێکی بکە! جۆشێکی گەورە لەگەڵ یەک ئامانجی ڕوون، دەستپێکی پڕۆژە گەورەکانە.",
+    "action_en": "Write down the one idea you're most excited about, then take its first step.",
+    "action_ku": "ئەو بیرۆکەیە بنووسە کە زۆرترین جۆشت بۆی هەیە، پاشان یەکەم هەنگاوی بنێ."
+  },
+  {
+    "mood": "tired", "emoji": "😴", "label_en": "Tired", "label_ku": "ماندوو",
+    "response_en": "Being tired isn't failure — it's information. Your mind is asking for care. Rest well and come back stronger; the work will wait for you.",
+    "response_ku": "ماندووبوون شکست نییە — زانیارییە. مێشکت داوای چاودێری دەکات. باش پشوو بدە و بەهێزتر بگەڕێوە؛ کارەکە چاوەڕێت دەکات.",
+    "action_en": "Take a 15-minute real break today — no screen, just breathe.",
+    "action_ku": "ئەمڕۆ ١٥ خولەک پشوویەکی ڕاستەقینە وەربگرە — بەبێ شاشە، تەنها هەناسە بدە."
+  },
+  {
+    "mood": "stressed", "emoji": "😮‍💨", "label_en": "Stressed", "label_ku": "دڵەڕاوکێ",
+    "response_en": "Take a slow breath. Stress usually means you care about something — but you don't have to carry everything at once. One thing at a time is enough.",
+    "response_ku": "هەناسەیەکی هێواش بدە. دڵەڕاوکێ زۆرجار واتای ئەوەیە کە گرنگی بە شتێک دەدەیت — بەڵام پێویست ناکات هەموو شتێک پێکەوە هەڵبگریت. یەک شت لە یەک کاتدا بەسە.",
+    "action_en": "Try the breathing circle below for one minute, then write down only your next single step.",
+    "action_ku": "بازنەی هەناسەدانی خوارەوە بۆ یەک خولەک تاقی بکەرەوە، پاشان تەنها هەنگاوی داهاتووت بنووسە."
+  },
+  {
+    "mood": "sad", "emoji": "😔", "label_en": "Sad", "label_ku": "خەمبار",
+    "response_en": "It's okay to feel this way — feelings are visitors, not permanent residents. Be gentle with yourself today. If it feels too heavy, talking to someone you trust can really help.",
+    "response_ku": "ئاساییە وا هەست بکەیت — هەستەکان میوانن، نەک دانیشتووی هەمیشەیی. ئەمڕۆ لەگەڵ خۆت میهرەبان بە. ئەگەر زۆر قورس بوو، قسەکردن لەگەڵ کەسێک کە متمانەت پێیەتی زۆر یارمەتیدەرە.",
+    "action_en": "Do one small kind thing for yourself today — a walk, a favorite song, a message to a friend.",
+    "action_ku": "ئەمڕۆ یەک شتی بچووکی میهرەبانانە بۆ خۆت بکە — پیاسەیەک، گۆرانییە دڵخوازەکەت، نامەیەک بۆ هاوڕێیەک."
+  },
+  {
+    "mood": "unmotivated", "emoji": "🫥", "label_en": "Unmotivated", "label_ku": "بێ ورە",
+    "response_en": "Motivation follows action, not the other way around. Don't wait to feel ready — start with something tiny and let momentum find you.",
+    "response_ku": "ورە دوای کردار دێت، نەک پێچەوانەکەی. چاوەڕێ مەکە هەست بە ئامادەیی بکەیت — بە شتێکی زۆر بچووک دەست پێبکە و با خێرایی خۆی بتدۆزێتەوە.",
+    "action_en": "Set a timer for just 5 minutes and start the thing you've been avoiding.",
+    "action_ku": "کاتژمێرێک بۆ تەنها ٥ خولەک دابنێ و ئەو شتە دەست پێبکە کە لێی دوور دەکەویتەوە."
+  }
+]

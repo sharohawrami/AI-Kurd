@@ -1,0 +1,26 @@
+[
+  {
+    "title_en": "AI Fundamentals",
+    "title_ku": "بنەماکانی زیرەکیی دەستکرد",
+    "desc_en": "Neural networks, training, and inference — explained simply.",
+    "level": "Beginner"
+  },
+  {
+    "title_en": "Python for AI",
+    "title_ku": "پایسۆن بۆ زیرەکیی دەستکرد",
+    "desc_en": "The essential Python you need before touching any model.",
+    "level": "Beginner"
+  },
+  {
+    "title_en": "Working with LLM APIs",
+    "title_ku": "کارکردن لەگەڵ API ی مۆدێلە زمانییەکان",
+    "desc_en": "Call, prompt, and integrate large language models in your apps.",
+    "level": "Intermediate"
+  },
+  {
+    "title_en": "Intro to AI Safety",
+    "title_ku": "ناساندنی سەلامەتی زیرەکیی دەستکرد",
+    "desc_en": "Alignment, interpretability, and why they matter.",
+    "level": "Intermediate"
+  }
+]

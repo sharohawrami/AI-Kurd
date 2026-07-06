@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Kurd — Learn AI in Kurdish & English{% endblock %}</title>
+    <meta name="description" content="{% block description %}AI Kurd: AI learning, tech tutorials, and AI Safety — in Kurdish and English.{% endblock %}">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
+                        kurdish: ['Noto Sans Arabic', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        html, body { background-color: #000000; }
+
+        [dir="rtl"], .rtl { direction: rtl; font-family: 'Noto Sans Arabic', sans-serif; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.3); }
+        ::selection { background: #fff; color: #000; }
+
+        /* Faint blueprint grid for hero sections */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+        .grid-fade {
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%);
+        }
+
+        /* Reveal-on-scroll */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* Card hover glow — white only, no color */
+        .glow-card { transition: border-color .3s, box-shadow .3s, transform .3s; }
+        .glow-card:hover {
+            border-color: rgba(255,255,255,.4);
+            box-shadow: 0 0 40px rgba(255,255,255,.08), inset 0 0 20px rgba(255,255,255,.02);
+            transform: translateY(-3px);
+        }
+
+        /* Typing caret */
+        .caret::after { content: '▌'; animation: blink 1s step-start infinite; opacity: .8; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Circuit pulse animation on logo dots */
+        @keyframes pulse-dot { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+        .pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
+        .pulse-dot:nth-child(2) { animation-delay: .4s; }
+        .pulse-dot:nth-child(3) { animation-delay: .8s; }
+
+        /* Language switching */
+        .ku-only { display: none; }
+        body.lang-ku .en-only { display: none; }
+        body.lang-ku .ku-only { display: revert; }
+    </style>
+
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body class="bg-black text-white font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="sticky top-0 z-50 bg-black/85 backdrop-blur-md border-b border-white/10">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Logo -->
+                <a href="/" class="flex items-center group" aria-label="AI Kurd home">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-10 w-auto">
+                </a>
+
+                <!-- Desktop links -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="/" class="text-sm {% if active_page == 'home' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Home</a>
+                    <a href="/resources/" class="text-sm {% if active_page == 'resources' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Resource Hub</a>
+                    <a href="/ai-safety/" class="text-sm {% if active_page == 'safety' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">AI Safety</a>
+                    <a href="/prompts/" class="text-sm {% if active_page == 'prompts' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Prompt Library</a>
+                    <a href="/projects/" class="text-sm {% if active_page == 'projects' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Projects</a>
+                    <a href="/daily/" class="text-sm {% if active_page == 'daily' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Daily ☀</a>
+                    <a href="/bot/" class="text-sm {% if active_page == 'bot' %}text-white font-semibold{% else %}text-white/60 hover:text-white{% endif %} transition-colors">Bot 🤖</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-3">
+                    <button id="lang-toggle" class="text-xs border border-white/20 rounded-full px-3.5 py-1.5 text-white/70 hover:text-white hover:border-white/50 transition-colors">
+                        <span class="en-only">کوردی</span><span class="ku-only">English</span>
+                    </button>
+                    <a href="/admin/" class="text-xs border border-white/20 rounded-full px-3.5 py-1.5 {% if active_page == 'admin' %}bg-white text-black font-semibold{% else %}text-white/70 hover:text-white hover:border-white/50{% endif %} transition-colors">
+                        ⚙ Admin
+                    </a>
+                </div>
+
+                <!-- Mobile hamburger -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-white/70 hover:text-white" aria-label="Toggle menu" aria-expanded="false">
+                    <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
+                    <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 py-4 space-y-1">
+                <a href="/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'home' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Home</a>
+                <a href="/resources/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'resources' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Resource Hub</a>
+                <a href="/ai-safety/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'safety' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">AI Safety</a>
+                <a href="/prompts/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'prompts' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Prompt Library</a>
+                <a href="/projects/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'projects' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Projects</a>
+                <a href="/daily/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'daily' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Daily ☀</a>
+                <a href="/bot/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'bot' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">Bot 🤖</a>
+                <button id="lang-toggle-mobile" class="block w-full text-left px-2 py-2.5 text-sm text-white/60 hover:text-white">
+                    <span class="en-only">کوردی</span><span class="ku-only">English</span>
+                </button>
+                <a href="/admin/" class="block px-2 py-2.5 text-sm rounded-lg {% if active_page == 'admin' %}text-white bg-white/5{% else %}text-white/60 hover:text-white hover:bg-white/5{% endif %}">⚙ Admin</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============ MAIN ============ -->
+    <main class="flex-1 w-full">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="border-t border-white/10 mt-28">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-9 w-auto mb-4">
+                    <p class="text-sm text-white/50 leading-relaxed">AI education, tech tutorials, and AI Safety — in Kurdish and English.</p>
+                    <p class="rtl text-sm text-white/50 leading-relaxed mt-2">فێرکاری زیرەکیی دەستکرد بە کوردی و ئینگلیزی</p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">Explore</h3>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="/resources/" class="text-white/60 hover:text-white transition-colors">AI Tool Directory</a></li>
+                        <li><a href="/ai-safety/" class="text-white/60 hover:text-white transition-colors">AI Safety & Alignment</a></li>
+                        <li><a href="/prompts/" class="text-white/60 hover:text-white transition-colors">Prompt Library</a></li>
+                        <li><a href="/projects/" class="text-white/60 hover:text-white transition-colors">Our Projects</a></li>
+                        <li><a href="/daily/" class="text-white/60 hover:text-white transition-colors">Daily Energy</a></li>
+                        <li><a href="/bot/" class="text-white/60 hover:text-white transition-colors">AI Kurd Bot</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">Connect</h3>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="https://www.instagram.com/aikurd_/" class="text-white/60 hover:text-white transition-colors">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61591461970399" class="text-white/60 hover:text-white transition-colors">Facebook</a></li>
+                        <li><a href="mailto:aikurdsafety@gmail.com" class="text-white/60 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="text-xs text-white/40">© 2026 AI Kurd. All rights reserved.</p>
+                <p class="text-xs text-white/40">Built for the Kurdish AI community</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ BASE JS ============ -->
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.toggle('hidden');
+            document.getElementById('icon-open').classList.toggle('hidden', isOpen);
+            document.getElementById('icon-close').classList.toggle('hidden', !isOpen);
+            menuBtn.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Language toggle (persisted)
+        function toggleLang() {
+            const ku = document.body.classList.toggle('lang-ku');
+            localStorage.setItem('aikurd-lang', ku ? 'ku' : 'en');
+        }
+        if (localStorage.getItem('aikurd-lang') === 'ku') document.body.classList.add('lang-ku');
+        document.getElementById('lang-toggle')?.addEventListener('click', toggleLang);
+        document.getElementById('lang-toggle-mobile')?.addEventListener('click', toggleLang);
+
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Cinematic Portrait",
+    "category": "Image",
+    "text": "A cinematic close-up portrait of [subject], dramatic rim lighting, shallow depth of field, shot on 85mm lens, moody atmosphere, subtle film grain, ultra-detailed skin texture, dark background.",
+    "image": "https://picsum.photos/seed/aikurd-portrait/800/450"
+  },
+  {
+    "title": "Isometric 3D Icon",
+    "category": "Image",
+    "text": "Isometric 3D icon of [object], soft studio lighting, clay render style, pastel color palette, centered on a clean solid background, high detail, 4K, trending digital art.",
+    "image": "https://picsum.photos/seed/aikurd-iso/800/450"
+  },
+  {
+    "title": "Minimalist Logo Concept",
+    "category": "Image",
+    "text": "Minimalist flat logo for [brand name], geometric shapes, single color on white background, negative space design, clean vector style, professional, timeless, no text.",
+    "image": "https://picsum.photos/seed/aikurd-logo/800/450"
+  },
+  {
+    "title": "Epic Fantasy Landscape",
+    "category": "Image",
+    "text": "Epic fantasy landscape of [place], golden hour light, volumetric fog, towering mountains, ultra-wide angle, matte painting style, rich detail, atmospheric perspective, 8K.",
+    "image": "https://picsum.photos/seed/aikurd-fantasy/800/450"
+  },
+  {
+    "title": "Explain Like I'm a Beginner",
+    "category": "Learning",
+    "text": "Explain [topic] in simple language with everyday examples, as if you were teaching someone with zero background knowledge. End with a 3-point summary.",
+    "image": ""
+  },
+  {
+    "title": "30-Day Study Plan",
+    "category": "Learning",
+    "text": "Create a 30-day study plan for learning [topic]. I have 1 hour per day. Include weekly goals, daily tasks, and a small self-test at the end of each week.",
+    "image": ""
+  },
+  {
+    "title": "Professional Email",
+    "category": "Writing",
+    "text": "Write a professional email to [recipient] about [subject]. Keep it formal, clear, and under 150 words. Provide a subject line and a polite closing.",
+    "image": ""
+  },
+  {
+    "title": "Improve My Writing",
+    "category": "Writing",
+    "text": "Improve the following text for grammar, clarity, and style without changing its meaning. Then list the changes you made: [text]",
+    "image": ""
+  },
+  {
+    "title": "Debug My Code",
+    "category": "Coding",
+    "text": "This code has a bug. Find it, explain why it happens, and provide the corrected code with comments: [code]",
+    "image": ""
+  },
+  {
+    "title": "Explain This Code",
+    "category": "Coding",
+    "text": "Explain this code line by line in plain language, then summarize in one sentence what it does overall: [code]",
+    "image": ""
+  },
+  {
+    "title": "Compare Two Concepts",
+    "category": "Research",
+    "text": "Make a detailed comparison of [concept A] and [concept B] covering: definition, use cases, strengths, and weaknesses. Finish with a comparison table.",
+    "image": ""
+  },
+  {
+    "title": "Find Counterarguments",
+    "category": "Research",
+    "text": "I believe [opinion]. Present the strongest arguments against this view and evaluate each one fairly and objectively.",
+    "image": ""
+  }
+]

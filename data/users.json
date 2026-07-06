@@ -1,0 +1,7 @@
+[
+  {
+    "username": "mohammed",
+    "password": "scrypt:32768:8:1$SsngTOnufegbItVy$44ce0228eb17d7d00f37caafa0b04a9921ae208c818cda77fd5f5d86ac9260aaf4a7d79c64d022b3c4881d0875cac513ede2acaa85cfdfb8cadbfccc77aeb6ad",
+    "role": "superadmin"
+  }
+]
