@@ -74,5 +74,60 @@ def create_app():
 
 app = create_app()
 
+# Add this to your Flask app (e.g. app.py or a routes file)
+
+from flask import Response, url_for
+from datetime import date
+
+BASE_URL = "https://aikurd.org"
+
+# Your main pages
+STATIC_PAGES = [
+    "/",
+    "/resources/",
+    "/ai-safety/",
+    "/prompts/",
+    "/projects/",
+    "/daily/",
+    "/bot/",
+]
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    urls = []
+
+    for page in STATIC_PAGES:
+        urls.append(f"<url><loc>{BASE_URL}{page}</loc></url>")
+
+    # Articles — adjust to match your model / data source.
+    # Example if you have an Article model with a `slug` and `date` field:
+    #
+    # for a in Article.query.all():
+    #     urls.append(
+    #         f"<url><loc>{BASE_URL}/articles/{a.slug}</loc>"
+    #         f"<lastmod>{a.date}</lastmod></url>"
+    #     )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls)
+        + "\n</urlset>"
+    )
+    return Response(xml, mimetype="application/xml")
+
+
+@app.route("/robots.txt")
+def robots():
+    txt = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /admin/\n"
+        f"Sitemap: {BASE_URL}/sitemap.xml\n"
+    )
+    return Response(txt, mimetype="text/plain")
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
