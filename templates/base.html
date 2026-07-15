@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AI Kurd — Learn AI in Kurdish & English{% endblock %}</title>
     <meta name="description" content="{% block description %}AI Kurd: AI learning, tech tutorials, and AI Safety — in Kurdish and English.{% endblock %}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <meta property="og:title" content="AI Kurd — Learn AI in Kurdish & English">
+    <meta property="og:description" content="AI tools, tech tutorials, and AI Safety — in Kurdish and English.">
+    <meta property="og:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
