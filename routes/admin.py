@@ -66,6 +66,7 @@ COLLECTIONS = {
 
 SETTINGS_FIELDS = ["hero_en_1", "hero_en_2", "hero_ku_1", "hero_ku_2", "sub_en", "sub_ku"]
 FEATURED_FIELDS = ["name", "category", "tagline_en", "tagline_ku", "url", "badge"]
+ABOUT_FIELDS = ["owners", "email", "instagram", "about_en", "about_ku"]
 
 
 # ---------- auth helpers ----------
@@ -130,6 +131,7 @@ def dashboard():
         collections=COLLECTIONS,
         data={name: load(name) for name in COLLECTIONS},
         settings=load("settings", {}),
+        about=load("about", {}),
         users=load("users"),
         me=current_user(),
     )
@@ -148,6 +150,20 @@ def save_settings():
         featured[key] = request.form.get("featured_" + key, featured.get(key, ""))
     save("settings", settings)
     flash("Site settings saved.", "ok")
+    return redirect(url_for("admin.dashboard"))
+
+
+# ---------- about page ----------
+
+@admin_bp.route("/about-save", methods=["POST"])
+@login_required
+def save_about():
+    about = load("about", {})
+    for key in ABOUT_FIELDS:
+        about[key] = request.form.get(key, about.get(key, "")).strip()
+    about["instagram"] = about["instagram"].lstrip("@")
+    save("about", about)
+    flash("About page saved.", "ok")
     return redirect(url_for("admin.dashboard"))
 
 

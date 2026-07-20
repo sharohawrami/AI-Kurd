@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}About Us — AI Kurd{% endblock %}
+
+{% block content %}
+
+<!-- ===== BIG LOGO HEADER ===== -->
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd"
+             class="h-24 sm:h-32 w-auto mx-auto mb-10 fade-in">
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">About Us</h1>
+        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">دەربارەی ئێمە</h1>
+    </div>
+</section>
+
+<!-- ===== ABOUT TEXT ===== -->
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="border border-white/15 rounded-2xl p-8 sm:p-10 reveal">
+        <p class="en-only text-lg text-white/75 leading-relaxed" style="white-space: pre-line">{{ about.about_en }}</p>
+        <p class="ku-only rtl text-lg text-white/75 leading-loose font-kurdish" style="white-space: pre-line">{{ about.about_ku }}</p>
+    </div>
+</section>
+
+<!-- ===== INFO CARDS ===== -->
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+
+        <div class="reveal glow-card border border-white/10 rounded-2xl p-6 text-center">
+            <p class="text-2xl mb-3">👤</p>
+            <h3 class="text-xs uppercase tracking-widest text-white/40 mb-2">Owners</h3>
+            <p class="font-bold">{{ about.owners }}</p>
+        </div>
+
+        <a href="mailto:{{ about.email }}" class="reveal glow-card border border-white/10 rounded-2xl p-6 text-center block">
+            <p class="text-2xl mb-3">✉</p>
+            <h3 class="text-xs uppercase tracking-widest text-white/40 mb-2">Email</h3>
+            <p class="font-bold text-sm break-all">{{ about.email }}</p>
+        </a>
+
+        <a href="https://instagram.com/{{ about.instagram }}" target="_blank" rel="noopener"
+           class="reveal glow-card border border-white/10 rounded-2xl p-6 text-center block">
+            <p class="text-2xl mb-3">◎</p>
+            <h3 class="text-xs uppercase tracking-widest text-white/40 mb-2">Instagram</h3>
+            <p class="font-bold">@{{ about.instagram }}</p>
+        </a>
+    </div>
+</section>
+
+{% endblock %}

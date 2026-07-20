@@ -3,8 +3,8 @@
 
 {% macro field_input(name, value='') -%}
     {% set rtl = name.endswith('_ku') %}
-    {% if name in ['text', 'desc', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku'] %}
-    <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 3 if name == 'text' else 2 }}" {% if rtl %}dir="rtl"{% endif %}
+    {% if name in ['text', 'desc', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku', 'about_en', 'about_ku'] %}
+    <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 6 if name in ['about_en', 'about_ku'] else 3 if name == 'text' else 2 }}" {% if rtl %}dir="rtl"{% endif %}
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">{{ value }}</textarea>
     {% elif name == 'image' %}
     <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /static/uploads/… (or upload a file below)"
@@ -72,6 +72,30 @@
             </div>
             <div class="md:col-span-2">
                 <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save settings</button>
+            </div>
+        </form>
+    </details>
+
+    <!-- ======== ABOUT PAGE ======== -->
+    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">ℹ About Page</summary>
+        <form method="POST" action="{{ url_for('admin.save_about') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for f in ['owners', 'email', 'instagram'] %}
+            <div>
+                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f }}</label>
+                {{ field_input(f, about.get(f,'')) }}
+            </div>
+            {% endfor %}
+            <div class="md:col-span-3">
+                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">About us (English)</label>
+                {{ field_input('about_en', about.get('about_en','')) }}
+            </div>
+            <div class="md:col-span-3">
+                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">About us (Kurdish)</label>
+                {{ field_input('about_ku', about.get('about_ku','')) }}
+            </div>
+            <div class="md:col-span-3">
+                <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save about page</button>
             </div>
         </form>
     </details>
