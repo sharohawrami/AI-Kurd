@@ -67,6 +67,7 @@ COLLECTIONS = {
 SETTINGS_FIELDS = ["hero_en_1", "hero_en_2", "hero_ku_1", "hero_ku_2", "sub_en", "sub_ku"]
 FEATURED_FIELDS = ["name", "category", "tagline_en", "tagline_ku", "url", "badge"]
 ABOUT_FIELDS = ["owners", "email", "instagram", "about_en", "about_ku"]
+SERVICES_FIELDS = ["title_en", "title_ku", "message_en", "message_ku"]
 
 
 # ---------- auth helpers ----------
@@ -132,6 +133,7 @@ def dashboard():
         data={name: load(name) for name in COLLECTIONS},
         settings=load("settings", {}),
         about=load("about", {}),
+        services=load("services", {}),
         users=load("users"),
         me=current_user(),
     )
@@ -164,6 +166,19 @@ def save_about():
     about["instagram"] = about["instagram"].lstrip("@")
     save("about", about)
     flash("About page saved.", "ok")
+    return redirect(url_for("admin.dashboard"))
+
+
+# ---------- services page ----------
+
+@admin_bp.route("/services-save", methods=["POST"])
+@login_required
+def save_services():
+    services = load("services", {})
+    for key in SERVICES_FIELDS:
+        services[key] = request.form.get(key, services.get(key, "")).strip()
+    save("services", services)
+    flash("Services page saved.", "ok")
     return redirect(url_for("admin.dashboard"))
 
 

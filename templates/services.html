@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Services — AI Kurd{% endblock %}
+
+{% block head_extra %}
+<style>
+    @keyframes soonPulse {
+        0%, 100% { transform: scale(1); opacity: .5; }
+        50% { transform: scale(1.6); opacity: 0; }
+    }
+    .soon-ring { animation: soonPulse 2.4s ease-out infinite; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden min-h-[75vh] flex items-center justify-center">
+    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+
+        <div class="relative inline-flex items-center justify-center mb-10">
+            <span class="soon-ring absolute w-16 h-16 rounded-full border border-white/60"></span>
+            <span class="w-4 h-4 rounded-full bg-white"></span>
+        </div>
+
+        <p class="font-mono text-xs text-white/40 mb-4 tracking-[0.3em] uppercase">AI Kurd Studio</p>
+
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight en-only">{{ services.title_en }}</h1>
+        <h1 class="rtl text-4xl sm:text-6xl font-black ku-only font-kurdish">{{ services.title_ku }}</h1>
+
+        <p class="mt-8 text-lg text-white/60 max-w-xl mx-auto leading-relaxed en-only" style="white-space: pre-line">{{ services.message_en }}</p>
+        <p class="rtl mt-8 text-lg text-white/60 max-w-xl mx-auto leading-loose font-kurdish ku-only" style="white-space: pre-line">{{ services.message_ku }}</p>
+
+    </div>
+</section>
+
+{% endblock %}

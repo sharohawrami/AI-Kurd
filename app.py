@@ -45,6 +45,7 @@ def create_app():
     from routes.bot import bot_bp
     from routes.articles import articles_bp
     from routes.about import about_bp
+    from routes.services import services_bp
     from routes.admin import admin_bp
 
     app.register_blueprint(main_bp)
@@ -56,6 +57,7 @@ def create_app():
     app.register_blueprint(bot_bp, url_prefix="/bot")
     app.register_blueprint(articles_bp, url_prefix="/articles")
     app.register_blueprint(about_bp, url_prefix="/about")
+    app.register_blueprint(services_bp, url_prefix="/services")
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
     # Uploaded images are stored in the persistent data dir, not in static/
