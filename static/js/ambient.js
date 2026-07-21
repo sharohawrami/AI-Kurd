@@ -1,4 +1,4 @@
-// AI Kurd — ambient neural-network background v2.
+// AI Kurd — ambient neural-network background v3.
 // Glowing nodes, connection lines, drifting auroras, and light pulses
 // traveling between nodes. Self-contained: just include this script.
 // Honors prefers-reduced-motion and pauses in hidden tabs.
@@ -21,6 +21,11 @@
     canvas.style.cssText =
         'position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
     document.body.prepend(canvas);
+    // CRITICAL: the body's own black background would paint OVER the
+    // canvas (negative z-index paints below in-flow backgrounds). Make
+    // the body transparent — the <html> element stays black behind it.
+    document.body.style.backgroundColor = 'transparent';
+    document.documentElement.style.backgroundColor = '#000';
     const ctx = canvas.getContext('2d');
 
     let W, H, nodes, auroras;
