@@ -57,6 +57,8 @@ COLLECTIONS = {
                   "fields": ["title_en", "title_ku", "desc_en", "level"]},
     "projects": {"label": "Our Projects",
                  "fields": ["name", "category", "desc", "url", "image"]},
+    "owners": {"label": "Owners (About page)",
+               "fields": ["name", "role", "website", "image"]},
     "boosts": {"label": "Daily Boost Messages",
                "fields": ["text_en", "text_ku"]},
     "moods": {"label": "Mood Responses",

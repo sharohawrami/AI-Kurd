@@ -22,15 +22,41 @@
     </div>
 </section>
 
+<!-- ===== OWNERS ===== -->
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <h2 class="text-center text-xs uppercase tracking-widest text-white/40 mb-6 en-only">Owners</h2>
+    <h2 class="text-center text-xs uppercase tracking-widest text-white/40 mb-6 ku-only rtl">خاوەنەکان</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {% for owner in owners %}
+        <{% if owner.website %}a href="{{ owner.website }}" target="_blank" rel="noopener"{% else %}div{% endif %}
+           class="reveal glow-card group border border-white/10 rounded-2xl p-6 text-center block {% if owner.website %}cursor-pointer{% endif %}">
+
+            {% if owner.image %}
+            <img src="{{ owner.image }}" alt="{{ owner.name }}"
+                 class="h-24 w-24 rounded-full object-cover mx-auto mb-4 border border-white/15">
+            {% else %}
+            <div class="h-24 w-24 rounded-full mx-auto mb-4 border border-white/15 bg-white/5 flex items-center justify-center text-3xl font-black text-white/60">
+                {{ (owner.name or '?')[0] | upper }}
+            </div>
+            {% endif %}
+
+            <p class="font-bold text-lg">{{ owner.name }}</p>
+            {% if owner.role %}
+            <p class="text-sm text-white/50 mt-1">{{ owner.role }}</p>
+            {% endif %}
+
+            {% if owner.website %}
+            <p class="text-xs text-white/40 mt-3 group-hover:text-white/70 transition">Visit website ↗</p>
+            {% endif %}
+        </{% if owner.website %}a{% else %}div{% endif %}>
+        {% endfor %}
+    </div>
+</section>
+
 <!-- ===== INFO CARDS ===== -->
 <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-
-        <div class="reveal glow-card border border-white/10 rounded-2xl p-6 text-center">
-            <p class="text-2xl mb-3">👤</p>
-            <h3 class="text-xs uppercase tracking-widest text-white/40 mb-2">Owners</h3>
-            <p class="font-bold">{{ about.owners }}</p>
-        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
         <a href="mailto:{{ about.email }}" class="reveal glow-card border border-white/10 rounded-2xl p-6 text-center block">
             <p class="text-2xl mb-3">✉</p>
