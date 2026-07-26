@@ -3,7 +3,7 @@
 
 {% macro field_input(name, value='') -%}
     {% set rtl = name.endswith('_ku') %}
-    {% if name in ['text', 'desc', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku', 'about_en', 'about_ku', 'message_en', 'message_ku'] %}
+    {% if name in ['text', 'desc', 'bio', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku', 'about_en', 'about_ku', 'message_en', 'message_ku'] %}
     <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 6 if name in ['about_en', 'about_ku'] else 3 if name in ['text', 'message_en', 'message_ku'] else 2 }}" {% if rtl %}dir="rtl"{% endif %}
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">{{ value }}</textarea>
     {% elif name == 'image' %}

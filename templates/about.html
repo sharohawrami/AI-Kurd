@@ -29,27 +29,34 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {% for owner in owners %}
-        <{% if owner.website %}a href="{{ owner.website }}" target="_blank" rel="noopener"{% else %}div{% endif %}
-           class="reveal glow-card group border border-white/10 rounded-2xl p-6 text-center block {% if owner.website %}cursor-pointer{% endif %}">
+        {# normalize the link so it always goes to the real website, not a page on this site #}
+        {% set link = owner.website | trim %}
+        {% if link and '://' not in link %}{% set link = 'https://' ~ link %}{% endif %}
+        <{% if link %}a href="{{ link }}" target="_blank" rel="noopener"{% else %}div{% endif %}
+           class="reveal glow-card group border border-white/10 rounded-2xl p-6 text-center flex flex-col items-center {% if link %}cursor-pointer{% endif %}">
 
             {% if owner.image %}
             <img src="{{ owner.image }}" alt="{{ owner.name }}"
-                 class="h-24 w-24 rounded-full object-cover mx-auto mb-4 border border-white/15">
+                 class="w-40 h-40 sm:w-48 sm:h-48 max-w-full rounded-2xl object-cover mb-5 border border-white/15">
             {% else %}
-            <div class="h-24 w-24 rounded-full mx-auto mb-4 border border-white/15 bg-white/5 flex items-center justify-center text-3xl font-black text-white/60">
+            <div class="w-40 h-40 sm:w-48 sm:h-48 max-w-full rounded-2xl mb-5 border border-white/15 bg-white/5 flex items-center justify-center text-5xl font-black text-white/60">
                 {{ (owner.name or '?')[0] | upper }}
             </div>
             {% endif %}
 
-            <p class="font-bold text-lg">{{ owner.name }}</p>
+            <p class="font-bold text-xl">{{ owner.name }}</p>
             {% if owner.role %}
             <p class="text-sm text-white/50 mt-1">{{ owner.role }}</p>
             {% endif %}
 
-            {% if owner.website %}
-            <p class="text-xs text-white/40 mt-3 group-hover:text-white/70 transition">Visit website ↗</p>
+            {% if owner.bio %}
+            <p class="text-sm text-white/60 leading-relaxed mt-3" style="white-space: pre-line">{{ owner.bio }}</p>
             {% endif %}
-        </{% if owner.website %}a{% else %}div{% endif %}>
+
+            {% if link %}
+            <p class="text-xs text-white/40 mt-4 group-hover:text-white/70 transition">Visit website ↗</p>
+            {% endif %}
+        </{% if link %}a{% else %}div{% endif %}>
         {% endfor %}
     </div>
 </section>
