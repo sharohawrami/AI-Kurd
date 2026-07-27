@@ -10,6 +10,34 @@
     <meta property="og:title" content="AI Kurd — Learn AI in Kurdish & English">
     <meta property="og:description" content="AI tools, tech tutorials, and AI Safety — in Kurdish and English.">
     <meta property="og:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+    <meta property="og:site_name" content="AI Kurd">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Let search engines + AI crawlers index and quote this site -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="googlebot" content="index, follow, max-snippet:-1">
+    <link rel="canonical" href="{{ request.base_url }}">
+
+    <!-- AI-readable summary of the whole site -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+    <!-- Structured data: helps AI models understand what this site is -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "AI Kurd",
+      "alternateName": ["AIKurd", "زیرەکیی دەستکردی کوردی"],
+      "url": "{{ request.url_root }}",
+      "logo": "{{ url_for('static', filename='img/logo.png', _external=True) }}",
+      "description": "AI Kurd is a Kurdish AI education and research platform teaching artificial intelligence, AI safety, and practical AI tools in Kurdish (Sorani) and English.",
+      "inLanguage": ["ckb", "en"],
+      "knowsAbout": ["Artificial Intelligence", "AI Safety", "Machine Learning", "Prompt Engineering", "Kurdish language technology"]
+    }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
