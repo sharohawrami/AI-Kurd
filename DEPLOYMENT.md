@@ -15,6 +15,7 @@ The fix: store data on a **persistent disk** and tell the app where it is.
 |-------------------|------------------------------------------------|
 | `AIKURD_DATA_DIR` | A folder on a persistent disk, e.g. `/var/data/aikurd` |
 | `SECRET_KEY`      | A long random string (keeps admins logged in across restarts) |
+| `SITE_URL`        | Your canonical domain, no trailing slash, e.g. `https://aikurd.org` |
 
 On first start the app copies its seed data into `AIKURD_DATA_DIR`
 automatically. Uploaded images also go there (`uploads/`), served at `/uploads/...`.
@@ -22,6 +23,30 @@ automatically. Uploaded images also go there (`uploads/`), served at `/uploads/.
 Generate a secret key:
 
     python3 -c "import secrets; print(secrets.token_hex(32))"
+
+### Three ways to set them
+
+**1. `.env` file (works on any host that lets you upload files)**
+Copy `.env.example` to `.env` in the same folder as `app.py`. The app reads
+it on startup. Never commit `.env` to GitHub — add it to `.gitignore`.
+
+**2. Host dashboard (recommended on Render / Railway / Fly / Heroku)**
+Add each variable in the host's Environment / Variables panel, then redeploy.
+Real environment variables always beat `.env` values.
+
+**3. Shell / systemd (VPS)**
+
+    export SITE_URL=https://aikurd.org
+    gunicorn -w 1 -b 0.0.0.0:8000 app:app
+
+Or in a systemd unit file: `Environment="SITE_URL=https://aikurd.org"`
+
+### Why `SITE_URL` matters
+
+`robots.txt`, `sitemap.xml` and `llms.txt` build absolute links from it. If
+it's unset, the app falls back to the incoming request's host — which behind
+a proxy or on a preview URL produces wrong links, and search engines reject
+sitemaps whose URLs don't match the domain.
 
 ## Per-host notes
 

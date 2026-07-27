@@ -47,6 +47,7 @@ def create_app():
     from routes.about import about_bp
     from routes.services import services_bp
     from routes.admin import admin_bp
+    from routes.seo import seo_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(resources_bp, url_prefix="/resources")
@@ -59,6 +60,7 @@ def create_app():
     app.register_blueprint(about_bp, url_prefix="/about")
     app.register_blueprint(services_bp, url_prefix="/services")
     app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(seo_bp)  # /robots.txt, /llms.txt, /sitemap.xml
 
     # Uploaded images are stored in the persistent data dir, not in static/
     @app.route("/uploads/<path:filename>")
