@@ -8,14 +8,22 @@
 #   SITE_URL=https://aikurd.org
 # =============================================================
 
+import json
 import os
+import urllib.error
+import urllib.request
 from datetime import date
 
-from flask import Blueprint, Response, current_app, request
+from flask import Blueprint, Response, current_app, flash, redirect, request, url_for
 
 from data.store import load
 
 seo_bp = Blueprint("seo", __name__)
+
+# IndexNow key — tells Bing/Copilot instantly when pages change.
+# Override with INDEXNOW_KEY in the environment if you ever rotate it.
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY",
+                             "3d0175c8cceab716c43bd4f82ed0b094")
 
 
 def site_url():
@@ -83,12 +91,14 @@ def sitemap():
         if rule.arguments:
             continue
         path = str(rule)
-        if path.startswith(("/admin", "/static", "/uploads")):
+        if path.startswith(("/admin", "/static", "/uploads", "/indexnow")):
             continue
         # Skip machine endpoints and the SEO files themselves
-        if "/api" in path or path in ("/robots.txt", "/sitemap.xml", "/llms.txt"):
+        if "/api" in path or path.endswith((".txt", ".xml")):
             continue
-        urls.append((base + path.rstrip("/") if path != "/" else base, None))
+        # Keep Flask's exact path (trailing slash included) — otherwise every
+        # crawler hit gets a 308 redirect instead of the page itself.
+        urls.append((base + path, None))
 
     # Article pages
     for a in load("articles"):
@@ -107,10 +117,80 @@ def sitemap():
         out.append("  <url>")
         out.append(f"    <loc>{loc}</loc>")
         out.append(f"    <lastmod>{lastmod or today}</lastmod>")
-        out.append(f"    <priority>{'1.0' if loc == base else '0.7'}</priority>")
+        out.append(f"    <priority>{'1.0' if loc.rstrip('/') == base else '0.7'}</priority>")
         out.append("  </url>")
     out.append("</urlset>")
     return Response("\n".join(out), mimetype="application/xml")
+
+
+def _all_urls():
+    """Every public URL on the site, same list the sitemap uses."""
+    base = site_url()
+    urls = []
+    for rule in current_app.url_map.iter_rules():
+        if "GET" not in rule.methods or rule.arguments:
+            continue
+        path = str(rule)
+        if path.startswith(("/admin", "/static", "/uploads", "/indexnow")):
+            continue
+        if "/api" in path or path.endswith((".txt", ".xml")):
+            continue
+        # Keep Flask's exact path (trailing slash included) — otherwise every
+        # crawler hit gets a 308 redirect instead of the page itself.
+        urls.append(base + path)
+    for a in load("articles"):
+        if a.get("slug"):
+            urls.append(f"{base}/articles/{a['slug']}")
+    return sorted(set(urls))
+
+
+@seo_bp.route(f"/{INDEXNOW_KEY}.txt")
+def indexnow_key_file():
+    """Proves to Bing that we own this domain. Must return the bare key."""
+    return Response(INDEXNOW_KEY, mimetype="text/plain")
+
+
+@seo_bp.route("/indexnow/submit", methods=["POST", "GET"])
+def indexnow_submit():
+    """Push every public URL to IndexNow (Bing, Copilot, Yandex, Naver).
+
+    Admin-only. Visit /indexnow/submit while logged in after publishing
+    new content to get it crawled in minutes instead of days.
+    """
+    from routes.admin import current_user  # local import avoids a cycle
+    if not current_user():
+        return redirect(url_for("admin.login"))
+
+    base = site_url()
+    host = base.split("://", 1)[-1]
+    payload = json.dumps({
+        "host": host,
+        "key": INDEXNOW_KEY,
+        "keyLocation": f"{base}/{INDEXNOW_KEY}.txt",
+        "urlList": _all_urls(),
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.indexnow.org/indexnow",
+        data=payload,
+        headers={"Content-Type": "application/json; charset=utf-8"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            code = resp.status
+    except urllib.error.HTTPError as e:
+        code = e.code
+    except Exception as e:  # network down, DNS, timeout…
+        flash(f"IndexNow failed: {e}", "error")
+        return redirect(url_for("admin.dashboard"))
+
+    n = len(_all_urls())
+    if code in (200, 202):
+        flash(f"IndexNow: {n} URLs submitted successfully.", "success")
+    else:
+        flash(f"IndexNow returned HTTP {code} for {n} URLs.", "error")
+    return redirect(url_for("admin.dashboard"))
 
 
 @seo_bp.route("/llms.txt")
