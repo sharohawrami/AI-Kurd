@@ -61,8 +61,45 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Preload the next page as soon as the user hovers a link, so clicking
+         feels instant. Admin and IndexNow are excluded: prerendering fires a
+         real GET request, which would log you out or trigger a submission. -->
+    <script type="speculationrules">
+    {
+      "prerender": [{
+        "where": {
+          "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": "/admin/*" } },
+            { "not": { "href_matches": "/indexnow/*" } },
+            { "not": { "selector_matches": "[rel~=nofollow]" } }
+          ]
+        },
+        "eagerness": "moderate"
+      }]
+    }
+    </script>
+
     <style>
         html, body { background-color: #000000; }
+
+        /* ---- Smooth page transitions (View Transitions API) ----
+           Cross-fades between pages instead of the white/black flash of a
+           normal reload. Browsers without support just navigate as before. */
+        @view-transition { navigation: auto; }
+
+        ::view-transition-old(root) {
+            animation: vt-out .16s cubic-bezier(.4,0,1,1) both;
+        }
+        ::view-transition-new(root) {
+            animation: vt-in .24s cubic-bezier(0,0,.2,1) both;
+        }
+        @keyframes vt-out { to { opacity: 0; } }
+        @keyframes vt-in  { from { opacity: 0; transform: translateY(8px); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            @view-transition { navigation: none; }
+        }
 
         [dir="rtl"], .rtl { direction: rtl; font-family: 'Noto Sans Arabic', sans-serif; }
 
