@@ -47,6 +47,53 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
 
+    // Background scenes: crossfade through them as the page scrolls, with a light parallax
+    const scenes = document.querySelectorAll('.scene');
+    if (scenes.length) {
+        let current = 0;
+        const update = () => {
+            const y = window.scrollY;
+            const h = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const idx = Math.min(scenes.length - 1, Math.floor((y / h) * scenes.length));
+            if (idx !== current) {
+                scenes[current].classList.remove('active');
+                scenes[idx].classList.add('active');
+                current = idx;
+            }
+            document.querySelector('.scenes').style.setProperty('--parallax', (-(y % (h / scenes.length)) * 0.06).toFixed(1) + 'px');
+        };
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+    }
+
+    // PS5-style hover: the hovered card's picture fills the page background
+    const hoverBg = document.getElementById('hover-bg');
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (hoverBg && fine) {
+        const img = hoverBg.querySelector('img');
+        let hideTimer, token = 0;
+        document.querySelectorAll('[data-hover-bg]').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimer);
+                const src = el.dataset.hoverBg;
+                if (!src) return;
+                const my = ++token;
+                const pre = new Image();
+                pre.onload = () => {
+                    if (my !== token) return;
+                    img.src = src;
+                    hoverBg.classList.add('show');
+                    document.body.classList.add('has-hover-bg');
+                };
+                pre.src = src;
+            });
+            el.addEventListener('mouseleave', () => {
+                token++;
+                hideTimer = setTimeout(() => { hoverBg.classList.remove('show'); document.body.classList.remove('has-hover-bg'); }, 120);
+            });
+        });
+    }
+
     // Broken/missing images fall back to the generated cover
     document.querySelectorAll('.cover img').forEach(img => {
         img.addEventListener('error', () => {

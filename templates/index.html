@@ -4,22 +4,34 @@
 {% block content %}
 
 <!-- ============ HERO ============ -->
-<section class="relative overflow-hidden">
+<section class="relative overflow-hidden hero-fold">
     <div class="absolute inset-0 grid-bg grid-fade pointer-events-none"></div>
-    <div class="container-x relative pt-16 sm:pt-24 pb-16 sm:pb-24">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <div class="container-x relative pt-8 sm:pt-16 lg:pt-10 pb-14 sm:pb-20 lg:pb-14 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
 
             <div class="lg:col-span-7 hero-in">
+                {% if latest_content %}{% set f = latest_content[0] %}
+                <!-- Compact "latest" strip: only on phones/tablets so the newest article is always on the first screen -->
+                <a href="/articles/{{ f.slug }}" class="lg:hidden card card-hover flex items-center gap-4 p-3 pe-4 mb-7 group" {% if f.image %}data-hover-bg="{{ f.image }}"{% endif %}>
+                    <div class="w-16 h-14 shrink-0 rounded-lg overflow-hidden border border-white/[.08]">{{ cover(f, 'h-full') }}</div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-[10.5px] tracking-[.16em] uppercase muted-2 mb-1"><span class="en-only">Latest · {{ f.type }}</span><span class="ku-only font-kurdish tracking-normal">نوێترین · {{ f.type }}</span></p>
+                        <p class="en-only text-[14px] font-semibold leading-snug line-clamp-2">{{ f.title_en }}</p>
+                        <p class="ku-only rtl text-[14.5px] font-bold leading-relaxed line-clamp-2">{{ f.title_ku or f.title_en }}</p>
+                    </div>
+                    <svg class="w-4 h-4 shrink-0 muted-2 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+                </a>
+                {% endif %}
                 <div class="inline-flex items-center gap-2.5 border border-white/[.12] bg-white/[.03] rounded-full ps-2 pe-4 py-1.5 text-[13px] muted">
                     <span class="tag tag-solid !h-5 !text-[10px]">New</span>
                     <span class="en-only">The first Kurdish AI education platform</span>
                     <span class="ku-only font-kurdish">یەکەم پلاتفۆرمی فێرکاری AI بە کوردی</span>
                 </div>
 
-                <h1 class="en-only display text-[44px] sm:text-[64px] lg:text-[76px] mt-8">
+                <h1 class="en-only display text-[40px] sm:text-[60px] lg:text-[72px] mt-7">
                     {{ settings.hero_en_1 }}<br><span class="muted-2">{{ settings.hero_en_2 }}</span>
                 </h1>
-                <h1 class="ku-only rtl text-[40px] sm:text-[58px] lg:text-[66px] font-extrabold mt-8">
+                <h1 class="ku-only rtl text-[36px] sm:text-[54px] lg:text-[62px] font-extrabold mt-7">
                     {{ settings.hero_ku_1 }}<br><span class="muted-2">{{ settings.hero_ku_2 }}</span>
                 </h1>
 
@@ -36,18 +48,18 @@
                     </a>
                 </div>
 
-                <div class="mt-14 grid grid-cols-3 gap-6 max-w-md">
+                <div class="mt-12 grid grid-cols-3 gap-6 max-w-md">
                     <div><p class="stat-num" data-count="{{ tool_count }}">0</p><p class="text-[12px] muted-2 mt-2 uppercase tracking-[.14em]">AI tools</p></div>
                     <div><p class="stat-num" data-count="{{ article_count }}">0</p><p class="text-[12px] muted-2 mt-2 uppercase tracking-[.14em]">Articles</p></div>
                     <div><p class="stat-num">2</p><p class="text-[12px] muted-2 mt-2 uppercase tracking-[.14em]">Languages</p></div>
                 </div>
             </div>
 
-            <!-- Featured article card -->
-            <div class="lg:col-span-5 reveal visible">
+            <!-- Featured article card (desktop) -->
+            <div class="hidden lg:block lg:col-span-5 reveal visible">
                 {% if latest_content %}
                 {% set f = latest_content[0] %}
-                <a href="/articles/{{ f.slug }}" class="group block relative rounded-[26px] overflow-hidden border border-white/[.12] shadow-[0_60px_140px_-40px_rgba(0,0,0,.9),0_0_100px_-30px_rgba(255,255,255,.14)] aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]">
+                <a href="/articles/{{ f.slug }}" {% if f.image %}data-hover-bg="{{ f.image }}"{% endif %} class="group block relative rounded-[26px] overflow-hidden border border-white/[.12] shadow-[0_60px_140px_-40px_rgba(0,0,0,.9),0_0_100px_-30px_rgba(255,255,255,.14)] aspect-[4/5] max-h-[calc(100svh-180px)] mx-auto">
                     {{ cover(f, 'h-full') }}
                     <div class="cover-shade"></div>
                     <div class="absolute top-4 left-4 right-4 flex items-center justify-between">

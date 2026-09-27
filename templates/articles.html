@@ -56,7 +56,7 @@
                     </div>
                     <div class="md:col-span-6">
                         {% if featured.image %}
-                        <a href="/articles/{{ featured.slug }}" class="block rounded-[22px] overflow-hidden border border-white/[.1] shadow-[0_40px_90px_-30px_rgba(0,0,0,.9),0_0_80px_-20px_rgba(255,255,255,.12)] aspect-[4/3] group">
+                        <a href="/articles/{{ featured.slug }}" data-hover-bg="{{ featured.image }}" class="block rounded-[22px] overflow-hidden border border-white/[.1] shadow-[0_40px_90px_-30px_rgba(0,0,0,.9),0_0_80px_-20px_rgba(255,255,255,.12)] aspect-[4/3] group">
                             {{ cover(featured, 'h-full') }}
                         </a>
                         {% else %}
@@ -73,7 +73,7 @@
                 {% if strip %}
                 <div class="hidden md:grid grid-cols-3 gap-6 mt-12 pt-7 border-t border-white/[.07]">
                     {% for s in strip %}
-                    <a href="/articles/{{ s.slug }}" class="group flex gap-4 items-start">
+                    <a href="/articles/{{ s.slug }}" class="group flex gap-4 items-start" {% if s.image %}data-hover-bg="{{ s.image }}"{% endif %}>
                         <div class="w-16 h-14 shrink-0 rounded-lg overflow-hidden border border-white/[.08]">{{ cover(s, 'h-full') }}</div>
                         <div class="min-w-0">
                             <div class="flex items-center gap-2 text-[11.5px] mb-1.5">
@@ -112,7 +112,7 @@
 
                 {% if recommended %}
                 {% set lead = recommended[0] %}
-                <a href="/articles/{{ lead.slug }}" class="group block rounded-2xl overflow-hidden border border-white/[.1] relative aspect-[16/11]">
+                <a href="/articles/{{ lead.slug }}" {% if lead.image %}data-hover-bg="{{ lead.image }}"{% endif %} class="group block rounded-2xl overflow-hidden border border-white/[.1] relative aspect-[16/11]">
                     {{ cover(lead, 'h-full') }}
                     <div class="cover-shade"></div>
                     <div class="absolute inset-x-0 bottom-0 p-4">

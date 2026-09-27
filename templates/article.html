@@ -8,6 +8,7 @@
 {% block og_image %}{% if a.image %}{{ a.image if '://' in a.image else request.url_root.rstrip('/') ~ a.image }}{% else %}{{ url_for('static', filename='img/logo.png', _external=True) }}{% endif %}{% endblock %}
 
 {% block head_extra %}
+<style>/* calmer backdrop while reading */ .scene.active { opacity: .38; }</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

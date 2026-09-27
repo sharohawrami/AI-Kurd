@@ -3,6 +3,19 @@
    Dark editorial theme. Tokens first, then components.
    ===================================================================== */
 
+/* ---------- self-hosted fonts ---------- */
+/* Aria (Kurdish). Single ExtraBold cut, served for every weight so the
+   browser never fakes a bold. To add more cuts, add more @font-face blocks
+   with their own font-weight. */
+@font-face {
+    font-family: 'Aria';
+    src: url('../fonts/Aria-ExtraBold.woff2') format('woff2'),
+         url('../fonts/Aria-ExtraBold.otf') format('opentype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg:        #09090b;
     --bg-2:      #0d0d10;
@@ -22,13 +35,15 @@
     --radius-sm: 10px;
     --ease:      cubic-bezier(.22,1,.36,1);
     --font-en:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-ku:   'Vazirmatn', 'Noto Sans Arabic', system-ui, sans-serif;
+    --font-ku:   'Aria', 'Vazirmatn', 'Noto Sans Arabic', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 html { background: var(--bg); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-    background: var(--bg);
+    /* transparent so the fixed background layers (negative z-index) show through;
+       the <html> element carries the solid colour */
+    background: transparent;
     color: var(--text);
     font-family: var(--font-en);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
@@ -37,14 +52,45 @@ body {
     overflow-x: hidden;
 }
 
-/* ---------- ambient background: spotlight + grain, no canvas ---------- */
+/* ---------- ambient background: scrolling scenes + spotlight + grain ---------- */
+.scenes { transition: opacity .9s var(--ease); position: fixed; inset: -6vh 0; z-index: -3; pointer-events: none; overflow: hidden; }
+.scene {
+    position: absolute; inset: 0; opacity: 0;
+    background-size: cover; background-position: center;
+    transform: scale(1.06) translateY(var(--parallax, 0px));
+    transition: opacity 1.6s var(--ease);
+    will-change: opacity, transform;
+}
+.scene.active { opacity: .72; }
+.scenes::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+        linear-gradient(180deg, rgba(9,9,11,.6) 0%, rgba(9,9,11,.15) 45%, rgba(9,9,11,.65) 100%),
+        radial-gradient(70% 60% at 50% 50%, transparent 40%, rgba(9,9,11,.55) 100%);
+}
+/* PS5-style hover backdrop: the hovered card's picture fills the page */
+.hover-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: 0; transition: opacity .9s var(--ease); overflow: hidden; }
+.hover-bg.show { opacity: 1; }
+body.has-hover-bg .scenes { opacity: .25; }
+.hover-bg img {
+    position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover;
+    filter: blur(8px) brightness(.8) saturate(1.15);
+    transform: scale(1.1);
+    transition: transform 8s linear, opacity .9s var(--ease);
+}
+.hover-bg.show img { transform: scale(1); }
+.hover-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+        linear-gradient(180deg, rgba(9,9,11,.6) 0%, rgba(9,9,11,.15) 45%, rgba(9,9,11,.8) 100%),
+        radial-gradient(60% 50% at 50% 45%, transparent 30%, rgba(9,9,11,.5) 100%);
+}
 .site-bg {
     position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
         radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.075), transparent 60%),
         radial-gradient(800px 500px at 100% 20%, rgba(255,255,255,.025), transparent 60%),
-        radial-gradient(700px 500px at 0% 80%, rgba(255,255,255,.02), transparent 60%),
-        var(--bg);
+        radial-gradient(700px 500px at 0% 80%, rgba(255,255,255,.02), transparent 60%);
 }
 .site-bg::after {
     content: ""; position: absolute; inset: 0; opacity: .045; mix-blend-mode: overlay;
@@ -59,8 +105,9 @@ h1, h2, h3, h4 { letter-spacing: -.02em; }
     letter-spacing: 0;
 }
 .rtl, [dir="rtl"] { direction: rtl; }
-.ku-only h1, h1.ku-only, .ku-only h2, h2.ku-only { line-height: 1.45; font-weight: 800; }
-.ku-only p, p.ku-only, p.rtl, .rtl p { line-height: 1.95; }
+.ku-only h1, h1.ku-only, .ku-only h2, h2.ku-only { line-height: 1.5; font-weight: 800; }
+.ku-only p, p.ku-only, p.rtl, .rtl p { line-height: 2; word-spacing: .06em; }
+.prose.rtl { font-size: 17px; }
 .font-mono { font-family: var(--font-mono); }
 
 .display { font-weight: 800; letter-spacing: -.035em; line-height: 1.02; }
@@ -87,6 +134,10 @@ body.lang-ku .en-only { display: none !important; }
 @media (min-width: 640px)  { .container-x { padding-inline: 28px; } }
 @media (min-width: 1024px) { .container-x { padding-inline: 40px; } }
 .section { padding-block: clamp(56px, 8vw, 112px); }
+
+/* ---------- hero fills the first screen ---------- */
+.hero-fold { min-height: calc(100svh - 72px); display: flex; align-items: center; }
+@media (max-width: 1023px) { .hero-fold { min-height: 0; } }
 
 /* ---------- header ---------- */
 .site-header {

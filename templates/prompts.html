@@ -27,7 +27,7 @@
     <!-- Prompt cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 reveal-stagger" id="prompt-grid">
         {% for p in prompts %}
-        <article class="prompt-card card flex flex-col overflow-hidden"
+        <article class="prompt-card card card-hover flex flex-col overflow-hidden" {% if p.image %}data-hover-bg="{{ p.image }}"{% endif %}
                  data-category="{{ p.category }}" data-search="{{ p.title|lower }} {{ p.text|lower }}">
             {% if p.image %}
             <div class="cover aspect-video rounded-t-[19px] border-b border-white/[.06]">

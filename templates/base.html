@@ -6,11 +6,14 @@
     <title>{% block title %}AI Kurd — Learn AI in Kurdish & English{% endblock %}</title>
     <meta name="description" content="{% block description %}AI Kurd: AI learning, tech tutorials, and AI Safety — in Kurdish and English.{% endblock %}">
     <meta name="theme-color" content="#09090b">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" sizes="32x32">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/favicon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/favicon-512.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/favicon-180.png') }}">
     <meta property="og:title" content="{% block og_title %}AI Kurd — Learn AI in Kurdish & English{% endblock %}">
     <meta property="og:description" content="{% block og_description %}AI tools, tech tutorials, and AI Safety — in Kurdish and English.{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='img/logo.png', _external=True) }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='img/og.png', _external=True) }}{% endblock %}">
     <meta property="og:site_name" content="AI Kurd">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{{ request.url }}">
@@ -48,7 +51,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
 
     <!-- Preload the next page as soon as the user hovers a link, so clicking
@@ -75,6 +78,15 @@
 
 <body class="text-white antialiased min-h-screen flex flex-col">
     <script>try{if(localStorage.getItem('aikurd-lang')==='ku'){document.body.classList.add('lang-ku');document.documentElement.dir='rtl';document.documentElement.lang='ckb';}}catch(e){}</script>
+    {# ---- Background scenes: shown one after another as you scroll.
+          Drop your own 4K photos into static/img/bg/ and list them here. ---- #}
+    {% set BG_SCENES = ['bg/neural.jpg', 'bg/circuit.jpg', 'bg/mountains.jpg', 'bg/streams.jpg'] %}
+    <div class="scenes" aria-hidden="true">
+        {% for bg in BG_SCENES %}
+        <div class="scene{% if loop.first %} active{% endif %}" style="background-image:url('{{ url_for('static', filename='img/' ~ bg) }}')"></div>
+        {% endfor %}
+    </div>
+    <div class="hover-bg" id="hover-bg" aria-hidden="true"><img alt=""></div>
     <div class="site-bg" aria-hidden="true"></div>
 
     {% set nav = [
@@ -95,7 +107,7 @@
             <div class="flex items-center justify-between h-[72px] gap-4">
 
                 <a href="/" class="flex items-center gap-3 shrink-0" aria-label="AI Kurd home">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-9 w-auto">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-11 w-auto">
                 </a>
 
                 <div class="hidden lg:flex items-center gap-0.5 rounded-full border border-white/[.08] bg-white/[.03] p-1">
@@ -154,7 +166,7 @@
         <div class="container-x py-16">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
                 <div class="md:col-span-5">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-9 w-auto mb-5">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AI Kurd" class="h-12 w-auto mb-5">
                     <p class="text-[15px] muted leading-relaxed max-w-sm en-only">The first Kurdish AI education platform. Tools, tutorials, and AI Safety — explained clearly, in Kurdish and English.</p>
                     <p class="rtl text-[15px] muted leading-loose max-w-sm ku-only">یەکەم پلاتفۆرمی فێرکاری زیرەکیی دەستکردی کوردی. ئامراز، فێرکاری و سەلامەتی AI — بە ڕوونی، بە کوردی و ئینگلیزی.</p>
                     <div class="flex items-center gap-2 mt-7">

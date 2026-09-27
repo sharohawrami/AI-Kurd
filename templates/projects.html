@@ -14,7 +14,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-stagger">
         {% for p in projects %}
         <a {% if p.url %}href="{{ p.url }}" target="_blank" rel="noopener"{% endif %}
-           class="card card-hover overflow-hidden flex flex-col group">
+           class="card card-hover overflow-hidden flex flex-col group" {% if p.image %}data-hover-bg="{{ p.image }}"{% endif %}>
             <div class="cover aspect-video rounded-t-[19px] border-b border-white/[.06]" style="container-type:inline-size">
                 {% if p.image %}
                 <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy">
