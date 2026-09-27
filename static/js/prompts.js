@@ -23,12 +23,8 @@
     }
 
     filterBtns.forEach(btn => btn.addEventListener('click', () => {
-        filterBtns.forEach(b => {
-            b.classList.remove('active', 'bg-white', 'text-black', 'border-white/40', 'font-semibold');
-            b.classList.add('border-white/15', 'text-white/60');
-        });
-        btn.classList.add('active', 'bg-white', 'text-black', 'border-white/40', 'font-semibold');
-        btn.classList.remove('border-white/15', 'text-white/60');
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         activeFilter = btn.dataset.filter;
         applyFilters();
     }));
@@ -38,9 +34,9 @@
     // Copy to clipboard with fallback
     let toastTimer;
     function showToast() {
-        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('show');
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2000);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     document.querySelectorAll('.copy-btn').forEach(btn => {

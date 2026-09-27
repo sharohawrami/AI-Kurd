@@ -1,0 +1,15 @@
+{# page_hero(eyebrow_en, eyebrow_ku, title_en, title_ku, sub_en, sub_ku, center=False) #}
+{% macro page_hero(eyebrow_en, eyebrow_ku, title_en, title_ku, sub_en='', sub_ku='', center=False) -%}
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg grid-fade pointer-events-none"></div>
+    <div class="container-x relative pt-16 sm:pt-24 pb-12 sm:pb-16 {% if center %}text-center{% endif %}">
+        <div class="hero-in {% if center %}mx-auto{% endif %} max-w-3xl">
+            <p class="eyebrow mb-4"><span class="en-only">{{ eyebrow_en }}</span><span class="ku-only font-kurdish tracking-normal">{{ eyebrow_ku }}</span></p>
+            <h1 class="en-only display text-[40px] sm:text-[56px] lg:text-[64px]">{{ title_en|safe }}</h1>
+            <h1 class="ku-only rtl text-[38px] sm:text-[52px] lg:text-[58px] font-extrabold">{{ title_ku|safe }}</h1>
+            {% if sub_en %}<p class="en-only mt-6 text-[17px] sm:text-[19px] muted leading-relaxed max-w-2xl {% if center %}mx-auto{% endif %}">{{ sub_en }}</p>{% endif %}
+            {% if sub_ku %}<p class="ku-only rtl mt-6 text-[17px] sm:text-[19px] muted max-w-2xl {% if center %}mx-auto{% endif %}">{{ sub_ku }}</p>{% endif %}
+        </div>
+    </div>
+</section>
+{%- endmacro %}

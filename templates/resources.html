@@ -1,67 +1,67 @@
 {% extends "base.html" %}
+{% from "_page_hero.html" import page_hero %}
 {% block title %}Resource Hub — AI Kurd{% endblock %}
 
 {% block content %}
 
-<section class="relative overflow-hidden">
-    <div class="absolute inset-0 grid-bg grid-fade"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">Resource Hub</h1>
-        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">ناوەندی سەرچاوەکان</h1>
-        <p class="mt-4 text-white/60 max-w-2xl en-only">A curated directory of the best AI tools, plus bilingual tutorials to help you use them well.</p>
-        <p class="rtl mt-4 text-white/60 max-w-2xl ku-only">کۆکراوەیەکی هەڵبژێردراوی باشترین ئامرازەکانی زیرەکیی دەستکرد، لەگەڵ فێرکاری بە دوو زمان.</p>
-    </div>
-</section>
+{{ page_hero('Directory', 'کۆکراوە', 'Resource Hub', 'ناوەندی سەرچاوەکان',
+    'A curated directory of the best AI tools, plus bilingual tutorials to help you use them well.',
+    'کۆکراوەیەکی هەڵبژێردراوی باشترین ئامرازەکانی زیرەکیی دەستکرد، لەگەڵ فێرکاری بە دوو زمان.') }}
 
 <!-- ============ TOOL DIRECTORY ============ -->
-<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-    <div class="flex items-center justify-between flex-wrap gap-4 mb-8">
-        <h2 class="text-2xl font-black">AI Tool Directory</h2>
-        <!-- Category filter -->
+<section class="container-x">
+    <div class="flex items-center justify-between flex-wrap gap-4 mb-8 reveal">
+        <h2 class="text-2xl font-bold"><span class="en-only">AI Tool Directory</span><span class="ku-only font-kurdish">کۆکراوەی ئامرازەکان</span></h2>
         <div class="flex gap-2 flex-wrap" id="tool-filters">
-            <button data-filter="all" class="filter-btn active text-xs border border-white/40 bg-white text-black rounded-full px-4 py-2 font-semibold transition-colors">All</button>
+            <button data-filter="all" class="filter-btn chip active">All</button>
             {% for cat in categories %}
-            <button data-filter="{{ cat }}" class="filter-btn text-xs border border-white/15 rounded-full px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition-colors">{{ cat }}</button>
+            <button data-filter="{{ cat }}" class="filter-btn chip">{{ cat }}</button>
             {% endfor %}
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="tool-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-stagger" id="tool-grid">
         {% for tool in tools %}
         <a href="{{ tool.url }}" target="_blank" rel="noopener" data-category="{{ tool.category }}"
-           class="tool-card reveal glow-card border border-white/10 rounded-2xl p-6 block">
-            <div class="flex items-center justify-between mb-4">
-                <span class="w-10 h-10 border border-white/15 rounded-xl flex items-center justify-center font-black text-sm">{{ tool.name[0] }}</span>
-                <span class="text-[11px] uppercase tracking-widest text-white/40">{{ tool.category }}</span>
+           class="tool-card card card-hover p-6 block group">
+            <div class="flex items-center justify-between mb-5">
+                <span class="w-11 h-11 rounded-xl border border-white/[.12] bg-white/[.04] grid place-items-center font-bold text-base">{{ tool.name[0] }}</span>
+                <span class="tag">{{ tool.category }}</span>
             </div>
-            <h3 class="font-bold text-lg">{{ tool.name }}</h3>
-            <p class="text-sm text-white/50 mt-2 leading-relaxed">{{ tool.desc_en }}</p>
-            <p class="rtl text-sm text-white/40 mt-1.5 font-kurdish">{{ tool.desc_ku }}</p>
-            <p class="text-sm text-white/60 mt-4">Visit ↗</p>
+            <h3 class="font-semibold text-[18px]">{{ tool.name }}</h3>
+            <p class="en-only text-[14.5px] muted mt-2 leading-relaxed">{{ tool.desc_en }}</p>
+            <p class="ku-only rtl text-[15px] muted mt-2">{{ tool.desc_ku }}</p>
+            <p class="text-[13.5px] font-medium mt-5 inline-flex items-center gap-1.5 muted group-hover:text-white transition-colors">
+                <span class="en-only">Visit</span><span class="ku-only font-kurdish">سەردان بکە</span>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </p>
         </a>
         {% endfor %}
     </div>
-    <p id="no-tools" class="hidden text-white/40 text-sm mt-6">No tools in this category yet.</p>
+    <p id="no-tools" class="hidden muted-2 text-sm mt-6">No tools in this category yet.</p>
 </section>
 
 <!-- ============ TUTORIALS ============ -->
-<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-24">
-    <h2 class="text-2xl font-black mb-2 en-only">Bilingual Tutorials</h2>
-    <h2 class="rtl text-2xl font-black mb-2 ku-only">فێرکارییە دووزمانەکان</h2>
-    <p class="text-white/40 text-sm mb-8">Structured learning paths, from zero to building.</p>
+<section class="container-x section">
+    <div class="mb-8 reveal">
+        <p class="eyebrow mb-3"><span class="en-only">Learning paths</span><span class="ku-only font-kurdish tracking-normal">ڕێڕەوی فێربوون</span></p>
+        <h2 class="en-only display text-3xl sm:text-4xl">Bilingual tutorials</h2>
+        <h2 class="ku-only rtl text-3xl sm:text-4xl font-extrabold">فێرکارییە دووزمانەکان</h2>
+        <p class="muted mt-3">Structured learning paths, from zero to building.</p>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 reveal-stagger">
         {% for tut in tutorials %}
-        <article class="reveal glow-card border border-white/10 rounded-2xl p-7 flex items-start gap-5">
-            <span class="shrink-0 w-12 h-12 border border-white/15 rounded-xl flex items-center justify-center font-mono text-white/60">{{ "%02d"|format(loop.index) }}</span>
-            <div class="flex-1">
+        <article class="card card-hover p-7 flex items-start gap-5">
+            <span class="shrink-0 w-12 h-12 rounded-xl border border-white/[.12] bg-white/[.04] grid place-items-center font-mono text-sm muted">{{ "%02d"|format(loop.index) }}</span>
+            <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-3">
-                    <h3 class="font-bold text-lg">{{ tut.title_en }}</h3>
-                    <span class="text-[11px] shrink-0 border border-white/15 rounded-full px-2.5 py-1 text-white/40">{{ tut.level }}</span>
+                    <h3 class="en-only font-semibold text-[18px]">{{ tut.title_en }}</h3>
+                    <h3 class="ku-only rtl font-bold text-[19px]">{{ tut.title_ku }}</h3>
+                    <span class="tag shrink-0">{{ tut.level }}</span>
                 </div>
-                <p class="rtl text-sm text-white/50 mt-1 font-kurdish">{{ tut.title_ku }}</p>
-                <p class="text-sm text-white/50 mt-2.5 leading-relaxed">{{ tut.desc_en }}</p>
-                <p class="text-sm text-white/60 mt-4 cursor-pointer hover:text-white transition-colors">Start learning →</p>
+                <p class="en-only rtl text-[14px] muted-2 mt-1 font-kurdish">{{ tut.title_ku }}</p>
+                <p class="text-[14.5px] muted mt-3 leading-relaxed">{{ tut.desc_en }}</p>
             </div>
         </article>
         {% endfor %}
@@ -72,19 +72,12 @@
 
 {% block scripts %}
 <script>
-    // Category filtering
     const filterBtns = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.tool-card');
     const noTools = document.getElementById('no-tools');
-
     filterBtns.forEach(btn => btn.addEventListener('click', () => {
-        filterBtns.forEach(b => {
-            b.classList.remove('active', 'bg-white', 'text-black', 'border-white/40', 'font-semibold');
-            b.classList.add('border-white/15', 'text-white/60');
-        });
-        btn.classList.add('active', 'bg-white', 'text-black', 'border-white/40', 'font-semibold');
-        btn.classList.remove('border-white/15', 'text-white/60');
-
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         const f = btn.dataset.filter;
         let visible = 0;
         cards.forEach(c => {

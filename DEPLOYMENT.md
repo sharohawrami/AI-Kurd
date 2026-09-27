@@ -87,3 +87,18 @@ For multiple workers, migrate to SQLite/Postgres first.
 4. Log in → change the default password
 5. Make a test edit → restart the app → confirm the edit survived
 6. Download a backup
+
+## Styling (new design)
+
+The site no longer loads Tailwind from a CDN. The stylesheet is compiled
+into `static/css/tailwind.css` and committed, so **no build step is needed
+to deploy** — just run the Flask app as before.
+
+Only if you edit the HTML templates and use a Tailwind class that was not
+used before, rebuild the stylesheet once:
+
+    npm install
+    npm run css
+
+Site-wide design tokens (colors, fonts, cards, buttons) live in
+`static/css/site.css`. Kurdish text uses the Vazirmatn font (Google Fonts).

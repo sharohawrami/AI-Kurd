@@ -14,7 +14,7 @@
 
     .mood-btn { transition: all .25s ease; }
     .mood-btn:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.5); }
-    .mood-btn.selected { background: #fff; color: #000; border-color: #fff; }
+    .mood-btn.selected { background: #fff !important; color: #000; border-color: #fff !important; }
 
     .fade-in { animation: fadeUp .6s ease both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
@@ -27,33 +27,33 @@
 {% block content %}
 
 <section class="relative overflow-hidden">
-    <div class="absolute inset-0 grid-bg grid-fade"></div>
-    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 text-center">
-        <p class="font-mono text-xs text-white/40 mb-6">☀ daily energy</p>
-        <h1 id="greeting-en" class="en-only text-4xl sm:text-5xl font-black tracking-tight"></h1>
-        <h1 id="greeting-ku" class="ku-only rtl text-4xl sm:text-5xl font-black"></h1>
-        <p id="date-line" class="mt-4 text-white/40 text-sm font-mono"></p>
+    <div class="absolute inset-0 grid-bg grid-fade pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto px-5 pt-24 pb-10 text-center">
+        <p class="eyebrow mb-6">Daily energy</p>
+        <h1 id="greeting-en" class="en-only display text-[40px] sm:text-[56px]"></h1>
+        <h1 id="greeting-ku" class="ku-only rtl text-[38px] sm:text-[52px] font-extrabold"></h1>
+        <p id="date-line" class="mt-4 muted-2 text-sm font-mono"></p>
     </div>
 </section>
 
 <!-- ===== BOOST OF THE DAY ===== -->
-<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="boost-glow border border-white/15 rounded-2xl p-10 text-center fade-in">
-        <p class="text-xs uppercase tracking-[0.2em] text-white/40 mb-6">✦ Today's boost</p>
+<section class="max-w-3xl mx-auto px-5">
+    <div class="boost-glow panel p-10 text-center fade-in">
+        <p class="text-xs uppercase tracking-[0.2em] muted-2 mb-6">✦ Today's boost</p>
         <p class="en-only text-2xl sm:text-3xl font-bold leading-snug">"{{ boost.text_en }}"</p>
         <p class="ku-only rtl text-2xl sm:text-3xl font-bold leading-relaxed font-kurdish">"{{ boost.text_ku }}"</p>
-        <p class="rtl en-only text-white/40 mt-4 font-kurdish">"{{ boost.text_ku }}"</p>
+        <p class="rtl en-only muted-2 mt-4 font-kurdish">"{{ boost.text_ku }}"</p>
     </div>
 </section>
 
 <!-- ===== MOOD PICKER ===== -->
-<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-center">
+<section class="max-w-3xl mx-auto px-5 mt-16 text-center">
     <h2 class="text-2xl font-black en-only">How do you feel today?</h2>
     <h2 class="rtl text-2xl font-black ku-only">ئەمڕۆ هەستت چۆنە؟</h2>
 
     <div class="mt-8 grid grid-cols-3 sm:grid-cols-6 gap-3" id="mood-grid">
         {% for m in moods %}
-        <button class="mood-btn border border-white/15 rounded-2xl py-4 px-2 flex flex-col items-center gap-2"
+        <button class="mood-btn card py-4 px-2 flex flex-col items-center gap-2"
                 data-mood="{{ m.mood }}">
             <span class="text-2xl">{{ m.emoji }}</span>
             <span class="text-xs en-only">{{ m.label_en }}</span>
@@ -64,40 +64,40 @@
 
     <!-- Response -->
     <div id="mood-response" class="hidden mt-10 text-start">
-        <div class="border border-white/15 rounded-2xl p-8 fade-in">
+        <div class="card p-8 fade-in">
             <p class="en-only text-lg leading-relaxed" id="resp-en"></p>
             <p class="ku-only rtl text-lg leading-loose font-kurdish" id="resp-ku"></p>
             <div class="border-t border-white/10 mt-6 pt-5">
-                <p class="text-xs uppercase tracking-[0.2em] text-white/40 mb-2">→ Try this today</p>
-                <p class="en-only text-white/70" id="act-en"></p>
-                <p class="ku-only rtl text-white/70 font-kurdish" id="act-ku"></p>
+                <p class="text-xs uppercase tracking-[0.2em] muted-2 mb-2">→ Try this today</p>
+                <p class="en-only muted" id="act-en"></p>
+                <p class="ku-only rtl muted font-kurdish" id="act-ku"></p>
             </div>
         </div>
 
         <!-- Breathing exercise (shown for stressed) -->
-        <div id="breathing" class="hidden mt-6 border border-white/15 rounded-2xl p-10 text-center fade-in">
-            <p class="text-xs uppercase tracking-[0.2em] text-white/40 mb-8">Breathe with the circle</p>
+        <div id="breathing" class="hidden mt-6 card p-10 text-center fade-in">
+            <p class="text-xs uppercase tracking-[0.2em] muted-2 mb-8">Breathe with the circle</p>
             <div class="flex items-center justify-center h-40">
                 <div class="breathe-circle w-32 h-32 rounded-full border-2 border-white/60 flex items-center justify-center">
                     <span id="breath-label" class="text-sm text-white/60 font-mono"></span>
                 </div>
             </div>
-            <p class="text-white/30 text-xs mt-6 font-mono">in · 4s — hold · 4s — out · 4s</p>
+            <p class="muted-3 text-xs mt-6 font-mono">in · 4s — hold · 4s — out · 4s</p>
         </div>
     </div>
 </section>
 
 <!-- ===== AI KURD BOT LINK ===== -->
-<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-    <a href="/bot/" class="glow-card border border-white/15 rounded-2xl p-8 flex items-center justify-between gap-6 block">
+<section class="max-w-3xl mx-auto px-5 mt-16">
+    <a href="/bot/" class="card card-hover p-8 flex items-center justify-between gap-6 block">
         <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-white/40 mb-2">🤖 AI Kurd Bot</p>
+            <p class="text-xs uppercase tracking-[0.2em] muted-2 mb-2">AI Kurd Bot</p>
             <p class="font-bold text-lg en-only">Want to talk in your own words?</p>
             <p class="rtl font-bold text-lg ku-only font-kurdish">دەتەوێت بە وشەکانی خۆت قسە بکەیت؟</p>
-            <p class="text-sm text-white/50 mt-1 en-only">Chat with AI Kurd Bot — in Kurdish or English.</p>
-            <p class="rtl text-sm text-white/50 mt-1 ku-only font-kurdish">لەگەڵ بۆتی AI Kurd گفتوگۆ بکە — بە کوردی یان ئینگلیزی.</p>
+            <p class="text-sm muted mt-1 en-only">Chat with AI Kurd Bot — in Kurdish or English.</p>
+            <p class="rtl text-sm muted mt-1 ku-only font-kurdish">لەگەڵ بۆتی AI Kurd گفتوگۆ بکە — بە کوردی یان ئینگلیزی.</p>
         </div>
-        <span class="text-2xl text-white/40 shrink-0">→</span>
+        <span class="text-2xl muted-2 shrink-0">→</span>
     </a>
 </section>
 
@@ -109,8 +109,8 @@
     const h = new Date().getHours();
     const gEn = h < 5 ? "Good night, night owl" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
     const gKu = h < 5 ? "شەو باش، شەوگەڕ" : h < 12 ? "بەیانیت باش" : h < 17 ? "نیوەڕۆت باش" : "ئێوارەت باش";
-    document.getElementById('greeting-en').textContent = gEn + " ☀";
-    document.getElementById('greeting-ku').textContent = gKu + " ☀";
+    document.getElementById('greeting-en').textContent = gEn;
+    document.getElementById('greeting-ku').textContent = gKu;
     document.getElementById('date-line').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
     // ---- Mood picker ----

@@ -1,40 +1,194 @@
 {% extends "base.html" %}
-{% block title %}Articles — AI Kurd{% endblock %}
+{% from "_macros.html" import cover, card, row %}
+{% block title %}Articles & Tutorials — AI Kurd{% endblock %}
+{% block description %}Articles, tutorials and videos about AI — in Kurdish and English.{% endblock %}
 
 {% block content %}
 
-<section class="relative overflow-hidden">
-    <div class="absolute inset-0 grid-bg grid-fade"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">Articles & Tutorials</h1>
-        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">وتار و فێرکارییەکان</h1>
-        <p class="mt-4 text-white/60 max-w-2xl en-only">Everything we've published — tutorials, articles, and videos, in Kurdish and English.</p>
-        <p class="rtl mt-4 text-white/60 max-w-2xl ku-only">هەموو ئەوەی بڵاومان کردووەتەوە — فێرکاری، وتار و ڤیدیۆ، بە کوردی و ئینگلیزی.</p>
+<section class="container-x pt-8 sm:pt-12">
+    <div class="panel overflow-hidden">
+
+        <!-- ===== Toolbar ===== -->
+        <div class="flex flex-wrap items-center gap-2.5 px-5 sm:px-7 pt-5 sm:pt-6">
+            <a href="/articles/" class="chip active !cursor-default">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                <span class="en-only">AI Kurd</span><span class="ku-only">AI Kurd</span>
+            </a>
+            <div id="type-filters" class="flex flex-wrap items-center gap-2">
+                <button class="chip" data-type="all"><span class="en-only">All</span><span class="ku-only">هەموو</span><span class="plus">+</span></button>
+                {% for t in types %}
+                <button class="chip" data-type="{{ t }}">{{ t }}<span class="plus">+</span></button>
+                {% endfor %}
+            </div>
+            <button data-lang-toggle class="chip ms-auto">
+                <span class="en-only">En</span><span class="ku-only font-kurdish">کوردی</span>
+                <svg class="w-3.5 h-3.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+
+            <!-- ===== Featured (left) ===== -->
+            <div class="lg:col-span-8 px-5 sm:px-7 pt-8 pb-7 lg:pb-8 flex flex-col">
+                {% if featured %}
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
+                    <div class="md:col-span-6 hero-in">
+                        <span class="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[.16em] uppercase muted border-s-2 border-white ps-3 py-0.5">
+                            <span class="en-only">Best of the week</span><span class="ku-only font-kurdish tracking-normal">باشترینی هەفتە</span>
+                        </span>
+                        <div class="flex items-center gap-2.5 text-[12.5px] mt-7">
+                            <span class="font-medium muted">{{ featured.type }}</span>
+                            <span class="muted-3">·</span>
+                            <span class="muted-2"><span class="en-only">{{ featured.date|timeago }}</span><span class="ku-only">{{ featured.date|timeago_ku }}</span></span>
+                        </div>
+                        <h1 class="en-only display text-[30px] sm:text-[36px] xl:text-[40px] mt-3 !leading-[1.12]">{{ featured.title_en }}</h1>
+                        <h1 class="ku-only rtl text-[30px] sm:text-[36px] font-extrabold mt-3">{{ featured.title_ku or featured.title_en }}</h1>
+                        <p class="en-only text-[15px] muted mt-4 leading-relaxed line-clamp-3">{{ featured.desc_en }}</p>
+                        <div class="flex flex-wrap gap-3 mt-4" dir="ltr">
+                            <span class="hashtag">{{ featured.type|lower }}</span>
+                            <span class="hashtag">{{ featured.lang|lower|replace(' ', '')|replace('+', '-') }}</span>
+                            <span class="hashtag">{{ featured.body_en|reading_time }}min</span>
+                        </div>
+                        <a href="/articles/{{ featured.slug }}" class="btn btn-primary mt-8">
+                            <span class="en-only">Read article</span><span class="ku-only">وتارەکە بخوێنەرەوە</span>
+                            <span class="arrow"><svg class="w-3.5 h-3.5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+                        </a>
+                    </div>
+                    <div class="md:col-span-6">
+                        {% if featured.image %}
+                        <a href="/articles/{{ featured.slug }}" class="block rounded-[22px] overflow-hidden border border-white/[.1] shadow-[0_40px_90px_-30px_rgba(0,0,0,.9),0_0_80px_-20px_rgba(255,255,255,.12)] aspect-[4/3] group">
+                            {{ cover(featured, 'h-full') }}
+                        </a>
+                        {% else %}
+                        <div class="orb-wrap">
+                            <div class="orb-ring"></div><div class="orb-ring r2"></div><div class="orb-ring r3"></div>
+                            <div class="orb"></div>
+                            <div class="orb-shadow"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Strip of next articles -->
+                {% if strip %}
+                <div class="hidden md:grid grid-cols-3 gap-6 mt-12 pt-7 border-t border-white/[.07]">
+                    {% for s in strip %}
+                    <a href="/articles/{{ s.slug }}" class="group flex gap-4 items-start">
+                        <div class="w-16 h-14 shrink-0 rounded-lg overflow-hidden border border-white/[.08]">{{ cover(s, 'h-full') }}</div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 text-[11.5px] mb-1.5">
+                                <span class="font-medium muted">{{ s.type }}</span>
+                                <span class="muted-2"><span class="en-only">{{ s.date|timeago }}</span><span class="ku-only">{{ s.date|timeago_ku }}</span></span>
+                            </div>
+                            <p class="en-only text-[14px] font-semibold leading-snug line-clamp-2 muted group-hover:text-white transition-colors">{{ s.title_en }}</p>
+                            <p class="ku-only rtl text-[14.5px] font-bold leading-relaxed line-clamp-2 muted group-hover:text-white transition-colors">{{ s.title_ku or s.title_en }}</p>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="py-24 text-center">
+                    <p class="text-lg font-semibold">No articles yet</p>
+                    <p class="muted-2 text-sm mt-2">Add the first one from the admin panel.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- ===== Recommended (right) ===== -->
+            <aside class="lg:col-span-4 border-t lg:border-t-0 lg:border-s border-white/[.07] bg-white/[.015] px-5 sm:px-7 lg:px-6 py-6">
+                <label class="search">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input id="article-search" type="search" dir="auto" placeholder="Article name, tag, category…" autocomplete="off">
+                </label>
+
+                <div class="flex items-center justify-between mt-6 mb-4">
+                    <h2 class="text-[15px] font-semibold"><span class="en-only">Recommended</span><span class="ku-only font-kurdish">پێشنیارکراو</span></h2>
+                    <a href="#all-articles" class="text-[12.5px] muted hover:text-white inline-flex items-center gap-1">
+                        <span class="en-only">View all</span><span class="ku-only font-kurdish">هەموو</span>
+                        <svg class="w-3.5 h-3.5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+                    </a>
+                </div>
+
+                {% if recommended %}
+                {% set lead = recommended[0] %}
+                <a href="/articles/{{ lead.slug }}" class="group block rounded-2xl overflow-hidden border border-white/[.1] relative aspect-[16/11]">
+                    {{ cover(lead, 'h-full') }}
+                    <div class="cover-shade"></div>
+                    <div class="absolute inset-x-0 bottom-0 p-4">
+                        <div class="flex items-center gap-2 text-[11.5px] mb-1.5 text-white/70">
+                            <span class="font-medium">{{ lead.type }}</span><span>·</span><span><span class="en-only">{{ lead.date|timeago }}</span><span class="ku-only">{{ lead.date|timeago_ku }}</span></span>
+                        </div>
+                        <p class="en-only text-[15px] font-semibold leading-snug line-clamp-2">{{ lead.title_en }}</p>
+                        <p class="ku-only rtl text-[15.5px] font-bold leading-relaxed line-clamp-2">{{ lead.title_ku or lead.title_en }}</p>
+                    </div>
+                </a>
+                <div class="mt-2">
+                    {% for r in recommended[1:] %}{{ row(r) }}{% endfor %}
+                </div>
+                {% endif %}
+            </aside>
+        </div>
     </div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
-    {% if articles %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {% for item in articles %}
-        <a href="/articles/{{ item.slug }}" class="reveal glow-card border border-white/10 rounded-2xl p-6 flex flex-col">
-            <div class="flex items-center justify-between mb-4">
-                <span class="text-[11px] uppercase tracking-widest border border-white/15 rounded-full px-2.5 py-1 text-white/50">{{ item.type }}</span>
-                <span class="text-[11px] text-white/30 font-mono">{{ item.lang }}</span>
-            </div>
-            <h3 class="font-bold text-lg leading-snug">{{ item.title_en }}</h3>
-            <p class="rtl text-sm text-white/50 mt-1.5 font-kurdish">{{ item.title_ku }}</p>
-            <p class="text-sm text-white/50 mt-3 leading-relaxed flex-1">{{ item.desc_en }}</p>
-            <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/10">
-                <time class="text-xs text-white/30 font-mono">{{ item.date }}</time>
-                <span class="text-sm text-white/60">Read →</span>
-            </div>
-        </a>
+<!-- ===== All articles ===== -->
+<section id="all-articles" class="container-x mt-20 sm:mt-28 scroll-mt-24">
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+        <div>
+            <p class="eyebrow mb-3"><span class="en-only">Library</span><span class="ku-only font-kurdish tracking-normal">کتێبخانە</span></p>
+            <h2 class="en-only display text-3xl sm:text-4xl">All articles &amp; tutorials</h2>
+            <h2 class="ku-only rtl text-3xl sm:text-4xl font-extrabold">هەموو وتار و فێرکارییەکان</h2>
+        </div>
+        <p class="text-sm muted-2"><span id="count">{{ articles|length }}</span> <span class="en-only">published</span><span class="ku-only font-kurdish">بڵاوکراوە</span></p>
+    </div>
+
+    <div id="article-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-stagger">
+        {% for a in articles %}
+        <div class="article-item" data-type="{{ a.type }}" data-search="{{ (a.title_en ~ ' ' ~ a.title_ku ~ ' ' ~ a.desc_en ~ ' ' ~ a.type ~ ' ' ~ a.lang)|lower }}">
+            {{ card(a) }}
+        </div>
         {% endfor %}
     </div>
-    {% else %}
-    <p class="text-white/40">No articles yet — add the first one from the admin panel.</p>
-    {% endif %}
+    <div id="no-results" class="hidden card p-12 text-center">
+        <p class="font-semibold">Nothing matches that search.</p>
+        <p class="muted-2 text-sm mt-1">Try a different word or clear the filter.</p>
+    </div>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const chips = document.querySelectorAll('#type-filters .chip');
+    const items = document.querySelectorAll('.article-item');
+    const search = document.getElementById('article-search');
+    const empty = document.getElementById('no-results');
+    const count = document.getElementById('count');
+    let type = 'all';
+
+    function apply(scroll) {
+        const q = search.value.trim().toLowerCase();
+        let n = 0;
+        items.forEach(el => {
+            const ok = (type === 'all' || el.dataset.type === type) && (!q || el.dataset.search.includes(q));
+            el.style.display = ok ? '' : 'none';
+            if (ok) n++;
+        });
+        empty.classList.toggle('hidden', n > 0);
+        count.textContent = n;
+        if (scroll) document.getElementById('all-articles').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    chips.forEach(c => c.addEventListener('click', () => {
+        chips.forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        type = c.dataset.type;
+        apply(true);
+    }));
+    document.querySelector('#type-filters .chip[data-type="all"]').classList.add('active');
+    let t;
+    search.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => apply(search.value.length > 1), 120); });
+})();
+</script>
 {% endblock %}

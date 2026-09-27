@@ -3,11 +3,11 @@
 
 {% block content %}
 <section class="relative overflow-hidden min-h-[70vh] flex items-center justify-center">
-    <div class="absolute inset-0 grid-bg grid-fade"></div>
+    <div class="absolute inset-0 grid-bg grid-fade pointer-events-none"></div>
     <div class="relative w-full max-w-sm mx-4">
-        <div class="border border-white/15 rounded-2xl p-8 bg-black">
-            <p class="font-mono text-xs text-white/40 mb-2">❯ admin access</p>
-            <h1 class="text-2xl font-black mb-6">Sign in</h1>
+        <div class="panel p-8">
+            <p class="eyebrow mb-3">Admin access</p>
+            <h1 class="display text-3xl mb-7">Sign in</h1>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for cat, msg in messages %}
@@ -26,7 +26,7 @@
                     <input name="password" type="password" required autocomplete="current-password"
                            class="w-full bg-black border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors">
                 </div>
-                <button class="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-white/85 transition-colors">Sign in →</button>
+                <button class="btn btn-primary w-full">Sign in →</button>
             </form>
         </div>
     </div>

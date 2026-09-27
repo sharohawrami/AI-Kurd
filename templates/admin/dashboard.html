@@ -7,7 +7,7 @@
     <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 6 if name in ['about_en', 'about_ku'] else 3 if name in ['text', 'message_en', 'message_ku'] else 2 }}" {% if rtl %}dir="rtl"{% endif %}
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">{{ value }}</textarea>
     {% elif name == 'image' %}
-    <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /static/uploads/… (or upload a file below)"
+    <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /uploads/… (or upload a file below)"
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
     {% else %}
     <input name="{{ name }}" value="{{ value }}" {% if rtl %}dir="rtl"{% endif %}
@@ -17,7 +17,7 @@
 
 {% macro image_upload(item=None) -%}
     <div class="md:col-span-2">
-        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">Upload example image (optional — overrides the URL)</label>
+        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">Upload example image (optional — overrides the URL)</label>
         <input type="file" name="image_file" accept="image/*"
                class="w-full text-sm text-white/50 file:me-3 file:bg-white file:text-black file:border-0 file:rounded-lg file:px-4 file:py-2 file:text-sm file:font-medium file:cursor-pointer">
         {% if item and item.get('image') %}
@@ -27,19 +27,19 @@
 {%- endmacro %}
 
 {% block content %}
-<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+<section class="container-x pt-14 pb-8">
 
     <div class="flex flex-wrap items-center justify-between gap-4 mb-2">
         <div>
-            <p class="font-mono text-xs text-white/40 mb-1">❯ admin panel</p>
-            <h1 class="text-3xl sm:text-4xl font-black">Dashboard</h1>
+            <p class="eyebrow mb-2">Admin panel</p>
+            <h1 class="display text-4xl">Dashboard</h1>
         </div>
         <div class="flex items-center gap-3 flex-wrap">
-            <span class="text-xs border border-white/15 rounded-full px-3 py-1.5 text-white/60">
+            <span class="chip !cursor-default">
                 {{ me.username }} · {{ me.role }}{% if me.role == 'superadmin' %} ★{% endif %}
             </span>
-            <a href="{{ url_for('admin.backup') }}" class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/60 hover:text-white hover:border-white/50 transition-colors">⬇ Download backup</a>
-            <a href="{{ url_for('admin.logout') }}" class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/60 hover:text-white hover:border-white/50 transition-colors">Log out</a>
+            <a href="{{ url_for('admin.backup') }}" class="chip">⬇ Download backup</a>
+            <a href="{{ url_for('admin.logout') }}" class="chip">Log out</a>
         </div>
     </div>
 
@@ -50,12 +50,12 @@
     {% endwith %}
 
     <!-- ======== SITE SETTINGS ======== -->
-    <details class="mt-8 border border-white/15 rounded-2xl overflow-hidden" open>
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">⚙ Site Settings — hero & featured tool</summary>
+    <details class="mt-8 card overflow-hidden" open>
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Site Settings — hero & featured tool</summary>
         <form method="POST" action="{{ url_for('admin.save_settings') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
             {% for f in ['hero_en_1','hero_en_2','sub_en','hero_ku_1','hero_ku_2','sub_ku'] %}
             <div>
-                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
                 {{ field_input(f, settings.get(f,'')) }}
             </div>
             {% endfor %}
@@ -64,62 +64,62 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {% for f in ['name','category','url','badge','tagline_en','tagline_ku'] %}
                     <div>
-                        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
                         {{ field_input('featured_' + f, settings.get('featured',{}).get(f,'')) }}
                     </div>
                     {% endfor %}
                 </div>
             </div>
             <div class="md:col-span-2">
-                <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save settings</button>
+                <button class="btn btn-primary btn-sm">Save settings</button>
             </div>
         </form>
     </details>
 
     <!-- ======== ABOUT PAGE ======== -->
-    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">ℹ About Page</summary>
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">About Page</summary>
         <form method="POST" action="{{ url_for('admin.save_about') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-4">
             {% for f in ['owners', 'email', 'instagram'] %}
             <div>
-                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f }}</label>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f }}</label>
                 {{ field_input(f, about.get(f,'')) }}
             </div>
             {% endfor %}
             <div class="md:col-span-3">
-                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">About us (English)</label>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">About us (English)</label>
                 {{ field_input('about_en', about.get('about_en','')) }}
             </div>
             <div class="md:col-span-3">
-                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">About us (Kurdish)</label>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">About us (Kurdish)</label>
                 {{ field_input('about_ku', about.get('about_ku','')) }}
             </div>
             <div class="md:col-span-3">
-                <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save about page</button>
+                <button class="btn btn-primary btn-sm">Save about page</button>
             </div>
         </form>
     </details>
 
     <!-- ======== SERVICES PAGE ======== -->
-    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">✦ Services Page</summary>
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Services Page</summary>
         <form method="POST" action="{{ url_for('admin.save_services') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
             {% for f in ['title_en', 'title_ku', 'message_en', 'message_ku'] %}
             <div>
-                <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
                 {{ field_input(f, services.get(f,'')) }}
             </div>
             {% endfor %}
             <div class="md:col-span-2">
-                <button class="bg-white text-black font-semibold px-6 py-2.5 rounded-xl hover:bg-white/85 transition-colors text-sm">Save services page</button>
+                <button class="btn btn-primary btn-sm">Save services page</button>
             </div>
         </form>
     </details>
 
     <!-- ======== COLLECTIONS ======== -->
     {% for coll, meta in collections.items() %}
-    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">
             {{ meta.label }} <span class="text-white/30 font-normal text-sm">({{ data[coll]|length }})</span>
         </summary>
         <div class="border-t border-white/10 divide-y divide-white/10">
@@ -134,18 +134,18 @@
                     <form method="POST" action="{{ url_for('admin.edit_item', coll=coll, idx=loop.index0) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {% for f in meta.fields %}
                         <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
-                            <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                            <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
                             {{ field_input(f, item.get(f,'')) }}
                         </div>
                         {% endfor %}
                         {% if 'image' in meta.fields %}{{ image_upload(item) }}{% endif %}
                         <div class="md:col-span-2">
-                            <button class="bg-white text-black font-semibold px-5 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Save</button>
+                            <button class="btn btn-primary btn-sm">Save</button>
                         </div>
                     </form>
                     <form method="POST" action="{{ url_for('admin.delete_item', coll=coll, idx=loop.index0) }}"
                           onsubmit="return confirm('Delete this item?')" class="mt-3">
-                        <button class="border border-white/20 text-white/60 px-5 py-2 rounded-xl hover:border-white/60 hover:text-white transition-colors text-sm">Delete</button>
+                        <button class="btn btn-ghost btn-sm">Delete</button>
                     </form>
                 </div>
             </details>
@@ -157,13 +157,13 @@
                 <form method="POST" action="{{ url_for('admin.add_item', coll=coll) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {% for f in meta.fields %}
                     <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
-                        <label class="block text-xs text-white/40 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
                         {{ field_input(f) }}
                     </div>
                     {% endfor %}
                     {% if 'image' in meta.fields %}{{ image_upload() }}{% endif %}
                     <div class="md:col-span-2">
-                        <button class="border border-white/30 px-6 py-2.5 rounded-xl hover:bg-white hover:text-black transition-all text-sm font-medium">Add item</button>
+                        <button class="btn btn-ghost btn-sm">Add item</button>
                     </div>
                 </form>
             </div>
@@ -173,8 +173,8 @@
 
     <!-- ======== ADMINS (superadmin only) ======== -->
     {% if me.role == 'superadmin' %}
-    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">★ Admins <span class="text-white/30 font-normal text-sm">({{ users|length }})</span></summary>
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Admins <span class="text-white/30 font-normal text-sm">({{ users|length }})</span></summary>
         <div class="border-t border-white/10">
             <div class="divide-y divide-white/10">
                 {% for u in users %}
@@ -199,7 +199,7 @@
                         <option value="admin">admin</option>
                         <option value="superadmin">superadmin ★</option>
                     </select>
-                    <button class="bg-white text-black font-semibold px-6 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Create</button>
+                    <button class="btn btn-primary btn-sm">Create</button>
                 </form>
             </div>
         </div>
@@ -207,12 +207,12 @@
     {% endif %}
 
     <!-- ======== MY PASSWORD ======== -->
-    <details class="mt-5 border border-white/15 rounded-2xl overflow-hidden">
-        <summary class="cursor-pointer px-6 py-4 font-bold text-lg hover:bg-white/5 transition-colors">🔑 Change my password</summary>
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Change my password</summary>
         <form method="POST" action="{{ url_for('admin.change_password') }}" class="p-6 border-t border-white/10 flex flex-col sm:flex-row gap-3">
             <input name="new_password" type="password" placeholder="new password (min 6 characters)" required
                    class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
-            <button class="bg-white text-black font-semibold px-6 py-2 rounded-xl hover:bg-white/85 transition-colors text-sm">Change</button>
+            <button class="btn btn-primary btn-sm">Change</button>
         </form>
     </details>
 

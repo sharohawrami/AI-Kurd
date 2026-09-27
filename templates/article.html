@@ -1,43 +1,156 @@
 {% extends "base.html" %}
+{% from "_macros.html" import cover, card, row %}
 {% block title %}{{ a.title_en }} — AI Kurd{% endblock %}
 {% block description %}{{ a.desc_en }}{% endblock %}
+{% block og_title %}{{ a.title_en }}{% endblock %}
+{% block og_description %}{{ a.desc_en }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}{% if a.image %}{{ a.image if '://' in a.image else request.url_root.rstrip('/') ~ a.image }}{% else %}{{ url_for('static', filename='img/logo.png', _external=True) }}{% endif %}{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ a.title_en|tojson }},
+  "description": {{ a.desc_en|tojson }},
+  "datePublished": {{ a.date|tojson }},
+  "inLanguage": ["en", "ckb"],
+  "author": { "@type": "Organization", "name": "AI Kurd" },
+  "publisher": { "@type": "Organization", "name": "AI Kurd" },
+  "mainEntityOfPage": {{ request.url|tojson }}
+}
+</script>
+{% endblock %}
 
 {% block content %}
 
-<article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+<article class="container-x pt-8 sm:pt-12">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[13px] muted-2 mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors"><span class="en-only">Home</span><span class="ku-only font-kurdish">سەرەکی</span></a>
+        <span class="muted-3">/</span>
+        <a href="/articles/" class="hover:text-white transition-colors"><span class="en-only">Articles</span><span class="ku-only font-kurdish">وتارەکان</span></a>
+        <span class="muted-3">/</span>
+        <span class="muted truncate">{{ a.type }}</span>
+    </nav>
 
     <!-- Header -->
-    <header class="relative overflow-hidden pt-16 pb-10">
-        <div class="flex items-center gap-3 mb-6">
-            <a href="/articles/" class="text-sm text-white/40 hover:text-white transition-colors">← All articles</a>
+    <header class="max-w-4xl hero-in">
+        <div class="flex flex-wrap items-center gap-3 text-[13px]">
+            <span class="tag tag-solid">{{ a.type }}</span>
+            <span class="muted">{{ a.date|nice_date }}</span>
+            <span class="muted-3">·</span>
+            <span class="muted"><span class="en-only">{{ a.body_en|reading_time }} min read</span><span class="ku-only">{{ a.body_en|reading_time }} خولەک خوێندنەوە</span></span>
+            <span class="muted-3">·</span>
+            <span class="font-mono text-[12px] muted-2">{{ a.lang }}</span>
         </div>
-        <div class="flex items-center gap-3 mb-5">
-            <span class="text-[11px] uppercase tracking-widest border border-white/15 rounded-full px-2.5 py-1 text-white/50">{{ a.type }}</span>
-            <time class="text-xs text-white/30 font-mono">{{ a.date }}</time>
-            <span class="text-xs text-white/30 font-mono">{{ a.lang }}</span>
-        </div>
-        <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight en-only">{{ a.title_en }}</h1>
-        <h1 class="rtl text-3xl sm:text-5xl font-black leading-snug ku-only font-kurdish">{{ a.title_ku or a.title_en }}</h1>
-        <p class="rtl text-white/40 mt-3 font-kurdish en-only">{{ a.title_ku }}</p>
+        <h1 class="en-only display text-[34px] sm:text-[48px] lg:text-[56px] mt-6 !leading-[1.06]">{{ a.title_en }}</h1>
+        <h1 class="ku-only rtl text-[32px] sm:text-[44px] lg:text-[50px] font-extrabold mt-6">{{ a.title_ku or a.title_en }}</h1>
+        {% if a.title_ku %}<p class="en-only text-lg muted mt-4 font-kurdish" dir="rtl" style="text-align:left">{{ a.title_ku }}</p>{% endif %}
+        <p class="en-only text-[18px] muted mt-5 leading-relaxed max-w-2xl">{{ a.desc_en }}</p>
     </header>
 
-    {% if a.image %}
-    <img src="{{ a.image }}" alt="{{ a.title_en }}" class="w-full rounded-2xl border border-white/10 mb-10">
-    {% endif %}
-
-    <!-- Body -->
-    <div class="en-only text-[17px]">
-        {{ body_en }}
-    </div>
-    <div class="ku-only rtl font-kurdish text-[17px] leading-loose">
-        {% if a.body_ku %}{{ body_ku }}{% else %}{{ body_en }}{% endif %}
+    <!-- Cover image -->
+    <div class="mt-10 sm:mt-12 rounded-[24px] overflow-hidden border border-white/[.1] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] aspect-[16/9] sm:aspect-[21/9] reveal visible">
+        {{ cover(a, 'h-full') }}
     </div>
 
-    <!-- Footer nav -->
-    <footer class="border-t border-white/10 mt-14 pt-8 flex items-center justify-between">
-        <a href="/articles/" class="text-sm text-white/50 hover:text-white transition-colors">← All articles</a>
-        <a href="/prompts/" class="text-sm text-white/50 hover:text-white transition-colors">Try the Prompt Library →</a>
-    </footer>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12 sm:mt-16">
+
+        <!-- Body -->
+        <div class="lg:col-span-8">
+            <div class="prose en-only">{{ body_en }}</div>
+            <div class="prose ku-only rtl">{% if a.body_ku %}{{ body_ku }}{% else %}{{ body_en }}{% endif %}</div>
+
+            <!-- Share / tags -->
+            <div class="hairline mt-12 pt-7 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap gap-3" dir="ltr">
+                    <span class="hashtag">{{ a.type|lower }}</span>
+                    <span class="hashtag">aikurd</span>
+                    <span class="hashtag">{{ a.lang|lower|replace(' ', '')|replace('+', '-') }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="btn btn-ghost btn-sm" data-share>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+                        <span class="en-only">Share</span><span class="ku-only font-kurdish">هاوبەشی بکە</span>
+                    </button>
+                    <button class="btn btn-ghost btn-sm" data-copy>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+                        <span class="en-only">Copy link</span><span class="ku-only font-kurdish">لینک کۆپی بکە</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Prev / next -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                {% if prev_article %}
+                <a href="/articles/{{ prev_article.slug }}" class="card card-hover p-5 group">
+                    <p class="text-[11px] tracking-[.14em] uppercase muted-2 mb-2">← <span class="en-only">Older</span><span class="ku-only font-kurdish tracking-normal">کۆنتر</span></p>
+                    <p class="en-only font-semibold leading-snug line-clamp-2">{{ prev_article.title_en }}</p>
+                    <p class="ku-only rtl font-bold leading-relaxed line-clamp-2">{{ prev_article.title_ku or prev_article.title_en }}</p>
+                </a>
+                {% else %}<div></div>{% endif %}
+                {% if next_article %}
+                <a href="/articles/{{ next_article.slug }}" class="card card-hover p-5 group sm:text-right">
+                    <p class="text-[11px] tracking-[.14em] uppercase muted-2 mb-2"><span class="en-only">Newer</span><span class="ku-only font-kurdish tracking-normal">نوێتر</span> →</p>
+                    <p class="en-only font-semibold leading-snug line-clamp-2">{{ next_article.title_en }}</p>
+                    <p class="ku-only rtl font-bold leading-relaxed line-clamp-2">{{ next_article.title_ku or next_article.title_en }}</p>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4">
+            <div class="lg:sticky lg:top-24 space-y-5">
+                <div class="card p-6">
+                    <p class="eyebrow mb-4"><span class="en-only">About this piece</span><span class="ku-only font-kurdish tracking-normal">دەربارەی ئەم بابەتە</span></p>
+                    <dl class="text-[14px] space-y-3">
+                        <div class="flex justify-between gap-4"><dt class="muted-2">Type</dt><dd class="font-medium">{{ a.type }}</dd></div>
+                        <div class="flex justify-between gap-4"><dt class="muted-2">Published</dt><dd class="font-medium">{{ a.date|nice_date }}</dd></div>
+                        <div class="flex justify-between gap-4"><dt class="muted-2">Language</dt><dd class="font-medium">{{ a.lang }}</dd></div>
+                        <div class="flex justify-between gap-4"><dt class="muted-2">Reading time</dt><dd class="font-medium">{{ a.body_en|reading_time }} min</dd></div>
+                    </dl>
+                    <button data-lang-toggle class="btn btn-ghost btn-sm w-full mt-6">
+                        <span class="en-only font-kurdish">بە کوردی بیخوێنەرەوە</span><span class="ku-only">Read in English</span>
+                    </button>
+                </div>
+
+                {% if related %}
+                <div class="card p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="eyebrow"><span class="en-only">More to read</span><span class="ku-only font-kurdish tracking-normal">زیاتر بخوێنەرەوە</span></p>
+                        <a href="/articles/" class="text-[12.5px] muted hover:text-white">View all →</a>
+                    </div>
+                    {% for r in related %}{{ row(r) }}{% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
 </article>
 
+<div id="toast" class="toast">✓ Link copied</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const toast = document.getElementById('toast');
+    let t;
+    function show(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(t); t = setTimeout(() => toast.classList.remove('show'), 1800); }
+    async function copy() {
+        try { await navigator.clipboard.writeText(location.href); show('✓ Link copied'); }
+        catch (e) { show('Could not copy'); }
+    }
+    document.querySelector('[data-copy]')?.addEventListener('click', copy);
+    document.querySelector('[data-share]')?.addEventListener('click', async () => {
+        if (navigator.share) { try { await navigator.share({ title: document.title, url: location.href }); } catch (e) {} }
+        else copy();
+    });
+})();
+</script>
 {% endblock %}

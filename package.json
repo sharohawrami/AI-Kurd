@@ -1,0 +1,9 @@
+{
+  "name": "ai-kurd",
+  "private": true,
+  "scripts": {
+    "css": "tailwindcss -c tailwind.config.js -i static/css/tailwind.src.css -o static/css/tailwind.css --minify",
+    "css:watch": "tailwindcss -c tailwind.config.js -i static/css/tailwind.src.css -o static/css/tailwind.css --watch"
+  },
+  "devDependencies": { "tailwindcss": "^3.4.0" }
+}

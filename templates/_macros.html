@@ -1,0 +1,60 @@
+{# ---------------------------------------------------------------
+   Shared UI pieces for articles.
+   cover(a)      → the article image, or a generated cover if none
+   card(a)       → standard article card with image, used in grids
+   row(a)        → compact list row with thumbnail (sidebar lists)
+   --------------------------------------------------------------- #}
+
+{% macro cover(a, extra='') -%}
+<div class="cover {{ extra }}" style="container-type: inline-size">
+    {% if a.image %}
+    <img src="{{ a.image }}" alt="{{ a.title_en }}" loading="lazy" decoding="async">
+    <div class="cover-fallback" style="display:none"><span>{{ (a.title_en or 'A')[0]|upper }}</span><em class="cf-label not-italic">{{ a.type }}</em></div>
+    {% else %}
+    <div class="cover-fallback"><span>{{ (a.title_en or 'A')[0]|upper }}</span><em class="cf-label not-italic">{{ a.type }}</em></div>
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro card(a) -%}
+<a href="/articles/{{ a.slug }}" class="card card-hover flex flex-col overflow-hidden group">
+    <div class="aspect-[16/10] rounded-t-[19px] overflow-hidden border-b border-white/[.06]">
+        {{ cover(a, 'h-full') }}
+    </div>
+    <div class="p-6 flex-1 flex flex-col">
+        <div class="flex items-center gap-3 text-[12px] mb-3.5">
+            <span class="tag">{{ a.type }}</span>
+            <span class="muted-2"><span class="en-only">{{ a.date|timeago }}</span><span class="ku-only">{{ a.date|timeago_ku }}</span></span>
+            <span class="ms-auto font-mono text-[11px] muted-3">{{ a.lang }}</span>
+        </div>
+        <h3 class="en-only text-[18px] font-semibold leading-snug line-clamp-2 group-hover:text-white">{{ a.title_en }}</h3>
+        <h3 class="ku-only rtl text-[19px] font-bold leading-relaxed line-clamp-2">{{ a.title_ku or a.title_en }}</h3>
+        <p class="en-only text-[14.5px] muted mt-3 leading-relaxed line-clamp-2">{{ a.desc_en }}</p>
+        <p class="ku-only text-[14.5px] muted mt-3 leading-relaxed line-clamp-2" dir="auto">{{ a.desc_en }}</p>
+        <div class="mt-auto pt-5 flex items-center justify-between text-[13px]">
+            <span class="muted-2"><span class="en-only">{{ a.body_en|reading_time }} min read</span><span class="ku-only">{{ a.body_en|reading_time }} خولەک خوێندنەوە</span></span>
+            <span class="inline-flex items-center gap-1.5 font-medium muted group-hover:text-white transition-colors">
+                <span class="en-only">Read</span><span class="ku-only">بخوێنەرەوە</span>
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 rtl:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </span>
+        </div>
+    </div>
+</a>
+{%- endmacro %}
+
+{% macro row(a) -%}
+<a href="/articles/{{ a.slug }}" class="group flex items-start gap-4 py-4 border-t border-white/[.07] first:border-0">
+    <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2.5 text-[11.5px] mb-2">
+            <span class="font-medium muted">{{ a.type }}</span>
+            <span class="muted-3">·</span>
+            <span class="muted-2"><span class="en-only">{{ a.date|timeago }}</span><span class="ku-only">{{ a.date|timeago_ku }}</span></span>
+        </div>
+        <p class="en-only text-[14.5px] font-semibold leading-snug line-clamp-3 group-hover:text-white transition-colors">{{ a.title_en }}</p>
+        <p class="ku-only rtl text-[15px] font-bold leading-relaxed line-clamp-3">{{ a.title_ku or a.title_en }}</p>
+    </div>
+    <div class="w-[76px] h-[62px] shrink-0 rounded-xl overflow-hidden border border-white/[.08]">
+        {{ cover(a, 'h-full') }}
+    </div>
+</a>
+{%- endmacro %}

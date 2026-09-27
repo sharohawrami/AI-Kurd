@@ -1,56 +1,46 @@
 {% extends "base.html" %}
+{% from "_page_hero.html" import page_hero %}
 {% block title %}Our Projects — AI Kurd{% endblock %}
 
 {% block content %}
 
-<section class="relative overflow-hidden">
-    <div class="absolute inset-0 grid-bg grid-fade"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
-        <p class="font-mono text-xs text-white/40 mb-4">❯ portfolio</p>
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight en-only">Our Projects</h1>
-        <h1 class="rtl text-4xl sm:text-5xl font-black ku-only">پڕۆژەکانمان</h1>
-        <p class="mt-4 text-white/60 max-w-2xl en-only">Websites, applications, and everything else built by AI Kurd.</p>
-        <p class="rtl mt-4 text-white/60 max-w-2xl ku-only">ماڵپەڕ، ئەپڵیکەیشن و هەموو ئەوانەی لەلایەن AI Kurd دروستکراون.</p>
-    </div>
-</section>
+{{ page_hero('Portfolio', 'پۆرتفۆلیۆ', 'Our Projects', 'پڕۆژەکانمان',
+    'Websites, applications, and everything else built by AI Kurd.',
+    'ماڵپەڕ، ئەپڵیکەیشن و هەموو ئەوانەی لەلایەن AI Kurd دروستکراون.') }}
 
-<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+<section class="container-x">
 
     {% if projects %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-stagger">
         {% for p in projects %}
         <a {% if p.url %}href="{{ p.url }}" target="_blank" rel="noopener"{% endif %}
-           class="reveal glow-card border border-white/10 rounded-2xl overflow-hidden block flex flex-col">
-            {% if p.image %}
-            <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" class="w-full aspect-video object-cover border-b border-white/10">
-            {% else %}
-            <div class="w-full aspect-video grid-bg flex items-center justify-center border-b border-white/10">
-                <span class="text-3xl font-black text-white/20">{{ p.name[0] if p.name }}</span>
+           class="card card-hover overflow-hidden flex flex-col group">
+            <div class="cover aspect-video rounded-t-[19px] border-b border-white/[.06]" style="container-type:inline-size">
+                {% if p.image %}
+                <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy">
+                {% else %}
+                <div class="cover-fallback"><span>{{ (p.name or '?')[0]|upper }}</span><em class="cf-label not-italic">{{ p.category }}</em></div>
+                {% endif %}
             </div>
-            {% endif %}
             <div class="p-6 flex-1 flex flex-col">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-[11px] uppercase tracking-widest border border-white/15 rounded-full px-2.5 py-1 text-white/50">{{ p.category }}</span>
-                    {% if p.url %}<span class="text-white/40 text-sm">↗</span>{% endif %}
+                    <span class="tag">{{ p.category }}</span>
+                    {% if p.url %}<svg class="w-4 h-4 muted-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>{% endif %}
                 </div>
-                <h3 class="font-bold text-lg">{{ p.name }}</h3>
-                <p class="text-sm text-white/50 mt-2 leading-relaxed flex-1">{{ p.desc }}</p>
+                <h3 class="font-semibold text-[18px]">{{ p.name }}</h3>
+                <p class="text-[14.5px] muted mt-2 leading-relaxed flex-1">{{ p.desc }}</p>
             </div>
         </a>
         {% endfor %}
     </div>
 
     {% else %}
-    <!-- Empty state -->
-    <div class="reveal border border-dashed border-white/15 rounded-2xl py-24 px-8 text-center relative overflow-hidden">
-        <div class="absolute inset-0 grid-bg grid-fade opacity-40"></div>
-        <div class="relative">
-            <p class="text-5xl mb-6 text-white/20">◇</p>
-            <h2 class="text-2xl font-black en-only">Projects coming soon</h2>
-            <h2 class="rtl text-2xl font-black ku-only">پڕۆژەکان بەم زووانە</h2>
-            <p class="mt-3 text-white/50 max-w-md mx-auto en-only">We're building. The first AI Kurd projects will appear here.</p>
-            <p class="rtl mt-3 text-white/50 max-w-md mx-auto ku-only">خەریکی دروستکردنین. یەکەم پڕۆژەکانی AI Kurd لێرە دەردەکەون.</p>
-        </div>
+    <div class="panel py-24 px-8 text-center reveal">
+        <div class="orb-wrap !max-w-[160px] mb-8"><div class="orb-ring"></div><div class="orb-ring r2"></div><div class="orb"></div></div>
+        <h2 class="en-only display text-3xl">Projects coming soon</h2>
+        <h2 class="ku-only rtl text-3xl font-extrabold">پڕۆژەکان بەم زووانە</h2>
+        <p class="en-only mt-3 muted max-w-md mx-auto">We're building. The first AI Kurd projects will appear here.</p>
+        <p class="ku-only rtl mt-3 muted max-w-md mx-auto">خەریکی دروستکردنین. یەکەم پڕۆژەکانی AI Kurd لێرە دەردەکەون.</p>
     </div>
     {% endif %}
 

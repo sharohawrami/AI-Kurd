@@ -15,4 +15,6 @@ def home():
         settings=settings,
         featured_tool=settings.get("featured", {}),
         latest_content=articles[:6],
+        article_count=len(articles),
+        tool_count=len(load("tools")),
     )
