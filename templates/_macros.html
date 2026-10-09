@@ -7,6 +7,7 @@
 
 {% macro cover(a, extra='') -%}
 <div class="cover {{ extra }}" style="container-type: inline-size">
+    {% if a.video %}<span class="play-badge" aria-label="Video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>{% endif %}
     {% if a.image %}
     <img src="{{ a.image }}" alt="{{ a.title_en }}" loading="lazy" decoding="async">
     <div class="cover-fallback" style="display:none"><span>{{ (a.title_en or 'A')[0]|upper }}</span><em class="cf-label not-italic">{{ a.type }}</em></div>

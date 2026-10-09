@@ -19,7 +19,8 @@
   "inLanguage": ["en", "ckb"],
   "author": { "@type": "Organization", "name": "AI Kurd" },
   "publisher": { "@type": "Organization", "name": "AI Kurd" },
-  "mainEntityOfPage": {{ request.url|tojson }}
+  "mainEntityOfPage": {{ request.url|tojson }}{% if a.image %},
+  "image": {{ (a.image if '://' in a.image else request.url_root.rstrip('/') ~ a.image)|tojson }}{% endif %}
 }
 </script>
 {% endblock %}
@@ -53,10 +54,22 @@
         <p class="en-only text-[18px] muted mt-5 leading-relaxed max-w-2xl">{{ a.desc_en }}</p>
     </header>
 
+    {% set vkind, vsrc = a.video|video_embed %}
+    {% if vkind %}
+    <!-- Video -->
+    <div class="mt-10 sm:mt-12 rounded-[24px] overflow-hidden border border-white/[.1] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] bg-black aspect-video reveal visible">
+        {% if vkind == 'file' %}
+        <video class="w-full h-full" controls playsinline preload="metadata" {% if a.image %}poster="{{ a.image }}"{% endif %} src="{{ vsrc }}"></video>
+        {% else %}
+        <iframe class="w-full h-full" src="{{ vsrc }}" title="{{ a.title_en }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        {% endif %}
+    </div>
+    {% else %}
     <!-- Cover image -->
     <div class="mt-10 sm:mt-12 rounded-[24px] overflow-hidden border border-white/[.1] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] aspect-[16/9] sm:aspect-[21/9] reveal visible">
         {{ cover(a, 'h-full') }}
     </div>
+    {% endif %}
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12 sm:mt-16">
 
