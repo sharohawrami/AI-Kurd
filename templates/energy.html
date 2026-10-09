@@ -111,7 +111,7 @@
     const gKu = h < 5 ? "شەو باش، شەوگەڕ" : h < 12 ? "بەیانیت باش" : h < 17 ? "نیوەڕۆت باش" : "ئێوارەت باش";
     document.getElementById('greeting-en').textContent = gEn;
     document.getElementById('greeting-ku').textContent = gKu;
-    document.getElementById('date-line').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('date-line').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
     // ---- Mood picker ----
     const MOODS = {{ moods|tojson }};
