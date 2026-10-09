@@ -93,6 +93,25 @@ def nice_date(value):
         return value
 
 
+def video_embed(url):
+    """Return ('youtube'|'vimeo'|'file'|None, embed_src) for an article video."""
+    url = (url or "").strip()
+    if not url:
+        return None, ""
+    m = re.search(r"(?:youtube\.com/(?:watch\?v=|shorts/|embed/)|youtu\.be/)([\w-]{6,})", url)
+    if m:
+        return "youtube", f"https://www.youtube-nocookie.com/embed/{m.group(1)}?rel=0"
+    m = re.search(r"vimeo\.com/(?:video/)?(\d+)", url)
+    if m:
+        return "vimeo", f"https://player.vimeo.com/video/{m.group(1)}"
+    return "file", url
+
+
+@articles_bp.app_template_filter("video_embed")
+def _video_embed(v):
+    return video_embed(v)
+
+
 @articles_bp.app_template_filter("timeago")
 def _timeago(v):
     return timeago(v)

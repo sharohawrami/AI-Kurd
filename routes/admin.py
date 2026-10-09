@@ -8,7 +8,7 @@ import zipfile
 from datetime import date
 from functools import wraps
 
-from flask import (Blueprint, abort, flash, redirect, render_template,
+from flask import (Blueprint, abort, current_app, flash, redirect, render_template,
                    request, send_file, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
@@ -16,23 +16,40 @@ from werkzeug.utils import secure_filename
 from data.store import DATA_DIR, UPLOADS_DIR, load, save
 
 ALLOWED_IMAGE_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+ALLOWED_VIDEO_EXT = {".mp4", ".webm", ".mov", ".m4v", ".ogv"}
 
 
-def _save_uploaded_image():
-    """If an image file was uploaded, save it and return its URL (else None)."""
-    file = request.files.get("image_file")
+def _save_upload(field, allowed, label):
+    """If a file was uploaded in form field `field`, save it to the uploads
+    folder and return its public URL (else None)."""
+    file = request.files.get(field)
     if not file or not file.filename:
         return None
     ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ALLOWED_IMAGE_EXT:
-        flash("Unsupported image type.", "error")
+    if ext not in allowed:
+        flash(f"Unsupported {label} type ({ext}). Allowed: {', '.join(sorted(allowed))}", "error")
         return None
-    fname = uuid.uuid4().hex[:8] + "_" + secure_filename(file.filename)
+    fname = uuid.uuid4().hex[:8] + "_" + (secure_filename(file.filename) or label + ext)
     os.makedirs(UPLOADS_DIR, exist_ok=True)
     file.save(os.path.join(UPLOADS_DIR, fname))
     return "/uploads/" + fname
 
+
+def _save_uploaded_image():
+    return _save_upload("image_file", ALLOWED_IMAGE_EXT, "image")
+
+
+def _save_uploaded_video():
+    return _save_upload("video_file", ALLOWED_VIDEO_EXT, "video")
+
 admin_bp = Blueprint("admin", __name__)
+
+
+@admin_bp.errorhandler(413)
+def too_large(e):
+    flash("That file is too large. The limit is set by MAX_UPLOAD_MB (default 500 MB) — "
+          "compress the video or raise the limit in your environment.", "error")
+    return redirect(url_for("admin.dashboard"))
 
 
 @admin_bp.errorhandler(OSError)
@@ -52,7 +69,7 @@ COLLECTIONS = {
                 "fields": ["title", "category", "text", "image"]},
     "articles": {"label": "Articles",
                  "fields": ["title_en", "title_ku", "type", "lang", "date",
-                             "desc_en", "body_en", "body_ku", "image", "slug"]},
+                             "desc_en", "body_en", "body_ku", "image", "video", "slug"]},
     "tutorials": {"label": "Tutorials",
                   "fields": ["title_en", "title_ku", "desc_en", "level"]},
     "projects": {"label": "Our Projects",
@@ -138,6 +155,7 @@ def dashboard():
         services=load("services", {}),
         users=load("users"),
         me=current_user(),
+        max_upload_mb=current_app.config["MAX_CONTENT_LENGTH"] // (1024 * 1024),
     )
 
 
@@ -218,6 +236,10 @@ def add_item(coll):
         uploaded = _save_uploaded_image()
         if uploaded:
             item["image"] = uploaded
+    if "video" in COLLECTIONS[coll]["fields"]:
+        uploaded = _save_uploaded_video()
+        if uploaded:
+            item["video"] = uploaded
     if "slug" in COLLECTIONS[coll]["fields"]:
         _ensure_slug(item, items)
     items.append(item)
@@ -238,6 +260,10 @@ def edit_item(coll, idx):
         uploaded = _save_uploaded_image()
         if uploaded:
             items[idx]["image"] = uploaded
+    if "video" in COLLECTIONS[coll]["fields"]:
+        uploaded = _save_uploaded_video()
+        if uploaded:
+            items[idx]["video"] = uploaded
     if "slug" in COLLECTIONS[coll]["fields"]:
         _ensure_slug(items[idx], items, current_idx=idx)
     save(coll, items)
