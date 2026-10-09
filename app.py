@@ -5,6 +5,7 @@
 import os
 
 from flask import Flask, render_template, send_from_directory
+from markupsafe import Markup
 
 from data.store import UPLOADS_DIR, init_data_dir
 
@@ -33,8 +34,23 @@ def create_app():
 
     app = Flask(__name__)
     app.config["JSON_AS_ASCII"] = False  # UTF-8 for Kurdish/Arabic
+
+    # Always show Western digits (0-9), even when content was typed with
+    # Arabic-Indic (٠-٩) or Persian (۰-۹) numerals in the admin panel.
+    _digits = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+
+    def western_digits(value):
+        if isinstance(value, Markup):
+            return Markup(str(value).translate(_digits))
+        if isinstance(value, str):
+            return value.translate(_digits)
+        return value
+
+    app.jinja_env.finalize = western_digits
     # Set SECRET_KEY as an environment variable in production!
     app.secret_key = os.environ.get("SECRET_KEY", "aikurd-dev-secret-change-me")
+    # Upload size limit (images + videos). Override with MAX_UPLOAD_MB.
+    app.config["MAX_CONTENT_LENGTH"] = int(os.environ.get("MAX_UPLOAD_MB", "500")) * 1024 * 1024
 
     from routes.main import main_bp
     from routes.resources import resources_bp
