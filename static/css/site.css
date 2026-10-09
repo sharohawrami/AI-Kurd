@@ -4,6 +4,17 @@
    ===================================================================== */
 
 /* ---------- self-hosted fonts ---------- */
+/* Western digits for Kurdish text. Aria draws 0-9 in Persian shapes, so a
+   tiny digits-only font (Poppins Bold, scaled to Aria's height) sits first in
+   the Kurdish stack and takes over just for 0-9 and basic punctuation. */
+@font-face {
+    font-family: 'AI Kurd Digits';
+    src: url('../fonts/KurdishDigits.woff2') format('woff2');
+    unicode-range: U+0030-0039, U+0025, U+002B, U+002C-002F, U+003A;
+    size-adjust: 84%;
+    font-weight: 100 900;
+    font-display: swap;
+}
 /* Aria (Kurdish). Single ExtraBold cut, served for every weight so the
    browser never fakes a bold. To add more cuts, add more @font-face blocks
    with their own font-weight. */
@@ -35,7 +46,7 @@
     --radius-sm: 10px;
     --ease:      cubic-bezier(.22,1,.36,1);
     --font-en:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-ku:   'Aria', 'Vazirmatn', 'Noto Sans Arabic', system-ui, sans-serif;
+    --font-ku:   'AI Kurd Digits', 'Aria', 'Vazirmatn', 'Noto Sans Arabic', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
@@ -316,6 +327,15 @@ a:hover .cover img, .card-hover:hover .cover img { transform: scale(1.04); }
     text-transform: uppercase; color: rgba(255,255,255,.45); background: none; -webkit-text-fill-color: rgba(255,255,255,.45);
     font-weight: 600; line-height: 1; font-family: var(--font-mono);
 }
+.play-badge {
+    position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 15cqw; height: 15cqw; min-width: 36px; min-height: 36px; max-width: 64px; max-height: 64px;
+    border-radius: 50%; display: grid; place-items: center; color: #000;
+    background: rgba(255,255,255,.92); box-shadow: 0 10px 30px rgba(0,0,0,.5);
+    transition: transform .4s var(--ease), background .2s;
+}
+.play-badge svg { width: 50%; height: 50%; margin-inline-start: 6%; }
+a:hover .play-badge, .card-hover:hover .play-badge { transform: translate(-50%, -50%) scale(1.08); background: #fff; }
 .cover-shade {
     position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.55) 75%, rgba(0,0,0,.85) 100%);
