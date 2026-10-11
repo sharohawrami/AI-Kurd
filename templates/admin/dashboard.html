@@ -10,8 +10,9 @@
     <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /uploads/… (or upload a file below)"
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
     {% elif name == 'video' %}
-    <input name="{{ name }}" value="{{ value }}" placeholder="YouTube / Vimeo link, or /uploads/… (or upload a file below)"
+    <input name="{{ name }}" value="{{ value }}" placeholder="YouTube / Vimeo link, or a direct .mp4 link (or upload a file below)"
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+    <p class="text-[11.5px] muted-2 mt-1.5">Plays on the site: YouTube, Vimeo, uploaded files, direct .mp4 links. A link to a news site's page (CGTN, BBC, Instagram, TikTok…) can't be played here — download the video and upload it below instead; otherwise visitors get a "Watch video ↗" button.</p>
     {% else %}
     <input name="{{ name }}" value="{{ value }}" {% if rtl %}dir="rtl"{% endif %}
         class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">
