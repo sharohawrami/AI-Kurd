@@ -167,8 +167,11 @@
                 player.classList.add('hidden'); frame.classList.remove('hidden');
                 frame.src = yt ? `https://www.youtube-nocookie.com/embed/${yt[1]}` : `https://player.vimeo.com/video/${vm[1]}`;
                 info.textContent = yt ? 'YouTube video' : 'Vimeo video';
-            } else if (v) {
+            } else if (/\.(mp4|webm|m4v|ogv|mov)(\?|#|$)/i.test(v) || v.startsWith('/uploads/')) {
                 frame.classList.add('hidden'); player.classList.remove('hidden'); player.src = v; info.textContent = v;
+            } else if (v) {
+                frame.classList.add('hidden'); player.classList.add('hidden');
+                info.textContent = '⚠ This is a web page, not a video file — it cannot be played on the site. Visitors will get a "Watch video ↗" button. To play it here, download the video and upload it below.';
             }
         });
     });
