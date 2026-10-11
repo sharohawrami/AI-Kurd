@@ -218,7 +218,7 @@ def _slugify(text):
 
 def _ensure_slug(item, items, current_idx=None):
     """Articles need a unique slug — generate from the title if empty."""
-    slug = item.get("slug", "").strip() or _slugify(item.get("title_en", ""))
+    slug = _slugify(item.get("slug", "").strip() or item.get("title_en", ""))
     taken = {x.get("slug") for i, x in enumerate(items) if i != current_idx}
     base, n = slug, 2
     while slug in taken:

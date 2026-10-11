@@ -104,7 +104,13 @@ def video_embed(url):
     m = re.search(r"vimeo\.com/(?:video/)?(\d+)", url)
     if m:
         return "vimeo", f"https://player.vimeo.com/video/{m.group(1)}"
-    return "file", url
+    # A real media file we can play in <video>: our own upload or a direct link
+    # ending in a video extension. Anything else (a news site's page, a
+    # protected stream) can't be played here — we show a "watch at source" link.
+    path = url.split("?")[0].split("#")[0].lower()
+    if url.startswith("/uploads/") or path.endswith((".mp4", ".webm", ".m4v", ".ogv", ".mov")):
+        return "file", url
+    return "link", url
 
 
 @articles_bp.app_template_filter("video_embed")
