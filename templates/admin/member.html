@@ -1,0 +1,56 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ m.full_name }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/members">Members</a></p>
+  <h1>{{ m.full_name }}</h1>
+  {% if m.name_ku %}<p class="lede"><span lang="ckb" dir="rtl">{{ m.name_ku }}</span></p>{% endif %}
+</header>
+<section class="adm-card member-card">
+  <div class="portrait portrait-sm">{{ portrait|safe }}</div>
+  <dl class="answers">
+    <div><dt>Email</dt><dd><a href="mailto:{{ m.email }}">{{ m.email }}</a></dd></div>
+    <div><dt>What they do</dt><dd>{{ m.occupation or '—' }}</dd></div>
+    <div><dt>City</dt><dd>{{ m.city or '—' }}</dd></div>
+    <div><dt>About</dt><dd>{{ m.bio or '—' }}</dd></div>
+    <div><dt>Interests</dt><dd>{{ interests|join(', ') if interests else '—' }}</dd></div>
+    <div><dt>Link</dt><dd>{% if m.link %}<a href="{{ m.link }}" rel="nofollow noopener" target="_blank">{{ m.link }}</a>{% else %}—{% endif %}</dd></div>
+    <div><dt>Language</dt><dd>{{ 'Kurdish (Sorani)' if m.language == 'ku' else 'English' }}</dd></div>
+    <div><dt>Joined</dt><dd>{{ fmt(m.created_at, 'en') }}</dd></div>
+    <div><dt>Last sign-in</dt><dd>{{ m.last_login[:16].replace('T', ' ') if m.last_login else 'Never' }}</dd></div>
+    <div><dt>Status</dt><dd>{% if m.active %}<span class="chip-ok">Active</span>{% else %}<span class="chip-draft">Paused: can't sign in</span>{% endif %}{% if m.must_change_password %} · has a temporary password{% endif %}</dd></div>
+  </dl>
+</section>
+<section class="adm-card">
+  <h2>Account</h2>
+  <div class="actions">
+    <form method="post" action="/admin/members/{{ m.id }}/reset">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <button class="btn btn-quiet btn-sm" type="submit">Give a temporary password</button>
+    </form>
+    <form method="post" action="/admin/members/{{ m.id }}/active">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <input type="hidden" name="active" value="{{ '0' if m.active else '1' }}">
+      <button class="btn btn-quiet btn-sm" type="submit">{{ 'Pause this account' if m.active else 'Let them sign in again' }}</button>
+    </form>
+  </div>
+  <p class="muted">Use a temporary password when a member forgets theirs: they sign in with it and then choose their own.</p>
+</section>
+<section class="adm-card danger">
+  <h2>Delete this member</h2>
+  <p>Removes the account, profile and picture for good.</p>
+  <form method="post" action="/admin/members/{{ m.id }}/delete" class="confirm-delete">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <button class="btn btn-sm btn-danger" type="submit" data-confirm="Click again to delete">Delete {{ m.full_name }}</button>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("[data-confirm]").forEach(function (b) {
+  b.addEventListener("click", function (e) {
+    if (!b.dataset.armed) { e.preventDefault(); b.dataset.armed = "1"; b.textContent = b.dataset.confirm; }
+  });
+});
+</script>
+{% endblock %}

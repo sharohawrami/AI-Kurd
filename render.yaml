@@ -1,0 +1,22 @@
+# Render Blueprint: in the Render dashboard choose New > Blueprint and pick this repository.
+# One web service (smallest paid instance) in Frankfurt, the region closest to Kurdistan,
+# with a 1 GB disk at /data for the database, uploaded pictures and the session key.
+services:
+  - type: web
+    name: kaish
+    runtime: docker
+    plan: 0.5c-512mb
+    region: frankfurt
+    healthCheckPath: /
+    autoDeployTrigger: commit
+    disk:
+      name: kaish-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: KAISH_DATA_DIR
+        value: /data
+      - key: KAISH_SECURE_COOKIES
+        value: "1"
+      - key: KAISH_PROXY
+        value: "1"

@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ u.name_en or u.name_ku }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">University panel</p>
+  <h1>{{ u.name_en or u.name_ku }}</h1>
+  <p class="lede">From here you keep your university's page on the Kurdistan AI Safety Hub up to date: its details, its news and events, and courses that people can apply for.</p>
+  {% if not u.published %}<p class="note">Your page is a draft for now. The Hub team publishes it when it's ready.</p>{% endif %}
+</header>
+
+<section class="adm-tiles" aria-label="At a glance">
+  <a class="tile" href="/admin/universities/{{ u.id }}/courses"><b>{{ courses|length }}</b><span>Courses</span></a>
+  <a class="tile" href="/admin/universities/{{ u.id }}/courses"><b>{{ apps.values()|sum }}</b><span>Applications</span></a>
+  <a class="tile" href="/admin/news"><b>{{ posts }}</b><span>News and events</span></a>
+</section>
+
+<section class="adm-card">
+  <h2>What would you like to do?</h2>
+  <div class="actions">
+    <a class="btn" href="/admin/universities/{{ u.id }}/courses/new">Open a new course</a>
+    <a class="btn btn-quiet" href="/admin/news/new">Post news or an event</a>
+    <a class="btn btn-quiet" href="/admin/universities/{{ u.id }}">Edit the university page</a>
+    <a class="btn btn-quiet" href="/universities/{{ u.slug }}" target="_blank" rel="noopener">View the page ↗</a>
+  </div>
+</section>
+
+{% if courses %}
+<section class="adm-card">
+  <h2>Your courses</h2>
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Course</th><th>Applications</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for c in courses %}
+      <tr>
+        <td><a href="/admin/courses/{{ c.id }}"><b>{{ c.title_en or c.title_ku }}</b></a></td>
+        <td><a href="/admin/courses/{{ c.id }}/applications">{{ apps[c.id] }}</a></td>
+        <td>{% if not c.published %}<span class="chip-draft">Draft</span>{% elif is_open(c) %}<span class="chip-ok">Taking applications</span>{% else %}<span class="chip-draft">Closed</span>{% endif %}</td>
+        <td class="row-actions"><a href="/admin/courses/{{ c.id }}">Edit</a><a href="/admin/courses/{{ c.id }}/applications">Applications</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

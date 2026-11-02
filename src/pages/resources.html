@@ -1,0 +1,283 @@
+<!--
+out: resources.html
+nav: resources
+title: Reading library · Kurdistan AI Safety Hub
+description: Core AI safety papers with summaries and reading guides, plus open syllabi and self-study paths. Free to use.
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">Home</a> / Reading library</p>
+    <h1>Reading library</h1>
+    <p class="lede">The papers and open curricula we teach from, with notes on why each one matters and how to read it. Use them in our programs or on your own. Everything here is free to access.</p>
+    <nav class="chips" aria-label="Sections">
+      <a class="chip" href="#start">Start here</a>
+      <a class="chip" href="#alignment">Alignment</a>
+      <a class="chip" href="#interpretability">Interpretability</a>
+      <a class="chip" href="#governance">Evaluations and governance</a>
+      <a class="chip" href="#syllabi">Open syllabi</a>
+      <a class="chip" href="#paths">Study paths</a>
+    </nav>
+  </div>
+</header>
+
+<section class="sec" data-sec="method">
+  <div class="wrap sec-grid">
+    <p class="sec-label">Method</p>
+    <div class="sec-body">
+      <div class="callout" data-sec="note-how-to-read-a-paper">
+        <h3>How to read a paper</h3>
+        <p>We use a three-pass method, adapted from S. Keshav’s <em>How to Read a Paper</em> (2007).</p>
+        <ol>
+          <li><strong>Pass one, 15 minutes.</strong> Title, abstract, introduction, figures, conclusion. Can you state the main claim in one sentence?</li>
+          <li><strong>Pass two, about an hour.</strong> Methods and results. Separate what the authors claim from what their experiments show, and list the assumptions.</li>
+          <li><strong>Pass three, only for papers you’ll build on.</strong> Reproduce one figure or result in code.</li>
+        </ol>
+        <p>Bring three things to every discussion: one point you’d defend, one you doubt, and one question.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="papers" data-sec="papers">
+  <div class="wrap sec-grid">
+    <p class="sec-label">Core papers · 20</p>
+    <div class="sec-body">
+
+      <div class="group-h" id="start"><h3>Start here</h3><p>4 papers</p></div>
+      <div class="papers">
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">Concrete Problems in AI Safety</a></h4>
+          <p class="pmeta"><span>Amodei et al.</span><span>2016</span><span class="wk">Week 4</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Frames five practical research problems (side effects, reward hacking, scalable supervision, safe exploration, distributional shift) with simple machine-learning examples.</p><p><span class="k">How to read it</span>Read sections 1 and 2 and the one problem that interests you most. Ask which of the five has seen real progress since 2016.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2209.00626" target="_blank" rel="noopener">The Alignment Problem from a Deep Learning Perspective</a></h4>
+          <p class="pmeta"><span>Ngo, Chan and Mindermann</span><span>2022</span><span class="wk">Week 4</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Argues how models trained with today’s methods could come to pursue goals that conflict with their developers’ intentions.</p><p><span class="k">How to read it</span>Read in full. Mark each claim as supported by evidence or argued from theory.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2109.13916" target="_blank" rel="noopener">Unsolved Problems in ML Safety</a></h4>
+          <p class="pmeta"><span>Hendrycks, Carlini, Schulman and Steinhardt</span><span>2021</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Maps safety research into robustness, monitoring, alignment and systemic safety.</p><p><span class="k">How to read it</span>Skim it as a map of the field, then go deep on one area.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026" target="_blank" rel="noopener">International AI Safety Report 2026</a></h4>
+          <p class="pmeta"><span>Bengio (chair) et al.</span><span>2026</span><span class="wk">Week 10</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>The second edition of the government-backed synthesis of evidence on the capabilities, risks and safeguards of general-purpose AI, written by over 100 experts.</p><p><span class="k">How to read it</span>Read the executive summary first, then the chapter on risk management.</p></div>
+        </article>
+      </div>
+
+      <div class="group-h" id="alignment"><h3>Alignment</h3><p>7 papers</p></div>
+      <div class="papers">
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep Reinforcement Learning from Human Preferences</a></h4>
+          <p class="pmeta"><span>Christiano et al.</span><span>2017</span><span class="wk">Week 5</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>An agent can learn complex behaviour from a reward model trained on human comparisons of short clips, with feedback on a small fraction of its experience.</p><p><span class="k">How to read it</span>Focus on the reward-model setup. Ask what happens if raters can be fooled.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Training Language Models to Follow Instructions with Human Feedback</a></h4>
+          <p class="pmeta"><span>Ouyang et al.</span><span>2022</span><span class="wk">Week 5</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>The InstructGPT pipeline: supervised fine-tuning, a reward model, then RLHF. Raters preferred a much smaller fine-tuned model over the original GPT-3.</p><p><span class="k">How to read it</span>Read the methods and the main results figures. Note whose preferences are being optimised.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">Constitutional AI: Harmlessness from AI Feedback</a></h4>
+          <p class="pmeta"><span>Bai et al.</span><span>2022</span><span class="wk">Week 5</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Trains a harmless assistant from a written set of principles and AI-generated feedback in place of human harm labels.</p><p><span class="k">How to read it</span>Compare it step by step with InstructGPT. Ask who writes the constitution.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2105.14111" target="_blank" rel="noopener">Goal Misgeneralization in Deep Reinforcement Learning</a></h4>
+          <p class="pmeta"><span>Langosco et al.</span><span>2022</span><span class="wk">Week 4</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Agents can keep their skills out of distribution while pursuing the wrong goal, such as heading for the end of a level instead of the coin.</p><p><span class="k">How to read it</span>Read the introduction and the CoinRun experiment. Ask how you’d detect this before deployment.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2312.09390" target="_blank" rel="noopener">Weak-to-Strong Generalization</a></h4>
+          <p class="pmeta"><span>Burns et al.</span><span>2023</span><span class="wk">Week 6</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Tests whether a weak model’s labels can draw out a stronger model’s abilities, as an analogy for humans supervising more capable systems.</p><p><span class="k">How to read it</span>Understand the “performance gap recovered” metric. Ask where the analogy breaks.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2401.05566" target="_blank" rel="noopener">Sleeper Agents</a></h4>
+          <p class="pmeta"><span>Hubinger et al.</span><span>2024</span><span class="wk">Week 6</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Deliberately backdoored behaviour in language models can survive standard safety training.</p><p><span class="k">How to read it</span>Separate what is shown (an inserted behaviour persists) from what is not (that such behaviour arises on its own).</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2312.06942" target="_blank" rel="noopener">AI Control: Improving Safety Despite Intentional Subversion</a></h4>
+          <p class="pmeta"><span>Greenblatt et al.</span><span>2023</span><span class="wk">Week 6</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Evaluates protocols for using a possibly untrustworthy model safely, with a weaker trusted model and limited human review.</p><p><span class="k">How to read it</span>Focus on the red-team and blue-team setup. Ask which assumptions make the problem tractable.</p></div>
+        </article>
+      </div>
+
+      <div class="group-h" id="interpretability"><h3>Interpretability</h3><p>6 papers</p></div>
+      <div class="papers">
+        <article class="paper">
+          <h4><a href="https://distill.pub/2020/circuits/zoom-in/" target="_blank" rel="noopener">Zoom In: An Introduction to Circuits</a></h4>
+          <p class="pmeta"><span>Olah et al.</span><span>2020</span><span class="wk">Week 7</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Argues that networks can be understood as features connected into circuits, with evidence from vision models.</p><p><span class="k">How to read it</span>Read in full. List its three central claims and the evidence offered for each.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://transformer-circuits.pub/2021/framework/index.html" target="_blank" rel="noopener">A Mathematical Framework for Transformer Circuits</a></h4>
+          <p class="pmeta"><span>Elhage et al.</span><span>2021</span><span class="wk">Week 7</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Decomposes small attention-only transformers into interpretable paths and introduces the residual stream view.</p><p><span class="k">How to read it</span>Work through it with a notebook open. Reread the residual stream section until you can explain it aloud.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" target="_blank" rel="noopener">In-context Learning and Induction Heads</a></h4>
+          <p class="pmeta"><span>Olsson et al.</span><span>2022</span><span class="wk">Week 7</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Presents evidence that induction heads drive much of in-context learning and form during a sudden phase change in training.</p><p><span class="k">How to read it</span>Rate the strength of each line of evidence separately.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2211.00593" target="_blank" rel="noopener">Interpretability in the Wild</a></h4>
+          <p class="pmeta"><span>Wang et al.</span><span>2022</span><span class="wk">Week 8</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Reverse-engineers the circuit GPT-2 small uses to complete sentences such as “Mary and John went to the store; John gave a drink to …”</p><p><span class="k">How to read it</span>Follow the activation-patching figures. Note the faithfulness, completeness and minimality tests.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://transformer-circuits.pub/2022/toy_model/index.html" target="_blank" rel="noopener">Toy Models of Superposition</a></h4>
+          <p class="pmeta"><span>Elhage et al.</span><span>2022</span><span class="wk">Week 9</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Small networks store more features than they have dimensions when features are sparse, which explains polysemantic neurons.</p><p><span class="k">How to read it</span>Read the introduction and key results, then run the accompanying notebook.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://transformer-circuits.pub/2023/monosemantic-features/index.html" target="_blank" rel="noopener">Towards Monosemanticity</a></h4>
+          <p class="pmeta"><span>Bricken et al.</span><span>2023</span><span class="wk">Week 9</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Sparse autoencoders extract features from a small transformer that are far more interpretable than its neurons.</p><p><span class="k">How to read it</span>Browse the interactive feature pages. Ask how you would know a feature’s label is correct.</p></div>
+        </article>
+      </div>
+
+      <div class="group-h" id="governance"><h3>Evaluations and governance</h3><p>3 papers</p></div>
+      <div class="papers">
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2305.15324" target="_blank" rel="noopener">Model Evaluation for Extreme Risks</a></h4>
+          <p class="pmeta"><span>Shevlane et al.</span><span>2023</span><span class="wk">Week 10</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Argues for evaluating dangerous capabilities and alignment, and for feeding the results into training, deployment and security decisions.</p><p><span class="k">How to read it</span>Read the framework section. Ask who should run evaluations, and who checks them.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2307.03718" target="_blank" rel="noopener">Frontier AI Regulation</a></h4>
+          <p class="pmeta"><span>Anderljung et al.</span><span>2023</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Proposes building blocks for regulating the most capable models: standards, registration and reporting, and compliance mechanisms.</p><p><span class="k">How to read it</span>Compare its proposals with what governments have done since. Ask which could apply in Iraq.</p></div>
+        </article>
+        <article class="paper">
+          <h4><a href="https://arxiv.org/abs/2402.08797" target="_blank" rel="noopener">Computing Power and the Governance of Artificial Intelligence</a></h4>
+          <p class="pmeta"><span>Sastry et al.</span><span>2024</span><span class="wk">Week 10</span></p>
+          <div class="pcols"><p><span class="k">What it shows</span>Argues compute is unusually governable, since it is detectable, excludable, quantifiable and concentrated, and weighs the policy options.</p><p><span class="k">How to read it</span>Read the summary and one policy section. Ask what compute governance means for countries that import all their hardware.</p></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="syllabi" data-sec="syllabi">
+  <div class="wrap sec-grid">
+    <p class="sec-label">Open syllabi</p>
+    <div class="sec-body">
+      <h2>Our syllabi</h2>
+      <p class="prose">Everything we teach is published here under a Creative Commons Attribution licence (CC BY 4.0). Use it, adapt it, and credit the Hub.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Syllabus</th><th scope="col">Format</th><th scope="col">Available</th></tr></thead>
+          <tbody>
+            <tr><td><a href="{{root}}courses/12-week-program.html#syllabus">{{program_name}}, Cohort 1</a></td><td>Web page</td><td>Now</td></tr>
+            <tr><td>Program reading list</td><td>Spreadsheet (CSV)</td><td>{{week0_date}}</td></tr>
+            <tr><td>Week 0 prep pack</td><td>Colab notebooks</td><td>{{week0_date}}</td></tr>
+            <tr><td>Reading group guides</td><td>One page per paper</td><td>From {{reading_groups_start}}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Open curricula we recommend</h2>
+      <p class="prose">Free, well-maintained material from established programs. We are not affiliated with these organizations.</p>
+      <div class="res">
+        <div>
+          <div><h4><a href="https://learn.arena.education" target="_blank" rel="noopener">ARENA curriculum</a></h4><p class="from">ARENA, London Initiative for Safe AI</p></div>
+          <p>Exercise notebooks from PyTorch fundamentals to transformers, interpretability, reinforcement learning, evaluations and alignment science.</p>
+          <p class="muted">Self-study of the skills in Weeks 1 to 9</p>
+        </div>
+        <div>
+          <div><h4><a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener">Technical AI Safety course</a></h4><p class="from">BlueDot Impact</p></div>
+          <p>A free, cohort-based online course of about 30 hours on current safety techniques and open problems.</p>
+          <p class="muted">A structured overview with a discussion group</p>
+        </div>
+        <div>
+          <div><h4><a href="https://ai-safety-atlas.com" target="_blank" rel="noopener">AI Safety Atlas</a></h4><p class="from">AI Safety Atlas</p></div>
+          <p>An open textbook that distills the field chapter by chapter.</p>
+          <p class="muted">Conceptual background for Weeks 4 to 6 and 10</p>
+        </div>
+        <div>
+          <div><h4><a href="https://www.aisafetybook.com" target="_blank" rel="noopener">Introduction to AI Safety, Ethics and Society</a></h4><p class="from">Center for AI Safety</p></div>
+          <p>A free textbook with lecture videos, largely non-technical.</p>
+          <p class="muted">Societal risk and governance</p>
+        </div>
+        <div>
+          <div><h4><a href="https://karpathy.ai/zero-to-hero.html" target="_blank" rel="noopener">Neural Networks: Zero to Hero</a></h4><p class="from">Andrej Karpathy</p></div>
+          <p>Video lectures that build neural networks from scratch up to GPT.</p>
+          <p class="muted">Prerequisites, Weeks 1 and 3</p>
+        </div>
+        <div>
+          <div><h4><a href="https://www.alignmentforum.org/posts/9ezkEb9oGvEi6WoB3/concrete-steps-to-get-started-in-transformer-mechanistic" target="_blank" rel="noopener">Concrete Steps to Get Started in Transformer Mechanistic Interpretability</a></h4><p class="from">Neel Nanda</p></div>
+          <p>A step-by-step guide with success criteria for each stage.</p>
+          <p class="muted">The interpretability path</p>
+        </div>
+        <div>
+          <div><h4><a href="https://github.com/TransformerLensOrg/TransformerLens" target="_blank" rel="noopener">TransformerLens</a></h4><p class="from">Open-source maintainers</p></div>
+          <p>A Python library for interpretability research on language models.</p>
+          <p class="muted">Weeks 7 to 9 drills</p>
+        </div>
+        <div>
+          <div><h4><a href="https://github.com/UKGovernmentBEIS/inspect_ai" target="_blank" rel="noopener">Inspect</a></h4><p class="from">UK AI Security Institute</p></div>
+          <p>An open-source framework for language model evaluations.</p>
+          <p class="muted">Week 10 drill</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="paths" data-sec="paths">
+  <div class="wrap sec-grid">
+    <p class="sec-label">Study paths</p>
+    <div class="sec-body">
+      <h2>Four routes through this library</h2>
+      <p class="prose">For self-learners. Each path has a time estimate and a clear finish line.</p>
+      <div class="paths">
+        <article class="path">
+          <p class="when">Path 0 · 6 to 8 weeks · about 5 h a week</p>
+          <h3>Get ready for the program</h3>
+          <ol>
+            <li>Python until you can write classes and use NumPy arrays without loops.</li>
+            <li>3Blue1Brown’s <em>Essence of Linear Algebra</em> and <em>Neural Networks</em> video series.</li>
+            <li><em>Neural Networks: Zero to Hero</em>, lectures 1 and 2.</li>
+          </ol>
+          <p class="done"><strong>Done when</strong> you pass the self-check on the <a href="{{root}}courses/12-week-program.html#prerequisites">program page</a>.</p>
+        </article>
+        <article class="path">
+          <p class="when">Path A · 12 to 16 weeks · about 10 h a week</p>
+          <h3>Technical alignment</h3>
+          <ol>
+            <li>ARENA Chapter 0 (fundamentals), then the first sections of Chapter 1 (transformers).</li>
+            <li>The Start here and Alignment papers above, in order.</li>
+            <li>BlueDot’s Technical AI Safety course alongside, for discussion.</li>
+          </ol>
+          <p class="done"><strong>Done when</strong> you’ve replicated one result from a paper in this library, with a public repository and a two-page write-up.</p>
+        </article>
+        <article class="path">
+          <p class="when">Path B · 10 to 12 weeks · about 8 h a week</p>
+          <h3>Mechanistic interpretability</h3>
+          <ol>
+            <li>Karpathy’s <em>Let’s build GPT</em> lecture.</li>
+            <li>Neel Nanda’s <em>Concrete Steps</em> guide.</li>
+            <li>ARENA Chapter 1 sections on TransformerLens, induction heads, indirect object identification, superposition and sparse autoencoders.</li>
+            <li>The interpretability papers above, in order.</li>
+          </ol>
+          <p class="done"><strong>Done when</strong> you can present a behaviour in GPT-2 small and the patching evidence for the circuit behind it.</p>
+        </article>
+        <article class="path">
+          <p class="when">Path C · 8 to 10 weeks · about 5 h a week</p>
+          <h3>AI governance with technical literacy</h3>
+          <ol>
+            <li>BlueDot’s AGI Strategy course, then its Frontier AI Governance course.</li>
+            <li>The governance chapters of <em>Introduction to AI Safety, Ethics and Society</em>.</li>
+            <li>The International AI Safety Report 2026, then the evaluations and governance papers above.</li>
+          </ol>
+          <p class="done"><strong>Done when</strong> you’ve written a two-page brief on one AI governance question facing Iraq or the Kurdistan Region.</p>
+        </article>
+      </div>
+      <p class="prose muted">Know a paper or course that belongs here? Email {{mail:email_library}} with the link and one sentence on why.</p>
+    </div>
+  </div>
+</section>

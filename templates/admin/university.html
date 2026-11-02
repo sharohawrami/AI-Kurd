@@ -1,0 +1,114 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ u.name_en or u.name_ku }}{% endblock %}
+{% block main %}
+{% set staff = is_staff(me) %}
+<header class="adm-head">
+  <p class="eyebrow">{% if staff %}<a href="/admin/universities">Universities</a>{% else %}<a href="/admin/uni">My university</a>{% endif %}</p>
+  <h1>{{ u.name_en or u.name_ku }}</h1>
+  <div class="actions">
+    <a class="btn btn-quiet" href="/universities/{{ u.slug }}" target="_blank" rel="noopener">View in English ↗</a>
+    <a class="btn btn-quiet" href="/ku/universities/{{ u.slug }}" target="_blank" rel="noopener">View in Kurdish ↗</a>
+    <a class="btn btn-quiet" href="/admin/universities/{{ u.id }}/courses">Courses and applications</a>
+  </div>
+  {% if not u.published %}<p class="note">This page is a draft. Only admins and this university's representatives can see it.{% if not staff %} The Hub team publishes it when it's ready.{% endif %}</p>{% endif %}
+</header>
+
+<form method="post" enctype="multipart/form-data" class="adm-card post-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <fieldset class="set-group">
+    <legend>Logo</legend>
+    <div class="pic-row">
+      <div class="pic-preview logo-preview">{% if u.logo %}<img src="/uploads/{{ u.logo }}" alt="">{% else %}<span class="thumb-empty big"></span>{% endif %}</div>
+      <div class="field">
+        <label for="logo">{{ 'Replace the logo' if u.logo else 'Add a logo' }}</label>
+        <input id="logo" name="logo" type="file" accept="image/jpeg,image/png,image/webp">
+        <p class="help">JPEG, PNG or WebP, up to 10 MB. A square logo works best. Without one, the page shows the Hub's diamond.</p>
+        {% if u.logo %}<label class="opt"><input type="checkbox" name="remove_logo" value="1"> Remove the logo</label>{% endif %}
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="two-lang">
+    <fieldset class="set-group">
+      <legend>English</legend>
+      <div class="field"><label for="name_en">Name</label><input id="name_en" name="name_en" type="text" value="{{ u.name_en }}"></div>
+      <div class="field"><label for="city_en">City</label><input id="city_en" name="city_en" type="text" value="{{ u.city_en }}"></div>
+      <div class="field"><label for="about_en">About the university <span class="opt-tag">leave a blank line between paragraphs</span></label><textarea id="about_en" name="about_en" rows="7">{{ u.about_en }}</textarea></div>
+    </fieldset>
+    <fieldset class="set-group" lang="ckb" dir="rtl">
+      <legend>کوردی</legend>
+      <div class="field"><label for="name_ku">ناو</label><input id="name_ku" name="name_ku" type="text" value="{{ u.name_ku }}"></div>
+      <div class="field"><label for="city_ku">شار</label><input id="city_ku" name="city_ku" type="text" value="{{ u.city_ku }}"></div>
+      <div class="field"><label for="about_ku">دەربارەی زانکۆ</label><textarea id="about_ku" name="about_ku" rows="7">{{ u.about_ku }}</textarea></div>
+    </fieldset>
+  </div>
+  <div class="field"><label for="website">Website</label><input id="website" name="website" type="url" dir="ltr" placeholder="https://" value="{{ u.website }}"></div>
+  <p class="help">If one language is left empty, that page shows the other language's text instead.</p>
+
+  <div class="sticky-save">
+    {% if staff %}<label class="opt publish"><input type="checkbox" name="published" value="1" {% if u.published %}checked{% endif %}> Published on the website</label>{% else %}<span class="muted">{{ 'Published on the website' if u.published else 'Draft: not on the website yet' }}</span>{% endif %}
+    <button class="btn" type="submit">Save</button>
+  </div>
+</form>
+
+{% if staff %}
+<section class="adm-card">
+  <h2>Representatives</h2>
+  <p class="muted">People from the university who keep this page up to date. Their sign-in can edit this page, post news and events for this university, open courses and read their applications. Nothing else in the admin panel.</p>
+  {% if reps %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Last sign-in</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for r in reps %}
+      <tr>
+        <td><b>{{ r.display_name }}</b><br><span class="muted">{{ r.username }}</span></td>
+        <td>{% if not r.active %}<span class="chip-draft">Deactivated</span>{% elif r.must_change_password %}<span class="chip-draft">Must choose a password</span>{% else %}<span class="chip-ok">Active</span>{% endif %}</td>
+        <td class="nowrap">{{ r.last_login[:16].replace('T', ' ') if r.last_login else 'Never' }}</td>
+        <td class="row-actions">
+          <form method="post" action="/admin/universities/{{ u.id }}/reps/{{ r.id }}/reset" data-confirm><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn" type="submit">Reset password</button></form>
+          <form method="post" action="/admin/universities/{{ u.id }}/reps/{{ r.id }}/delete" data-confirm><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn danger-link" type="submit">Remove</button></form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% endif %}
+  <form method="post" action="/admin/universities/{{ u.id }}/reps" class="add-user">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="nr-username">Username</label><input id="nr-username" name="username" type="text" autocapitalize="none" spellcheck="false" required pattern="[a-z0-9._-]{3,32}" placeholder="e.g. su-media"><p class="help">Lowercase letters, numbers, dots or dashes.</p></div>
+    <div class="field"><label for="nr-name">Full name</label><input id="nr-name" name="display_name" type="text" required></div>
+    <div class="field add-btn"><button class="btn" type="submit">Add a representative</button></div>
+  </form>
+  <p class="help">You'll see a one-time password to give them. They sign in at <code>{{ request.host_url }}login</code> and choose their own password.</p>
+</section>
+
+<form method="post" action="/admin/universities/{{ u.id }}/delete" class="adm-card danger" data-confirm>
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <h2>Delete this university</h2>
+  <p class="muted">Removes the page, its courses and their applications, its news and events, and its representatives' sign-ins, for good. To take the page offline for a while instead, untick “Published on the website”.</p>
+  <button class="btn btn-quiet" type="submit">Delete university</button>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var img = document.getElementById("logo"), prev = document.querySelector(".pic-preview");
+  img.addEventListener("change", function () {
+    if (!img.files[0]) return;
+    prev.innerHTML = "";
+    var el = document.createElement("img"); el.src = URL.createObjectURL(img.files[0]); el.alt = ""; prev.appendChild(el);
+  });
+  document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+    var armed = false, btn = f.querySelector("button"), label = btn.textContent;
+    f.addEventListener("submit", function (e) {
+      if (armed) return;
+      e.preventDefault(); armed = true; btn.textContent = "Click again to confirm";
+      setTimeout(function () { armed = false; btn.textContent = label; }, 5000);
+    });
+  });
+})();
+</script>
+{% endblock %}

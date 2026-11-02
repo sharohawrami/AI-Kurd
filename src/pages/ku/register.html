@@ -1,0 +1,63 @@
+<!--
+out: register.html
+nav: account
+title: دروستکردنی هەژمار · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: هەژمارێکی بەخۆڕایی لە ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد دروست بکە، لەگەڵ پرۆفایلی خۆت.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap">
+    <div class="loom-card loom-wide">
+      <div class="loom-band">{{kilim}}</div>
+      <div class="loom-body">
+        <span class="loom-mark">{{mark_svg}}</span>
+        <p class="eyebrow">ئەندامان</p>
+        <h1>هەژمارەکەت دروست بکە</h1>
+        <p class="loom-lede">هەژمارێکی بەخۆڕایی پرۆفایلێکت لە ناوەندەکە پێ دەدات: وێنەکەت، شارەکەت و ئەو بەشانەی سەلامەتیی زیرەکیی دەستکرد کە گرنگن بۆت. تەنها خۆت و تیمی ناوەندەکە دەیبینن.</p>
+        <p class="loom-note">هەژمار داواکاری نییە. بۆ بەشداربوون لە خولی یەکەم، <a href="{{root}}apply.html">بە جیا داواکاری پێشکەش بکە</a>.</p>
+        <p class="acct-alert" role="alert"{{show_closed}}>لە ئێستادا هەژماری نوێ وەرناگرین. تکایە دواتر سەردانمان بکەرەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_missing}}>ناو، ئیمەیڵ و وشەی نهێنییەکەت پڕ بکەرەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_email}}>ناونیشانێکی دروستی ئیمەیڵ بنووسە، وەک name@example.com.</p>
+        <p class="acct-alert" role="alert"{{show_err_taken}}>هەژمارێک بەم ئیمەیڵە هەیە. لە جیاتی ئەوە <a href="{{root}}signin">بچۆ ژوورەوە</a>.</p>
+        <p class="acct-alert" role="alert"{{show_err_short}}>وشەی نهێنییەکەت دەبێت لانیکەم ١٠ پیت بێت، نەک تەنها یەک پیتی دووبارەکراوە. ڕستەیەکی کورت کە لەبیرت بمێنێت باشە.</p>
+        <p class="acct-alert" role="alert"{{show_err_match}}>دوو وشە نهێنییەکە وەک یەک نین.</p>
+        <p class="acct-alert" role="alert"{{show_err_consent}}>خانەکە نیشان بکە بۆ ئەوەی بیسەلمێنیت ڕاگەیەندراوی تایبەتمەندیت خوێندووەتەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_rate}}>لەم پەیوەندییەوە هەژماری نوێی زۆر دروست کراوە. پاش کاتژمێرێک هەوڵ بدەرەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_expired}}>ماوەی ئەم پەڕەیە بەسەرچوو. تکایە دووبارە هەوڵ بدەرەوە.</p>
+        <form class="acct-form" method="post"{{show_form}}>
+          <input type="hidden" name="csrf" value="{{csrf}}">
+          <div class="field">
+            <label for="r-name">ناوی تەواو<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-name" dir="auto" name="full_name" type="text" autocomplete="name" maxlength="80" required value="{{f_name}}">
+          </div>
+          <div class="field">
+            <label for="r-email">ناونیشانی ئیمەیڵ<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-email" name="email" type="email" autocomplete="email" maxlength="200" required value="{{f_email}}">
+          </div>
+          <div class="field">
+            <label for="r-city">شار یان شارۆچکە<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="r-city" dir="auto" name="city" type="text" autocomplete="address-level2" maxlength="60" placeholder="هەولێر" value="{{f_city}}">
+          </div>
+          <div class="field">
+            <label for="r-pass">وشەی نهێنی<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="r-pass-help">لانیکەم ١٠ پیت.</p>
+            <input id="r-pass" name="password" type="password" autocomplete="new-password" minlength="10" required aria-describedby="r-pass-help">
+          </div>
+          <div class="field">
+            <label for="r-pass2">وشەی نهێنی دووبارە<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-pass2" name="password2" type="password" autocomplete="new-password" minlength="10" required>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="r-website">ماڵپەڕ</label>
+            <input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="opt consent" for="r-consent"><input id="r-consent" type="checkbox" name="consent" value="1" required><span><a href="{{root}}privacy.html">ڕاگەیەندراوی تایبەتمەندی</a>م خوێندووەتەوە و ڕازیم ناوەندەکە زانیارییەکانی هەژمارەکەم بپارێزێت.</span></label>
+          <button class="btn" type="submit">دروستکردنی هەژمار</button>
+        </form>
+        <p class="loom-alt">پێشتر هەژمارت هەیە؟ <a href="{{root}}signin">بچۆ ژوورەوە</a></p>
+      </div>
+      <div class="loom-band">{{kilim}}</div>
+    </div>
+  </div>
+</section>

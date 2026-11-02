@@ -1,0 +1,43 @@
+<!--
+out: signin.html
+nav: account
+title: چوونەژوورەوە · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: بچۆ ژوورەوەی هەژمارەکەت لە ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap">
+    <div class="loom-card">
+      <div class="loom-band">{{kilim}}</div>
+      <div class="loom-body">
+        <span class="loom-mark">{{mark_svg}}</span>
+        <p class="eyebrow">ئەندامان</p>
+        <h1>چوونەژوورەوە</h1>
+        <p class="loom-lede">بەخێربێیتەوە. بچۆ ژوورەوە بۆ بینین و نوێکردنەوەی پرۆفایلەکەت.</p>
+        <p class="acct-alert" role="alert"{{show_err_login}}>ئیمەیڵ و وشەی نهێنییەکە یەک ناگرنەوە. دووبارە بیانپشکنە و هەوڵ بدەرەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_locked}}>هەوڵی زۆر درا. ١٥ خولەک چاوەڕێ بکە، پاشان هەوڵ بدەرەوە.</p>
+        <p class="acct-alert" role="alert"{{show_err_expired}}>ماوەی ئەم پەڕەیە بەسەرچوو. تکایە دووبارە هەوڵ بدەرەوە.</p>
+        <p class="acct-alert ok" role="status"{{show_need_signin}}>بۆ بینینی پرۆفایلەکەت، بچۆ ژوورەوە.</p>
+        <p class="acct-alert ok" role="status"{{show_signed_out}}>لە هەژمارەکەت چوویتە دەرەوە. بە هیوای بینینت.</p>
+        <p class="acct-alert ok" role="status"{{show_deleted}}>هەژمارەکەت و هەموو زانیارییەکانی پرۆفایلەکەت سڕانەوە.</p>
+        <form class="acct-form" method="post">
+          <input type="hidden" name="csrf" value="{{csrf}}">
+          <div class="field">
+            <label for="a-email">ناونیشانی ئیمەیڵ</label>
+            <input id="a-email" name="email" type="email" autocomplete="email" required value="{{f_email}}">
+          </div>
+          <div class="field">
+            <label for="a-pass">وشەی نهێنی</label>
+            <input id="a-pass" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn" type="submit">چوونەژوورەوە</button>
+        </form>
+        <p class="loom-alt">تازە هاتوویت؟ <a href="{{root}}register">هەژمارێک دروست بکە</a></p>
+        <p class="loom-small">وشەی نهێنییەکەت لەبیر کردووە؟ لەو ئیمەیڵەی پێی خۆت تۆمار کردووە نامەیەک بۆ {{mail:email_hello}} بنێرە، تیمەکە وشەی نهێنییەکەت نوێ دەکاتەوە.</p>
+        <p class="loom-small">ئەندامی تیمی ناوەندەکەیت؟ <a href="/login">بچۆ ژوورەوەی پانێڵی بەڕێوەبردن</a></p>
+      </div>
+      <div class="loom-band">{{kilim}}</div>
+    </div>
+  </div>
+</section>

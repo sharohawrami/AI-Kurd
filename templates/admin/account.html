@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% block title %}My account{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">My account</p>
+  <h1>{{ 'Choose your password' if me.must_change_password else 'My account' }}</h1>
+  {% if me.must_change_password %}<p class="lede">You signed in with a one-time password. Choose your own password to continue.</p>{% endif %}
+</header>
+<form method="post" class="adm-card account-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <div class="field"><label for="display_name">Your name</label><input id="display_name" name="display_name" type="text" value="{{ me.display_name }}"></div>
+  <div class="field"><label>Username</label><p><code>{{ me.username }}</code> · {{ 'Superadmin' if me.role == 'superadmin' else 'Admin' }}</p></div>
+  <fieldset class="set-group">
+    <legend>{{ 'Your new password' if me.must_change_password else 'Change password' }}</legend>
+    <div class="field"><label for="current">Current password</label><input id="current" name="current" type="password" autocomplete="current-password" {% if me.must_change_password %}required{% endif %}></div>
+    <div class="field"><label for="new">New password</label><input id="new" name="new" type="password" autocomplete="new-password" minlength="{{ min_len }}" {% if me.must_change_password %}required{% endif %}><p class="help">At least {{ min_len }} characters. A short sentence you'll remember works well.</p></div>
+    <div class="field"><label for="confirm">New password again</label><input id="confirm" name="confirm" type="password" autocomplete="new-password" {% if me.must_change_password %}required{% endif %}></div>
+  </fieldset>
+  <div class="sticky-save"><button class="btn" type="submit">Save</button></div>
+</form>
+{% endblock %}

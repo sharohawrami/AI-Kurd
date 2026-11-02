@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% block title %}Dates and details{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Dates and details</p>
+  <h1>Dates, places and contacts</h1>
+  <p class="lede">These fill the highlighted placeholders across the site. Write dates the way you want them shown, for example “Sunday 7 February 2027”. The Kurdish box is used on Kurdish pages; leave it empty to show the English value there too.</p>
+</header>
+<form method="post" class="adm-card settings-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  {% for group, fields in groups %}
+  <fieldset class="set-group">
+    <legend>{{ group }}</legend>
+    {% for key, label in fields %}
+    <div class="set-row{% if key in single %} single{% endif %}">
+      <label for="s-{{ key }}">{{ label }}</label>
+      <input id="s-{{ key }}" name="s|{{ key }}" type="text" value="{{ current(key) }}" {% if key == 'name_ku' %}dir="rtl" lang="ckb"{% endif %} placeholder="{{ 'English' if key not in single else '' }}">
+      {% if key not in single %}
+      <label class="sr" for="s-{{ key }}_ku">{{ label }} (Kurdish)</label>
+      <input id="s-{{ key }}_ku" name="s|{{ key }}_ku" type="text" value="{{ current(key ~ '_ku') }}" dir="rtl" lang="ckb" placeholder="کوردی">
+      {% endif %}
+    </div>
+    {% endfor %}
+  </fieldset>
+  {% endfor %}
+  <div class="sticky-save"><button class="btn" type="submit">Save</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!--
+out: register.html
+nav: account
+title: Create an account · Kurdistan AI Safety Hub
+description: Create a free Kurdistan AI Safety Hub account with your own profile.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap">
+    <div class="loom-card loom-wide">
+      <div class="loom-band">{{kilim}}</div>
+      <div class="loom-body">
+        <span class="loom-mark">{{mark_svg}}</span>
+        <p class="eyebrow">Members</p>
+        <h1>Create your account</h1>
+        <p class="loom-lede">A free account gives you a profile with the Hub: your picture, your city and the parts of AI safety you care about. Only you and the Hub team can see it.</p>
+        <p class="loom-note">An account is not an application. To join Cohort 1, <a href="{{root}}apply.html">apply separately</a>.</p>
+        <p class="acct-alert" role="alert"{{show_closed}}>We aren't taking new accounts at the moment. Please check back soon.</p>
+        <p class="acct-alert" role="alert"{{show_err_missing}}>Fill in your name, email and password.</p>
+        <p class="acct-alert" role="alert"{{show_err_email}}>Enter a valid email address, like name@example.com.</p>
+        <p class="acct-alert" role="alert"{{show_err_taken}}>An account with this email already exists. <a href="{{root}}signin">Sign in</a> instead.</p>
+        <p class="acct-alert" role="alert"{{show_err_short}}>Your password needs at least 10 characters, and not just one letter repeated. A short sentence you'll remember works well.</p>
+        <p class="acct-alert" role="alert"{{show_err_match}}>The two passwords don't match.</p>
+        <p class="acct-alert" role="alert"{{show_err_consent}}>Tick the box to confirm you've read the privacy notice.</p>
+        <p class="acct-alert" role="alert"{{show_err_rate}}>Too many new accounts from this connection. Try again in an hour.</p>
+        <p class="acct-alert" role="alert"{{show_err_expired}}>This page had expired. Please try again.</p>
+        <form class="acct-form" method="post"{{show_form}}>
+          <input type="hidden" name="csrf" value="{{csrf}}">
+          <div class="field">
+            <label for="r-name">Full name<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-name" dir="auto" name="full_name" type="text" autocomplete="name" maxlength="80" required value="{{f_name}}">
+          </div>
+          <div class="field">
+            <label for="r-email">Email address<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-email" name="email" type="email" autocomplete="email" maxlength="200" required value="{{f_email}}">
+          </div>
+          <div class="field">
+            <label for="r-city">City or town<span class="opt-tag">optional</span></label>
+            <input id="r-city" dir="auto" name="city" type="text" autocomplete="address-level2" maxlength="60" placeholder="Erbil" value="{{f_city}}">
+          </div>
+          <div class="field">
+            <label for="r-pass">Password<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="r-pass-help">At least 10 characters.</p>
+            <input id="r-pass" name="password" type="password" autocomplete="new-password" minlength="10" required aria-describedby="r-pass-help">
+          </div>
+          <div class="field">
+            <label for="r-pass2">Password again<span class="req" aria-hidden="true">*</span></label>
+            <input id="r-pass2" name="password2" type="password" autocomplete="new-password" minlength="10" required>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="r-website">Website</label>
+            <input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="opt consent" for="r-consent"><input id="r-consent" type="checkbox" name="consent" value="1" required><span>I've read the <a href="{{root}}privacy.html">privacy notice</a>, and I agree that the Hub keeps my account details.</span></label>
+          <button class="btn" type="submit">Create account</button>
+        </form>
+        <p class="loom-alt">Already have an account? <a href="{{root}}signin">Sign in</a></p>
+      </div>
+      <div class="loom-band">{{kilim}}</div>
+    </div>
+  </div>
+</section>

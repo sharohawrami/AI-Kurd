@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+{% from "admin/_avail.html" import avail_table %}
+{% block title %}Applications · {{ c.title_en or c.title_ku }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/universities/{{ u.id }}/courses">{{ u.name_en or u.name_ku }} · Courses</a></p>
+  <h1>{{ c.title_en or c.title_ku }}</h1>
+  <p class="lede">Applications sent through this course's form. Only the Hub's admins and {{ u.name_en or u.name_ku }}'s representatives can see them.</p>
+  <div class="actions"><a class="btn btn-quiet" href="/admin/courses/{{ c.id }}">Edit the course</a>{% if rows %}<a class="btn btn-quiet" href="/admin/courses/{{ c.id }}/applications.csv">Download as a spreadsheet (CSV)</a>{% endif %}</div>
+</header>
+{% if avail %}
+<section class="adm-card">
+  <h2>When applicants are free</h2>
+  <p class="muted">Each square shows how many of the {{ avail.people }} applicants who filled in the table can attend at that hour (Erbil time).</p>
+  {% if avail.best %}<p><b>Best hours:</b> {% for n, d, h in avail.best %}{{ d }} {{ h }} ({{ n }}){% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+  {{ avail_table(avail) }}
+</section>
+{% endif %}
+<section class="adm-card">
+  {% if rows %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Received</th><th>Name</th><th>Email</th><th>Language</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td class="nowrap">{{ r.created_at[:16].replace('T', ' ') }}</td>
+        <td><a href="/admin/course-applications/{{ r.id }}" dir="auto">{{ r.name or '—' }}</a></td>
+        <td>{{ r.email }}</td>
+        <td>{{ 'Kurdish' if r.language.startswith('Kurdish') else 'English' }}</td>
+        <td class="row-actions"><a href="/admin/course-applications/{{ r.id }}">Open</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">No applications yet. They appear here as soon as someone sends the form.</p>
+  {% endif %}
+</section>
+{% endblock %}

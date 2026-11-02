@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Members{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Members</p>
+  <h1>Website members</h1>
+  <p class="lede">People who created an account on the website. Members can see and edit only their own profile; they can't open this panel.</p>
+</header>
+
+<section class="adm-card reg-card">
+  <div class="reg-state">
+    <span class="{{ 'chip-ok' if is_open else 'chip-draft' }}">{{ 'Registration open' if is_open else 'Registration paused' }}</span>
+    <p>{{ 'Anyone can create an account from the Register button.' if is_open else 'The Register page says new accounts are paused. Existing members can still sign in.' }}</p>
+  </div>
+  <form method="post" action="/admin/members/registration">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <input type="hidden" name="open" value="{{ '0' if is_open else '1' }}">
+    <button class="btn btn-quiet btn-sm" type="submit">{{ 'Pause registration' if is_open else 'Open registration' }}</button>
+  </form>
+</section>
+
+<section class="adm-card">
+  <form class="member-search" method="get">
+    <label class="sr" for="q">Search members</label>
+    <input id="q" name="q" type="search" value="{{ q }}" placeholder="Search by name, email or city…">
+    <button class="btn btn-quiet btn-sm" type="submit">Search</button>
+    {% if q %}<a href="/admin/members">Clear</a>{% endif %}
+    <span class="muted">{{ members|length }} of {{ total }}</span>
+  </form>
+  {% if members %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th><span class="sr">Picture</span></th><th>Name</th><th>Email</th><th>City</th><th>Joined</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for m in members %}
+      <tr>
+        <td>{% if m.picture %}<span class="av"><img src="/members/photo/{{ m.picture }}" alt=""></span>{% else %}<span class="av"><span class="av-init" aria-hidden="true">{{ initials(m.full_name) }}</span></span>{% endif %}</td>
+        <td><a href="/admin/members/{{ m.id }}">{{ m.full_name }}</a>{% if m.name_ku %}<br><span class="muted" lang="ckb" dir="rtl">{{ m.name_ku }}</span>{% endif %}</td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.city or '—' }}</td>
+        <td class="nowrap">{{ m.created_at[:10] }}</td>
+        <td>{% if m.active %}<span class="chip-ok">Active</span>{% else %}<span class="chip-draft">Paused</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">{{ 'No members match that search.' if q else 'No one has registered yet. The Sign in and Register buttons are in the website header.' }}</p>
+  {% endif %}
+</section>
+{% endblock %}

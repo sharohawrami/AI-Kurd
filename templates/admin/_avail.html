@@ -1,0 +1,18 @@
+{# Availability table: hours down, Saturday to Friday across. Shading shows how many people are free. #}
+{% macro avail_table(a, single=False) %}
+<div class="table-scroll-x">
+<table class="avail-admin{% if single %} single{% endif %}">
+  <thead><tr><th scope="col"><span class="sr">Hour</span></th>{% for d in a.days %}<th scope="col">{{ d }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for r in a.rows %}
+    <tr><th scope="row">{{ r.label }}</th>
+    {% for c in r.cells %}
+      {% set level = (c / a.top) if a.top else 0 %}
+      <td style="--lvl: {{ '%.2f'|format(level) }}" {% if c %}class="on{% if level > 0.5 or single %} hi{% endif %}"{% endif %} title="{{ a.days[loop.index0] }} {{ r.label }}: {{ c }}{% if not single %} of {{ a.people }}{% endif %}">{% if c and not single %}{{ c }}{% endif %}</td>
+    {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endmacro %}

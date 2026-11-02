@@ -1,0 +1,23 @@
+<!--
+out: news/post.html
+nav: news
+title: {{post_title}} · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: {{post_summary}}
+-->
+<article class="post">
+  <header class="page-head">
+    <div class="wrap page-head-in">
+      <p class="crumb"><a href="{{root}}index.html">سەرەکی</a> / <a href="{{root}}news.html">هەواڵ و چالاکییەکان</a></p>
+      {{post_draft}}
+      <p class="post-kind" data-kind="{{post_kind}}"><span class="k-news">هەواڵ</span><span class="k-event">چالاکی</span></p>
+      <h1>{{post_title}}</h1>
+      <p class="factrow">{{post_facts}}</p>
+      <p class="post-source"{{post_source_hidden}}>بڵاوکراوەتەوە لە لایەن {{post_source}}</p>
+    </div>
+  </header>
+  <div class="wrap post-wrap">
+    {{post_image}}
+    {{post_body}}
+    <p><a class="more" href="{{root}}news.html">گەڕانەوە بۆ هەواڵ و چالاکییەکان</a></p>
+  </div>
+</article>

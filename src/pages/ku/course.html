@@ -1,0 +1,73 @@
+<!--
+out: universities/university/courses/course.html
+nav: universities
+title: {{course_title}} · {{uni_name}}
+description: {{course_summary}}
+newsletter: no
+dynamic: yes
+index: yes
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">سەرەکی</a> / <a href="{{root}}universities.html">زانکۆکان</a> / <a href="{{uni_href}}">{{uni_name}}</a></p>
+    <h1 dir="auto">{{course_title}}</h1>
+    <p class="lede" dir="auto"{{course_summary_hidden}}>{{course_summary}}</p>
+    <div class="factrow">{{course_facts}}</div>
+    {{course_draft}}
+  </div>
+</header>
+
+<div class="wrap form-page">
+  <div class="form-layout">
+    <div class="form-col">
+      <section class="course-details prose-stack" dir="auto" data-sec="details"{{course_details_hidden}}>{{course_details}}</section>
+      <p class="note"{{course_closed}}>وەرگرتنی داواکاری بۆ ئەم کۆرسە داخراوە.</p>
+      <div class="course-apply"{{course_open}}>
+        <p class="draft" hidden>ئەو وەڵامانەت کە لەم وێبگەڕەدا نەنێردرابوون گەڕێندرانەوە. <button type="button" class="linkbtn">سڕینەوەی هەموو وەڵامەکان</button></p>
+        <div class="errsum" tabindex="-1" role="alert" hidden></div>
+        <form id="course-form" class="form" data-form="{{course_form}}" data-confirm="course-done" novalidate>
+          <input type="hidden" name="language" value="Kurdish (Sorani)">
+          <fieldset class="fs">
+            <div class="fs-h"><h2>داواکاری بۆ ئەم کۆرسە</h2></div>
+            <div class="field">
+              <label for="k-name">ناوی تەواو<span class="req" aria-hidden="true">*</span></label>
+              <input id="k-name" name="full_name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="k-email">ئیمەیڵ<span class="req" aria-hidden="true">*</span></label>
+              <input id="k-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="k-phone">ژمارەی تەلەفۆن یان واتسئاپ<span class="opt-tag">ئارەزوومەندانە</span></label>
+              <input id="k-phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            {{course_questions}}
+          </fieldset>
+          <fieldset class="fs">
+            <div class="field">
+              <label class="opt" for="k-consent"><input id="k-consent" type="checkbox" name="consent_data" value="Yes" required><span>ڕازیم کە {{uni_name}} و ناوەندەکە وەڵامەکانم بۆ هەڵسەنگاندنی ئەم داواکارییە بەکار بهێنن، بەو شێوەیەی لە <a href="{{root}}privacy.html" target="_blank">ڕاگەیەندراوی تایبەتمەندی</a>دا ڕوونکراوەتەوە.<span class="req" aria-hidden="true">*</span></span></label>
+            </div>
+            <div class="hp" aria-hidden="true"><label for="k-website">ماڵپەڕ</label><input id="k-website" name="website" tabindex="-1" autocomplete="off"></div>
+          </fieldset>
+          <div class="submit-row">
+            <button class="btn" type="submit">ناردنی داواکاری</button>
+            <p class="send-error note" tabindex="-1" role="alert" hidden>نەمانتوانی داواکارییەکەت بنێرین. وەڵامەکانت هێشتا لێرەن، بۆیە پەیوەندیی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.</p>
+          </div>
+        </form>
+        <div id="course-done" class="confirm" tabindex="-1" hidden>
+          <p class="label">داواکارییەکەت گەیشت</p>
+          <h2>سوپاس، <span data-first-name>هاوڕێی ئازیز</span>.</h2>
+          <p>داواکارییەکەت بۆ {{uni_name}} نێردرا. لە ڕێگەی ئیمەیڵەوە پەیوەندیت پێوە دەکەن.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="form-aside">
+      <div class="box">
+        <h2>دەربارەی ئەم کۆرسە</h2>
+        <ul class="course-aside">{{course_aside}}</ul>
+        <p class="small muted">پرسیارت دەربارەی کۆرسەکە هەیە؟ لە ڕێگەی <a href="{{uni_href}}">پەڕەی زانکۆکە</a>وە پەیوەندی بە {{uni_name}}ـەوە بکە.</p>
+      </div>
+    </aside>
+  </div>
+</div>

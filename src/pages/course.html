@@ -1,0 +1,72 @@
+<!--
+out: universities/university/courses/course.html
+nav: universities
+title: {{course_title}} · {{uni_name}}
+description: {{course_summary}}
+newsletter: no
+dynamic: yes
+index: yes
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">Home</a> / <a href="{{root}}universities.html">Universities</a> / <a href="{{uni_href}}">{{uni_name}}</a></p>
+    <h1 dir="auto">{{course_title}}</h1>
+    <p class="lede" dir="auto"{{course_summary_hidden}}>{{course_summary}}</p>
+    <div class="factrow">{{course_facts}}</div>
+    {{course_draft}}
+  </div>
+</header>
+
+<div class="wrap form-page">
+  <div class="form-layout">
+    <div class="form-col">
+      <section class="course-details prose-stack" dir="auto" data-sec="details"{{course_details_hidden}}>{{course_details}}</section>
+      <p class="note"{{course_closed}}>Applications for this course are closed.</p>
+      <div class="course-apply"{{course_open}}>
+        <p class="draft" hidden>Your unsent answers from this browser have been restored. <button type="button" class="linkbtn">Clear all answers</button></p>
+        <div class="errsum" tabindex="-1" role="alert" hidden></div>
+        <form id="course-form" class="form" data-form="{{course_form}}" data-confirm="course-done" novalidate>
+          <fieldset class="fs">
+            <div class="fs-h"><h2>Apply for this course</h2></div>
+            <div class="field">
+              <label for="k-name">Full name<span class="req" aria-hidden="true">*</span></label>
+              <input id="k-name" name="full_name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="k-email">Email<span class="req" aria-hidden="true">*</span></label>
+              <input id="k-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="k-phone">Phone or WhatsApp<span class="opt-tag">optional</span></label>
+              <input id="k-phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            {{course_questions}}
+          </fieldset>
+          <fieldset class="fs">
+            <div class="field">
+              <label class="opt" for="k-consent"><input id="k-consent" type="checkbox" name="consent_data" value="Yes" required><span>I agree that {{uni_name}} and the Hub may use my answers to assess this application, as described in the <a href="{{root}}privacy.html" target="_blank">privacy notice</a>.<span class="req" aria-hidden="true">*</span></span></label>
+            </div>
+            <div class="hp" aria-hidden="true"><label for="k-website">Website</label><input id="k-website" name="website" tabindex="-1" autocomplete="off"></div>
+          </fieldset>
+          <div class="submit-row">
+            <button class="btn" type="submit">Send application</button>
+            <p class="send-error note" tabindex="-1" role="alert" hidden>We couldn’t send your application. Your answers are still here, so check your connection and try again.</p>
+          </div>
+        </form>
+        <div id="course-done" class="confirm" tabindex="-1" hidden>
+          <p class="label">Application received</p>
+          <h2>Thank you, <span data-first-name>there</span>.</h2>
+          <p>Your application has been sent to {{uni_name}}. They will contact you by email.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="form-aside">
+      <div class="box">
+        <h2>About this course</h2>
+        <ul class="course-aside">{{course_aside}}</ul>
+        <p class="small muted">Questions about the course? Contact {{uni_name}} through its <a href="{{uni_href}}">university page</a>.</p>
+      </div>
+    </aside>
+  </div>
+</div>

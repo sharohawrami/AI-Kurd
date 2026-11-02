@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% from "admin/_avail.html" import avail_table %}
+{% block title %}{{ row.name or row.email }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/applications?form={{ row.form }}">{{ titles[row.form] }}</a></p>
+  <h1>{{ row.name or row.email }}</h1>
+  <p class="muted">Received {{ row.created_at[:16].replace('T', ' ') }} UTC · {{ 'Kurdish form' if row.language.startswith('Kurdish') else 'English form' }}</p>
+</header>
+<section class="adm-card">
+  <dl class="answers">
+    {% for k, v in fields.items() %}
+    {% if k == 'availability' and avail %}
+    <div class="answer-wide"><dt>Availability</dt><dd>{{ avail_table(avail, single=True) }}</dd></div>
+    {% else %}
+    <div><dt>{{ k.replace('_', ' ')|capitalize }}</dt><dd {% if row.language.startswith('Kurdish') %}dir="auto"{% endif %}>{% if v.startswith('http://') or v.startswith('https://') %}<a href="{{ v }}" target="_blank" rel="noopener noreferrer">{{ v }}</a>{% else %}{{ v or '—' }}{% endif %}</dd></div>
+    {% endif %}
+    {% endfor %}
+  </dl>
+</section>
+<form method="post" action="/admin/applications/{{ row.id }}/delete" class="adm-card danger" data-confirm>
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <h2>Delete this submission</h2>
+  <p class="muted">Use this when someone asks for their data to be removed.</p>
+  <button class="btn btn-quiet" type="submit">Delete</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+  var armed = false, btn = f.querySelector("button");
+  f.addEventListener("submit", function (e) { if (armed) return; e.preventDefault(); armed = true; btn.textContent = "Click again to delete for good"; });
+});
+</script>
+{% endblock %}

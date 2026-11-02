@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Show and hide{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Show and hide</p>
+  <h1>Hide what isn’t ready yet</h1>
+  <p class="lede">Hidden pages and sections disappear for visitors, in English and Kurdish, and come back the moment you show them again. Nothing is deleted, and you can still see and edit them yourself.</p>
+  <p class="muted">You can also hide sections straight on a page: open it with <b>Edit this page</b> and use the <b>Hide</b> button in the corner of each section.</p>
+</header>
+
+<section class="adm-card">
+  <h2>Whole pages</h2>
+  <p class="muted">Hiding a page also removes its links from the menu and the footer. Visitors who open its address see “Page not found”.</p>
+  <table class="adm-table">
+    <thead><tr><th>Page</th><th>Visitors</th><th><span class="sr">Change</span></th></tr></thead>
+    <tbody>
+    {% for p in pages %}
+      <tr>
+        <td><a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a></td>
+        <td>{% if p.hidden %}<span class="chip-draft">Hidden</span>{% else %}<span class="chip-ok">Shown</span>{% endif %}</td>
+        <td class="row-actions">
+          <form method="post" action="/admin/visibility/page">
+            <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+            <input type="hidden" name="name" value="{{ p.name }}">
+            <input type="hidden" name="hide" value="{{ '0' if p.hidden else '1' }}">
+            <button class="btn btn-quiet btn-sm" type="submit">{{ 'Show page' if p.hidden else 'Hide page' }}</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% for g in groups %}
+<form class="adm-card vis-group" id="g-{{ g.name }}" method="post" action="/admin/visibility/sections">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <input type="hidden" name="name" value="{{ g.name }}">
+  <div class="vis-head">
+    <h2>{{ g.title }}</h2>
+    {% if g.count %}<span class="chip-draft">{{ g.count }} hidden</span>{% endif %}
+  </div>
+  <p class="muted">Untick a section to hide it.</p>
+  <ul class="vis-list">
+    {% for s in g.sections %}
+    <li class="{{ 'is-off' if s.hidden }}"><label><input type="checkbox" name="show" value="{{ s.key }}" {% if not s.hidden %}checked{% endif %}><span>{{ s.label }}</span></label></li>
+    {% endfor %}
+  </ul>
+  <div><button class="btn btn-sm" type="submit">Save</button></div>
+</form>
+{% endfor %}
+{% endblock %}

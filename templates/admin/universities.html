@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}Universities{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Universities</p>
+  <h1>University pages</h1>
+  <p class="lede">Each university has one page on the website, with its news, events and courses. Its representatives get their own sign-in, which can only manage that university.</p>
+  <div class="actions"><a class="btn btn-quiet" href="/universities" target="_blank" rel="noopener">View the Universities page ↗</a></div>
+</header>
+
+<section class="adm-card">
+  <h2>Add a university</h2>
+  <form method="post" action="/admin/universities" class="add-user add-uni">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="nu-en">Name in English</label><input id="nu-en" name="name_en" type="text" placeholder="e.g. Salahaddin University-Erbil"></div>
+    <div class="field" lang="ckb" dir="rtl"><label for="nu-ku">ناو بە کوردی</label><input id="nu-ku" name="name_ku" type="text" placeholder="بۆ نموونە زانکۆی سەڵاحەددین"></div>
+    <div class="field"><label for="nu-city">City</label><input id="nu-city" name="city_en" type="text" placeholder="e.g. Erbil"></div>
+    <div class="field add-btn"><button class="btn" type="submit">Add university</button></div>
+  </form>
+  <p class="help">A university can only be added once: a second page with the same name, in either language, is refused. New pages start as drafts, so you can fill them in before visitors see them.</p>
+</section>
+
+<section class="adm-card">
+  <h2>All universities</h2>
+  {% if unis %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>University</th><th>Courses</th><th>Posts</th><th>Representatives</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for u in unis %}{% set s = stats[u.id] %}
+      <tr>
+        <td><a href="/admin/universities/{{ u.id }}"><b>{{ u.name_en or u.name_ku }}</b></a>{% if u.name_en and u.name_ku %}<br><span class="muted" lang="ckb" dir="rtl">{{ u.name_ku }}</span>{% endif %}</td>
+        <td><a href="/admin/universities/{{ u.id }}/courses">{{ s.courses }}</a></td>
+        <td>{{ s.posts }}</td>
+        <td>{{ s.reps }}</td>
+        <td>{% if u.published %}<span class="chip-ok">Published</span>{% else %}<span class="chip-draft">Draft</span>{% endif %}</td>
+        <td class="row-actions"><a href="/admin/universities/{{ u.id }}">Edit</a><a href="/admin/universities/{{ u.id }}/courses">Courses</a><a href="/universities/{{ u.slug }}" target="_blank" rel="noopener">View ↗</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">No universities yet. Until the first one is published, the Universities page says that pages will appear soon.</p>
+  {% endif %}
+</section>
+{% endblock %}

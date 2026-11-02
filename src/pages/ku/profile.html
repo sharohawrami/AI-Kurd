@@ -1,0 +1,63 @@
+<!--
+out: profile.html
+nav: account
+title: {{m_name}} · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: پرۆفایلەکەت لە ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page profile-page">
+  <div class="wrap profile-wrap">
+    <p class="acct-alert ok" role="status"{{show_welcome}}>بەخێربێیت بۆ ناوەندەکە، {{m_first}}. وێنەیەک و هەندێک زانیاری زیاد بکە بۆ تەواوکردنی پرۆفایلەکەت.</p>
+    <p class="acct-alert ok" role="status"{{show_saved}}>پرۆفایلەکەت پاشەکەوت کرا.</p>
+    <article class="carpet" aria-labelledby="m-name">
+      <div class="carpet-band">{{kilim}}</div>
+      <div class="carpet-field">
+        {{spandrels}}
+        <div class="portrait">{{m_portrait}}</div>
+        <p class="carpet-eyebrow">ئەندامی ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد</p>
+        <h1 class="m-name" id="m-name" dir="auto">{{m_name}}</h1>
+        <p class="m-name-ku" lang="ckb" dir="rtl"{{show_name_ku}}>{{m_name_ku}}</p>
+        <p class="m-role" dir="auto"{{show_occupation}}>{{m_occupation}}</p>
+        <p class="m-place" dir="auto"{{show_city}}>{{m_city}}</p>
+      </div>
+      <dl class="carpet-facts">
+        <div class="cf-wide"{{show_bio}}>
+          <dt>دەربارەی من</dt>
+          <dd class="m-bio">{{m_bio}}</dd>
+        </div>
+        <div class="cf-wide"{{show_interests}}>
+          <dt>بوارە دڵخوازەکان</dt>
+          <dd>
+            <ul class="threads">
+              <li{{show_int_interp}}>ڕاڤەپێکراوی</li>
+              <li{{show_int_evals}}>هەڵسەنگاندن</li>
+              <li{{show_int_align}}>هاوئاهەنگی</li>
+              <li{{show_int_robust}}>پتەوی و ئاسایش</li>
+              <li{{show_int_gov}}>حوکمڕانیی زیرەکیی دەستکرد</li>
+              <li{{show_int_ml}}>بنەماکانی فێربوونی ئامێر</li>
+              <li{{show_int_kurdish}}>زیرەکیی دەستکرد بۆ زمانی کوردی</li>
+            </ul>
+          </dd>
+        </div>
+        <div{{show_link}}>
+          <dt>ماڵپەڕ</dt>
+          <dd class="m-link">{{m_link}}</dd>
+        </div>
+        <div>
+          <dt>بوو بە ئەندام</dt>
+          <dd>{{m_since}}</dd>
+        </div>
+      </dl>
+      <div class="carpet-band">{{kilim}}</div>
+    </article>
+    <p class="profile-private">تەنها خۆت و تیمی ناوەندەکە ئەم پەڕەیە دەبینن.</p>
+    <div class="actions profile-actions">
+      <a class="btn" href="{{root}}profile/edit">دەستکاریکردنی پرۆفایل</a>
+      <form method="post" action="{{root}}signout">
+        <input type="hidden" name="csrf" value="{{csrf}}">
+        <button class="btn btn-quiet" type="submit">چوونەدەرەوە</button>
+      </form>
+    </div>
+  </div>
+</section>

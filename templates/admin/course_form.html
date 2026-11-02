@@ -1,0 +1,210 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Edit course' if c and c.id else 'New course' }}{% endblock %}
+{% block main %}
+{% set k = c or {} %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/universities/{{ u.id }}/courses">{{ u.name_en or u.name_ku }} · Courses</a></p>
+  <h1>{{ (k.title_en or k.title_ku) if k.id else 'Open a new course' }}</h1>
+  {% if k.id %}<div class="actions">
+    <a class="btn btn-quiet" href="/admin/courses/{{ k.id }}/applications">Applications</a>
+    <a class="btn btn-quiet" href="/universities/{{ u.slug }}/courses/{{ k.slug }}" target="_blank" rel="noopener">View in English ↗</a>
+    <a class="btn btn-quiet" href="/ku/universities/{{ u.slug }}/courses/{{ k.slug }}" target="_blank" rel="noopener">View in Kurdish ↗</a>
+  </div>{% endif %}
+</header>
+
+<form method="post" class="adm-card post-form" id="course-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <input type="hidden" name="questions" id="questions-json" value="">
+
+  <div class="two-lang">
+    <fieldset class="set-group">
+      <legend>English</legend>
+      <div class="field"><label for="title_en">Course title</label><input id="title_en" name="title_en" type="text" value="{{ k.title_en or '' }}"></div>
+      <div class="field"><label for="summary_en">Summary <span class="opt-tag">one or two sentences, shown on the card</span></label><textarea id="summary_en" name="summary_en" class="short">{{ k.summary_en or '' }}</textarea></div>
+      <div class="field"><label for="details_en">About the course <span class="opt-tag">who it's for, what it covers, how it runs</span></label><textarea id="details_en" name="details_en" rows="8">{{ k.details_en or '' }}</textarea></div>
+      <div class="field"><label for="location_en">Where</label><input id="location_en" name="location_en" type="text" placeholder="e.g. College of Engineering, Erbil, or Online" value="{{ k.location_en or '' }}"></div>
+    </fieldset>
+    <fieldset class="set-group" lang="ckb" dir="rtl">
+      <legend>کوردی</legend>
+      <div class="field"><label for="title_ku">ناونیشانی کۆرس</label><input id="title_ku" name="title_ku" type="text" value="{{ k.title_ku or '' }}"></div>
+      <div class="field"><label for="summary_ku">پوختە</label><textarea id="summary_ku" name="summary_ku" class="short">{{ k.summary_ku or '' }}</textarea></div>
+      <div class="field"><label for="details_ku">دەربارەی کۆرسەکە</label><textarea id="details_ku" name="details_ku" rows="8">{{ k.details_ku or '' }}</textarea></div>
+      <div class="field"><label for="location_ku">شوێن</label><input id="location_ku" name="location_ku" type="text" value="{{ k.location_ku or '' }}"></div>
+    </fieldset>
+  </div>
+
+  <fieldset class="set-group">
+    <legend>Dates</legend>
+    <div class="date-row">
+      <div class="field"><label for="deadline">Application deadline</label><input id="deadline" name="deadline" type="date" value="{{ k.deadline or '' }}"><p class="help">The form closes by itself after this day.</p></div>
+      <div class="field"><label for="starts">When it starts <span class="opt-tag">free text</span></label><input id="starts" name="starts" type="text" placeholder="e.g. 7 March 2027, or Spring semester" value="{{ k.starts or '' }}"></div>
+    </div>
+  </fieldset>
+
+  <fieldset class="set-group">
+    <legend>Application form</legend>
+    <p class="help">Every form already asks for the applicant's full name, email and phone, and for their consent to use the answers. Add the questions you need on top of those. Write each question in English, Kurdish or both.</p>
+    <ol class="qb-list" id="qb-list"></ol>
+    <div class="qb-add">
+      <label for="qb-type">Add a question:</label>
+      <select id="qb-type">{% for key, label in qtypes.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select>
+      <button type="button" class="btn btn-sm btn-quiet" id="qb-add">Add</button>
+    </div>
+  </fieldset>
+
+  <div class="sticky-save">
+    <label class="opt publish"><input type="checkbox" name="published" value="1" {% if k.published %}checked{% endif %}> Shown on the website</label>
+    <label class="opt publish"><input type="checkbox" name="accepting" value="1" {% if k.accepting or not k.id %}checked{% endif %}> Taking applications</label>
+    <button class="btn" type="submit">Save</button>
+  </div>
+</form>
+
+{% if k.id %}
+<form method="post" action="/admin/courses/{{ k.id }}/delete" class="adm-card danger" data-confirm>
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <h2>Delete this course</h2>
+  <p class="muted">Removes the course and every application sent to it, for good. To stop new applications but keep the page, untick “Taking applications”.</p>
+  <button class="btn btn-quiet" type="submit">Delete course</button>
+</form>
+{% endif %}
+
+<template id="qb-item">
+  <li class="qb-item">
+    <div class="qb-head">
+      <span class="qb-type"></span>
+      <label class="opt"><input type="checkbox" class="qb-req"> Required</label>
+      <span class="qb-tools">
+        <button type="button" class="linkbtn" data-act="up" aria-label="Move up">↑</button>
+        <button type="button" class="linkbtn" data-act="down" aria-label="Move down">↓</button>
+        <button type="button" class="linkbtn danger-link" data-act="del">Remove</button>
+      </span>
+    </div>
+    <div class="two-lang">
+      <div>
+        <div class="field"><label>Question</label><input type="text" class="qb-label-en"></div>
+        <div class="field"><label>Help text <span class="opt-tag">optional</span></label><input type="text" class="qb-help-en"></div>
+      </div>
+      <div lang="ckb" dir="rtl">
+        <div class="field"><label>پرسیار</label><input type="text" class="qb-label-ku"></div>
+        <div class="field"><label>ڕوونکردنەوە <span class="opt-tag">ئارەزوومەندانە</span></label><input type="text" class="qb-help-ku"></div>
+      </div>
+    </div>
+    <div class="qb-opts">
+      <p class="qb-sub">Options</p>
+      <ul class="qb-opt-list"></ul>
+      <button type="button" class="btn btn-sm btn-quiet" data-act="opt">Add an option</button>
+    </div>
+    <p class="help qb-avail">Applicants tick the hours they're free on a table of Saturday to Friday, 08:00 to 23:00 (Erbil time). You'll see a summary of everyone's answers on the applications page.</p>
+  </li>
+</template>
+<template id="qb-opt">
+  <li class="qb-opt">
+    <input type="text" class="qb-opt-en" aria-label="Option in English" placeholder="English">
+    <input type="text" class="qb-opt-ku" aria-label="Option in Kurdish" placeholder="کوردی" dir="rtl" lang="ckb">
+    <button type="button" class="linkbtn danger-link" data-act="optdel" aria-label="Remove this option">×</button>
+  </li>
+</template>
+<script type="application/json" id="qb-data">{{ questions|tojson }}</script>
+<script type="application/json" id="qb-types">{{ qtypes|tojson }}</script>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var list = document.getElementById("qb-list");
+  var types = JSON.parse(document.getElementById("qb-types").textContent);
+  var tItem = document.getElementById("qb-item"), tOpt = document.getElementById("qb-opt");
+
+  function addOption(li, o) {
+    var row = tOpt.content.firstElementChild.cloneNode(true);
+    row.querySelector(".qb-opt-en").value = (o && o.en) || "";
+    row.querySelector(".qb-opt-ku").value = (o && o.ku) || "";
+    li.querySelector(".qb-opt-list").appendChild(row);
+    return row;
+  }
+  function addQuestion(q) {
+    var li = tItem.content.firstElementChild.cloneNode(true);
+    li.dataset.type = q.type;
+    if (q.id) li.dataset.id = q.id;
+    li.querySelector(".qb-type").textContent = types[q.type] || q.type;
+    li.querySelector(".qb-req").checked = !!q.required;
+    ["label_en", "label_ku", "help_en", "help_ku"].forEach(function (f) {
+      li.querySelector(".qb-" + f.replace("_", "-")).value = q[f] || "";
+    });
+    var choice = q.type === "choice" || q.type === "multi";
+    li.querySelector(".qb-opts").hidden = !choice;
+    li.querySelector(".qb-avail").hidden = q.type !== "availability";
+    if (choice) {
+      var opts = q.options && q.options.length ? q.options : [{}, {}];
+      opts.forEach(function (o) { addOption(li, o); });
+    }
+    // give every label its own input id
+    li.querySelectorAll(".field").forEach(function (f, i) {
+      var id = "qb-" + Math.random().toString(36).slice(2, 9) + i;
+      f.querySelector("input").id = id;
+      f.querySelector("label").htmlFor = id;
+    });
+    list.appendChild(li);
+    return li;
+  }
+
+  JSON.parse(document.getElementById("qb-data").textContent || "[]").forEach(addQuestion);
+
+  document.getElementById("qb-add").addEventListener("click", function () {
+    var type = document.getElementById("qb-type").value;
+    if (type === "availability" && list.querySelector('[data-type="availability"]')) {
+      alertLine("A form can have only one weekly availability table.");
+      return;
+    }
+    var li = addQuestion({ type: type, required: type === "availability" });
+    li.querySelector(".qb-label-en").focus();
+  });
+
+  list.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-act]");
+    if (!b) return;
+    var li = b.closest(".qb-item"), act = b.getAttribute("data-act");
+    if (act === "up" && li.previousElementSibling) list.insertBefore(li, li.previousElementSibling);
+    if (act === "down" && li.nextElementSibling) list.insertBefore(li.nextElementSibling, li);
+    if (act === "del") li.remove();
+    if (act === "opt") addOption(li).querySelector("input").focus();
+    if (act === "optdel") b.closest(".qb-opt").remove();
+  });
+
+  var note = null;
+  function alertLine(text) {
+    if (!note) {
+      note = document.createElement("p");
+      note.className = "flash flash-warn";
+      note.setAttribute("role", "alert");
+      document.querySelector(".qb-add").after(note);
+    }
+    note.textContent = text;
+  }
+
+  document.getElementById("course-form").addEventListener("submit", function () {
+    var out = [];
+    list.querySelectorAll(".qb-item").forEach(function (li) {
+      var q = { type: li.dataset.type, required: li.querySelector(".qb-req").checked };
+      if (li.dataset.id) q.id = li.dataset.id;
+      ["label_en", "label_ku", "help_en", "help_ku"].forEach(function (f) {
+        q[f] = li.querySelector(".qb-" + f.replace("_", "-")).value.trim();
+      });
+      if (q.type === "choice" || q.type === "multi") {
+        q.options = [];
+        li.querySelectorAll(".qb-opt").forEach(function (row) {
+          var en = row.querySelector(".qb-opt-en").value.trim(), ku = row.querySelector(".qb-opt-ku").value.trim();
+          if (en || ku) q.options.push({ en: en, ku: ku });
+        });
+      }
+      out.push(q);
+    });
+    document.getElementById("questions-json").value = JSON.stringify(out);
+  });
+
+  document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+    var armed = false, btn = f.querySelector("button");
+    f.addEventListener("submit", function (e) { if (armed) return; e.preventDefault(); armed = true; btn.textContent = "Click again to delete for good"; });
+  });
+})();
+</script>
+{% endblock %}

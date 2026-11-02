@@ -1,0 +1,128 @@
+<!--
+out: profile/edit.html
+nav: account
+title: Edit your profile · Kurdistan AI Safety Hub
+description: Update your profile with the Kurdistan AI Safety Hub.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap pe-wrap">
+    <header class="pe-head">
+      <p class="eyebrow"><a href="{{root}}profile">My profile</a></p>
+      <h1>Edit your profile</h1>
+    </header>
+    <p class="acct-alert" role="alert"{{show_err_name}}>Your name can't be empty.</p>
+    <p class="acct-alert" role="alert"{{show_err_link}}>Website addresses start with https:// (for example https://github.com/yourname).</p>
+    <p class="acct-alert" role="alert"{{show_err_picture}}>That file isn't a picture we can use. Upload a JPEG, PNG or WebP image under 8 MB.</p>
+    <p class="acct-alert" role="alert"{{show_err_expired}}>This page had expired. Please try again.</p>
+    <p class="acct-alert ok" role="status"{{show_pw_changed}}>Your password is changed.</p>
+    <p class="acct-alert ok" role="status"{{show_must_change}}>You signed in with a temporary password from the Hub team. Choose your own password below.</p>
+    <form class="pe-form" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf" value="{{csrf}}">
+      <input type="hidden" name="action" value="profile">
+      <div class="pe-grid">
+        <div class="pe-pic">
+          <div class="portrait portrait-sm" id="pe-portrait">{{m_portrait}}</div>
+          <div class="field">
+            <label for="p-picture">Your picture</label>
+            <p class="help" id="p-picture-help">A clear photo of your face works best. We crop it to a square.</p>
+            <input id="p-picture" name="picture" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="p-picture-help">
+          </div>
+          <label class="opt" for="p-remove"{{show_remove}}><input id="p-remove" type="checkbox" name="remove_picture" value="1">Remove my picture</label>
+        </div>
+        <div class="pe-fields">
+          <div class="field">
+            <label for="p-name">Full name<span class="req" aria-hidden="true">*</span></label>
+            <input id="p-name" dir="auto" name="full_name" type="text" autocomplete="name" maxlength="80" required value="{{f_name}}">
+          </div>
+          <div class="field">
+            <label for="p-name-ku">Your name in Kurdish script<span class="opt-tag">optional</span></label>
+            <p class="help" id="p-name-ku-help">Shown under your name on your profile.</p>
+            <input id="p-name-ku" name="name_ku" type="text" dir="rtl" lang="ckb" maxlength="80" aria-describedby="p-name-ku-help" value="{{f_name_ku}}">
+          </div>
+          <div class="field">
+            <label for="p-occ">What you do<span class="opt-tag">optional</span></label>
+            <input id="p-occ" dir="auto" name="occupation" type="text" maxlength="120" placeholder="Computer engineering student, Salahaddin University" value="{{f_occupation}}">
+          </div>
+          <div class="field">
+            <label for="p-city">City or town<span class="opt-tag">optional</span></label>
+            <input id="p-city" dir="auto" name="city" type="text" autocomplete="address-level2" maxlength="60" value="{{f_city}}">
+          </div>
+          <div class="field">
+            <label for="p-bio">About you<span class="opt-tag">optional</span></label>
+            <p class="help" id="p-bio-help">A few sentences: what you're working on, and what brought you to AI safety.</p>
+            <textarea id="p-bio" dir="auto" name="bio" class="short" maxlength="600" aria-describedby="p-bio-help">{{f_bio}}</textarea>
+          </div>
+          <fieldset class="field">
+            <legend class="q">The parts of AI safety you care about<span class="opt-tag">optional</span></legend>
+            <div class="weave-chips">
+              <label class="weave" for="p-i-interp"><input id="p-i-interp" type="checkbox" name="interests" value="interp"{{chk_int_interp}}><span>Interpretability</span></label>
+              <label class="weave" for="p-i-evals"><input id="p-i-evals" type="checkbox" name="interests" value="evals"{{chk_int_evals}}><span>Evaluations</span></label>
+              <label class="weave" for="p-i-align"><input id="p-i-align" type="checkbox" name="interests" value="align"{{chk_int_align}}><span>Alignment</span></label>
+              <label class="weave" for="p-i-robust"><input id="p-i-robust" type="checkbox" name="interests" value="robust"{{chk_int_robust}}><span>Robustness and security</span></label>
+              <label class="weave" for="p-i-gov"><input id="p-i-gov" type="checkbox" name="interests" value="gov"{{chk_int_gov}}><span>AI governance</span></label>
+              <label class="weave" for="p-i-ml"><input id="p-i-ml" type="checkbox" name="interests" value="ml"{{chk_int_ml}}><span>Machine learning foundations</span></label>
+              <label class="weave" for="p-i-kurdish"><input id="p-i-kurdish" type="checkbox" name="interests" value="kurdish"{{chk_int_kurdish}}><span>AI for the Kurdish language</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="p-link">Website or profile link<span class="opt-tag">optional</span></label>
+            <input id="p-link" name="link" type="url" maxlength="200" placeholder="https://" value="{{f_link}}">
+          </div>
+          <fieldset class="field">
+            <legend class="q">Which language should we show you after you sign in?</legend>
+            <div class="opts inline">
+              <label class="opt" for="p-lang-en"><input id="p-lang-en" type="radio" name="language" value="en"{{chk_lang_en}}>English</label>
+              <label class="opt" for="p-lang-ku"><input id="p-lang-ku" type="radio" name="language" value="ku"{{chk_lang_ku}}>Kurdish (Sorani)</label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="pe-save">
+        <button class="btn" type="submit">Save profile</button>
+        <a class="pe-cancel" href="{{root}}profile">Cancel</a>
+      </div>
+    </form>
+
+    <section class="pe-more" aria-labelledby="pe-pw">
+      <h2 id="pe-pw">Change your password</h2>
+      <p class="acct-alert" role="alert"{{show_err_pw_current}}>Your current password isn't right.</p>
+      <p class="acct-alert" role="alert"{{show_err_pw_short}}>Your new password needs at least 10 characters, and not just one letter repeated.</p>
+      <p class="acct-alert" role="alert"{{show_err_pw_match}}>The two new passwords don't match.</p>
+      <form class="pe-form-sm" method="post">
+        <input type="hidden" name="csrf" value="{{csrf}}">
+        <input type="hidden" name="action" value="password">
+        <div class="field">
+          <label for="pw-current">Current password</label>
+          <input id="pw-current" name="current" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="pw-new">New password</label>
+          <input id="pw-new" name="new" type="password" autocomplete="new-password" minlength="10" required>
+        </div>
+        <div class="field">
+          <label for="pw-confirm">New password again</label>
+          <input id="pw-confirm" name="confirm" type="password" autocomplete="new-password" minlength="10" required>
+        </div>
+        <button class="btn btn-quiet" type="submit">Change password</button>
+      </form>
+    </section>
+
+    <section class="pe-more pe-danger" aria-labelledby="pe-del">
+      <h2 id="pe-del">Delete your account</h2>
+      <p>This removes your account, profile and picture for good. It doesn't withdraw a Cohort application; to do that, write to {{mail:email_apply}}.</p>
+      <p class="acct-alert" role="alert"{{show_err_delete}}>Your password isn't right, or the box isn't ticked.</p>
+      <form class="pe-form-sm" method="post">
+        <input type="hidden" name="csrf" value="{{csrf}}">
+        <input type="hidden" name="action" value="delete">
+        <div class="field">
+          <label for="del-pass">Your password</label>
+          <input id="del-pass" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <label class="opt" for="del-sure"><input id="del-sure" type="checkbox" name="sure" value="1" required>I understand this can't be undone.</label>
+        <button class="btn btn-danger" type="submit">Delete my account</button>
+      </form>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,117 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Edit post' if post and post.id else 'New post' }}{% endblock %}
+{% block main %}
+{% set p = post or {} %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/news">News and events</a></p>
+  <h1>{{ (p.title_en or p.title_ku) if p.id else 'Add news or an event' }}</h1>
+  {% if p.id %}<div class="actions"><a class="btn btn-quiet" href="/news/{{ p.slug }}.html" target="_blank" rel="noopener">View in English ↗</a><a class="btn btn-quiet" href="/ku/news/{{ p.slug }}.html" target="_blank" rel="noopener">View in Kurdish ↗</a></div>{% endif %}
+</header>
+
+<form method="post" enctype="multipart/form-data" class="adm-card post-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+
+  {% if is_staff(me) and unis %}
+  <fieldset class="set-group">
+    <legend>Posted by</legend>
+    <div class="field">
+      <label for="university_id">Where this post appears</label>
+      <select id="university_id" name="university_id">
+        <option value="">The Hub: homepage and News page</option>
+        {% for un in unis %}<option value="{{ un.id }}" {% if p.university_id == un.id %}selected{% endif %}>{{ un.name_en or un.name_ku }}: that university's page</option>{% endfor %}
+      </select>
+    </div>
+  </fieldset>
+  {% endif %}
+
+  <fieldset class="set-group">
+    <legend>Type</legend>
+    <div class="opts inline">
+      <label class="opt"><input type="radio" name="kind" value="news" {% if p.kind != 'event' %}checked{% endif %}> News</label>
+      <label class="opt"><input type="radio" name="kind" value="event" {% if p.kind == 'event' %}checked{% endif %}> Event</label>
+    </div>
+  </fieldset>
+
+  <fieldset class="set-group">
+    <legend>Picture</legend>
+    <div class="pic-row">
+      <div class="pic-preview">{% if p.image %}<img src="/uploads/{{ p.image }}" alt="">{% else %}<span class="thumb-empty big"></span>{% endif %}</div>
+      <div class="field">
+        <label for="image">{{ 'Replace the picture' if p.image else 'Add a picture' }}</label>
+        <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp">
+        <p class="help">JPEG, PNG or WebP, up to 10 MB. Landscape pictures work best; they're shown at a 4 by 3 shape on the homepage.</p>
+        {% if p.image %}<label class="opt"><input type="checkbox" name="remove_image" value="1"> Remove the picture</label>{% endif %}
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="two-lang">
+    <fieldset class="set-group">
+      <legend>English</legend>
+      <div class="field"><label for="title_en">Title</label><input id="title_en" name="title_en" type="text" value="{{ p.title_en or '' }}"></div>
+      <div class="field"><label for="summary_en">Summary <span class="opt-tag">one or two sentences, shown on the card</span></label><textarea id="summary_en" name="summary_en" class="short">{{ p.summary_en or '' }}</textarea></div>
+      <div class="field"><label for="body_en">Full text <span class="opt-tag">leave a blank line between paragraphs</span></label><textarea id="body_en" name="body_en" rows="10">{{ p.body_en or '' }}</textarea></div>
+      <div class="field"><label for="image_alt_en">Picture description <span class="opt-tag">for screen readers</span></label><input id="image_alt_en" name="image_alt_en" type="text" value="{{ p.image_alt_en or '' }}"></div>
+      <div class="field event-only"><label for="location_en">Event location</label><input id="location_en" name="location_en" type="text" value="{{ p.location_en or '' }}"></div>
+    </fieldset>
+    <fieldset class="set-group" lang="ckb" dir="rtl">
+      <legend>کوردی</legend>
+      <div class="field"><label for="title_ku">ناونیشان</label><input id="title_ku" name="title_ku" type="text" value="{{ p.title_ku or '' }}"></div>
+      <div class="field"><label for="summary_ku">پوختە</label><textarea id="summary_ku" name="summary_ku" class="short">{{ p.summary_ku or '' }}</textarea></div>
+      <div class="field"><label for="body_ku">دەقی تەواو</label><textarea id="body_ku" name="body_ku" rows="10">{{ p.body_ku or '' }}</textarea></div>
+      <div class="field"><label for="image_alt_ku">وەسفی وێنە</label><input id="image_alt_ku" name="image_alt_ku" type="text" value="{{ p.image_alt_ku or '' }}"></div>
+      <div class="field event-only"><label for="location_ku">شوێنی چالاکی</label><input id="location_ku" name="location_ku" type="text" value="{{ p.location_ku or '' }}"></div>
+    </fieldset>
+  </div>
+  <p class="help">If one language is left empty, that page shows the other language's text instead.</p>
+
+  <fieldset class="set-group">
+    <legend>Dates</legend>
+    <div class="date-row">
+      <div class="field event-only"><label for="event_date">Event date</label><input id="event_date" name="event_date" type="date" value="{{ p.event_date or '' }}"></div>
+      <div class="field event-only"><label for="event_time">Start time</label><input id="event_time" name="event_time" type="text" inputmode="numeric" placeholder="17:30" value="{{ p.event_time or '' }}"></div>
+      <div class="field"><label for="published_at">Publication date</label><input id="published_at" name="published_at" type="date" value="{{ p.published_at or '' }}"><p class="help">Filled in automatically when you publish.</p></div>
+    </div>
+  </fieldset>
+
+  <div class="sticky-save">
+    <label class="opt publish"><input type="checkbox" name="published" value="1" {% if p.published %}checked{% endif %}> Published on the website</label>
+    <button class="btn" type="submit">Save</button>
+  </div>
+</form>
+
+{% if p.id %}
+<form method="post" action="/admin/news/{{ p.id }}/delete" class="adm-card danger" data-confirm="Delete this post and its picture? This can't be undone.">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <h2>Delete this post</h2>
+  <p class="muted">Removes the post and its picture from the website for good.</p>
+  <button class="btn btn-quiet" type="submit">Delete post</button>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  function sync() {
+    var ev = document.querySelector('input[name="kind"][value="event"]').checked;
+    document.querySelectorAll(".event-only").forEach(function (el) { el.hidden = !ev; });
+  }
+  document.querySelectorAll('input[name="kind"]').forEach(function (r) { r.addEventListener("change", sync); });
+  sync();
+  var img = document.getElementById("image"), prev = document.querySelector(".pic-preview");
+  img.addEventListener("change", function () {
+    if (!img.files[0]) return;
+    var url = URL.createObjectURL(img.files[0]);
+    prev.innerHTML = "";
+    var el = document.createElement("img"); el.src = url; el.alt = ""; prev.appendChild(el);
+  });
+  document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+    var armed = false, btn = f.querySelector("button");
+    f.addEventListener("submit", function (e) {
+      if (armed) return;
+      e.preventDefault(); armed = true; btn.textContent = "Click again to delete for good";
+    });
+  });
+})();
+</script>
+{% endblock %}

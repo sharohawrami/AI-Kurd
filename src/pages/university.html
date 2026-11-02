@@ -1,0 +1,51 @@
+<!--
+out: universities/university.html
+nav: universities
+title: {{uni_name}} · Kurdistan AI Safety Hub
+description: News, events and courses from {{uni_name}}.
+dynamic: yes
+index: yes
+-->
+<header class="page-head uni-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">Home</a> / <a href="{{root}}universities.html">Universities</a> / {{uni_name}}</p>
+    <div class="uni-title">
+      <span class="uni-logo uni-logo-lg">{{uni_logo}}</span>
+      <div class="uni-title-text">
+        <h1 dir="auto">{{uni_name}}</h1>
+        <p class="uni-alt" dir="auto"{{uni_alt_hidden}}>{{uni_alt}}</p>
+        <p class="uni-where">{{uni_facts}}</p>
+      </div>
+    </div>
+    {{uni_draft}}
+  </div>
+</header>
+
+<section class="sec" id="about" data-sec="about"{{uni_about_hidden}}>
+  <div class="wrap sec-grid">
+    <p class="sec-label">About</p>
+    <div class="sec-body prose-stack" dir="auto">{{uni_about}}</div>
+  </div>
+</section>
+
+<section class="sec" id="courses" data-sec="courses">
+  <div class="wrap sec-grid">
+    <p class="sec-label">Courses</p>
+    <div class="sec-body">
+      <h2>Courses and applications</h2>
+      {{uni_courses}}
+      <p class="news-note"{{uni_courses_empty}}>No courses are listed at the moment.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="news" data-sec="news">
+  <div class="wrap sec-grid">
+    <p class="sec-label">News and events</p>
+    <div class="sec-body">
+      <h2>Latest news and events</h2>
+      {{uni_news}}
+      <p class="news-note"{{uni_news_empty}}>News and events from this university will appear here.</p>
+    </div>
+  </div>
+</section>

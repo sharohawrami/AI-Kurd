@@ -1,0 +1,315 @@
+<!--
+out: apply.html
+nav: program
+title: Apply for Cohort 1 · Kurdistan AI Safety Hub
+description: Apply to Cohort 1 of the {{program_name}}. Applications close {{apply_deadline}}, 23:59 Erbil time.
+newsletter: no
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">Home</a> / <a href="{{root}}courses/12-week-program.html">{{program_name}}</a> / Apply</p>
+    <h1 data-when="open">Apply for Cohort 1</h1>
+    <h1 data-when="closed">Applications for Cohort 1 are closed</h1>
+    <p class="lede" data-when="closed">Thank you to everyone who applied. Leave your name and email below, and we’ll write to you as soon as applications open for the next cohort.</p>
+    <p class="lede" data-when="open">Applications for the {{program_name}} close on {{apply_deadline}} at 23:59 Erbil time. The form takes about 20 minutes. Every application is read by at least two members of our team.</p>
+  </div>
+</header>
+
+<div class="wrap form-page">
+  <div class="form-layout">
+    <div class="form-col">
+      <div class="apply-open" data-when="open">
+      <p class="draft" hidden>Your unsent answers from this browser have been restored. <button type="button" class="linkbtn">Clear all answers</button></p>
+      <div class="errsum" tabindex="-1" role="alert" hidden></div>
+
+      <form id="cohort-form" class="form" data-form="cohort" data-confirm="cohort-done" novalidate>
+
+        <fieldset class="fs">
+          <div class="fs-h"><span class="fs-n">1 / 5</span><h2>About you</h2></div>
+          <div class="field">
+            <label for="c-name">Full name<span class="req" aria-hidden="true">*</span></label>
+            <input id="c-name" name="full_name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="c-email">Email<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="c-email-help">All updates about your application go here.</p>
+            <input id="c-email" name="email" type="email" autocomplete="email" aria-describedby="c-email-help" required>
+          </div>
+          <div class="field">
+            <label for="c-phone">Phone or WhatsApp<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-phone-help">Used only to schedule your conversation.</p>
+            <input id="c-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="c-phone-help">
+          </div>
+          <div class="field">
+            <label for="c-city">City of residence<span class="req" aria-hidden="true">*</span></label>
+            <select id="c-city" name="city" required>
+              <option value="">Choose one</option>
+              <option>Erbil</option>
+              <option>Sulaimani</option>
+              <option>Duhok</option>
+              <option>Halabja</option>
+              <option>Kirkuk</option>
+              <option>Elsewhere in Iraq</option>
+              <option>Outside Iraq</option>
+            </select>
+          </div>
+          <div class="field" data-show-if="city=Outside Iraq" hidden>
+            <label for="c-country">Which country do you live in?<span class="req" aria-hidden="true">*</span></label>
+            <input id="c-country" name="country" type="text" autocomplete="country-name" required>
+          </div>
+          <fieldset class="field" data-required-group="age_18">
+            <legend class="q">Will you be 18 or over on {{cohort_start}}?<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="c-age-yes"><input id="c-age-yes" type="radio" name="age_18" value="Yes">Yes</label>
+              <label class="opt" for="c-age-no"><input id="c-age-no" type="radio" name="age_18" value="No" data-ineligible="You must be 18 or over on the start date to apply.">No</label>
+            </div>
+            <p class="note" data-show-if="age_18=No" hidden>This cohort is open to people aged 18 and over. We’d be glad to hear from you for a future cohort, and the <a href="{{root}}resources.html#paths">study paths</a> are a good way to prepare.</p>
+          </fieldset>
+          <fieldset class="field" data-required-group="format">
+            <legend class="q">How would you prefer to take part?<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="c-fmt-person"><input id="c-fmt-person" type="radio" name="format" value="In person in Erbil">In person in Erbil</label>
+              <label class="opt" for="c-fmt-online"><input id="c-fmt-online" type="radio" name="format" value="Online">Online</label>
+              <label class="opt" for="c-fmt-either"><input id="c-fmt-either" type="radio" name="format" value="Either">Either</label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-education-and-work">
+          <div class="fs-h"><span class="fs-n">2 / 5</span><h2>Education and work</h2></div>
+          <fieldset class="field" data-required-group="status">
+            <legend class="q">What are you doing now?<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="c-st-ug"><input id="c-st-ug" type="radio" name="status" value="Undergraduate">Undergraduate</label>
+              <label class="opt" for="c-st-ms"><input id="c-st-ms" type="radio" name="status" value="Master’s student">Master’s student</label>
+              <label class="opt" for="c-st-phd"><input id="c-st-phd" type="radio" name="status" value="PhD student">PhD student</label>
+              <label class="opt" for="c-st-grad"><input id="c-st-grad" type="radio" name="status" value="Recent graduate">Recent graduate</label>
+              <label class="opt" for="c-st-pro"><input id="c-st-pro" type="radio" name="status" value="Working professional">Working professional</label>
+              <label class="opt" for="c-st-other"><input id="c-st-other" type="radio" name="status" value="Other">Other</label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="c-inst">University or employer<span class="req" aria-hidden="true">*</span></label>
+            <input id="c-inst" name="institution" type="text" autocomplete="organization" required>
+          </div>
+          <div class="field">
+            <label for="c-field">Field of study or job title<span class="req" aria-hidden="true">*</span></label>
+            <input id="c-field" name="field_or_role" type="text" required>
+          </div>
+          <div class="field">
+            <label for="c-years">Year of study, or years of work experience<span class="req" aria-hidden="true">*</span></label>
+            <select id="c-years" name="year_or_experience" required>
+              <option value="">Choose one</option>
+              <optgroup label="Students">
+                <option>1st year</option>
+                <option>2nd year</option>
+                <option>3rd year</option>
+                <option>4th year</option>
+                <option>5th year or later</option>
+              </optgroup>
+              <optgroup label="Working">
+                <option>0 to 2 years of work</option>
+                <option>3 to 5 years of work</option>
+                <option>6 or more years of work</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="c-cv">Link to your CV<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-cv-help">A Google Drive, Dropbox or OneDrive link that anyone with the link can view. No CV yet? That’s fine: Week 9 helps you write one.</p>
+            <input id="c-cv" name="cv_link" type="url" inputmode="url" placeholder="https://" aria-describedby="c-cv-help">
+          </div>
+          <div class="field">
+            <label for="c-linkedin">LinkedIn<span class="opt-tag">optional</span></label>
+            <input id="c-linkedin" name="linkedin" type="url" inputmode="url" placeholder="https://linkedin.com/in/">
+          </div>
+          <div class="field">
+            <label for="c-github">Portfolio, blog or personal site<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-github-help">Anything that shows your work or interests, if you have one.</p>
+            <input id="c-github" name="portfolio" type="url" inputmode="url" placeholder="https://" aria-describedby="c-github-help">
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-motivation-and-fit">
+          <div class="fs-h"><span class="fs-n">3 / 5</span><h2>Motivation and fit</h2></div>
+          <div class="field">
+            <label for="c-why">Why do you want to join this program, and what would you like to be doing one to two years after it?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="c-why" name="motivation" data-min-words="100" data-max-words="300" required></textarea>
+          </div>
+          <div class="field">
+            <label for="c-failure">Choose one way an AI system could fail or cause harm that you think matters. Explain it in your own words, and say what you’d want to learn about it.<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="c-failure-help">No prior knowledge expected. We want clear thinking, not jargon.</p>
+            <textarea id="c-failure" name="failure_mode" data-min-words="80" data-max-words="250" aria-describedby="c-failure-help" required></textarea>
+          </div>
+          <div class="field">
+            <label for="c-read">Anything you’ve read, watched or built about AI safety<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-read-help">“Nothing yet” is a fine answer.</p>
+            <textarea id="c-read" name="prior_exposure" class="short" aria-describedby="c-read-help"></textarea>
+          </div>
+          <div class="field">
+            <label for="c-skills">Which professional skills would you most like to build?<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-skills-help">For example speaking in public, writing a CV, interviews or teamwork.</p>
+            <textarea id="c-skills" name="skills_to_build" class="short" aria-describedby="c-skills-help"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-availability-and-logistics">
+          <div class="fs-h"><span class="fs-n">4 / 5</span><h2>Availability and logistics</h2></div>
+          <fieldset class="field" data-required-group="commitment">
+            <legend class="q">Can you take part every week from {{cohort_start}} to {{cohort_end}}?<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="c-com-yes"><input id="c-com-yes" type="radio" name="commitment" value="Yes">Yes</label>
+              <label class="opt" for="c-com-part"><input id="c-com-part" type="radio" name="commitment" value="Partly">Partly</label>
+              <label class="opt" for="c-com-no"><input id="c-com-no" type="radio" name="commitment" value="No">No</label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-if="commitment=Partly|No" hidden>
+            <label for="c-com-detail">Tell us what limits your time<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="c-com-detail" name="commitment_detail" class="short" data-max-words="100" required></textarea>
+          </div>
+          <fieldset class="field avail-field" data-required-group="availability">
+            <legend class="q">When could you attend a weekly session?<span class="req" aria-hidden="true">*</span></legend>
+            <p class="help" id="c-avail-help">Select every hour that works for you, in Erbil time. Click a square or drag across several. Click a day or an hour to select the whole column or row.</p>
+            {{availability_grid}}
+          </fieldset>
+          <div class="field">
+            <label for="c-absent">Dates you already know you’ll miss<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-absent-help">Exams, travel, religious holidays.</p>
+            <input id="c-absent" name="known_absences" type="text" aria-describedby="c-absent-help">
+          </div>
+          <fieldset class="field" data-required-group="equipment">
+            <legend class="q">Do you have reliable access to a laptop and internet?<span class="req" aria-hidden="true">*</span></legend>
+            <p class="help">Answering Partly or No will not count against you. It helps us plan support.</p>
+            <div class="opts inline">
+              <label class="opt" for="c-eq-yes"><input id="c-eq-yes" type="radio" name="equipment" value="Yes">Yes</label>
+              <label class="opt" for="c-eq-part"><input id="c-eq-part" type="radio" name="equipment" value="Partly">Partly</label>
+              <label class="opt" for="c-eq-no"><input id="c-eq-no" type="radio" name="equipment" value="No">No</label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="c-access">Anything we should know to make the program accessible to you<span class="opt-tag">optional</span></label>
+            <p class="help" id="c-access-help">Seen only by the operations team.</p>
+            <textarea id="c-access" name="accessibility" class="short" aria-describedby="c-access-help"></textarea>
+          </div>
+          <div class="field">
+            <label for="c-heard">How did you hear about us?<span class="req" aria-hidden="true">*</span></label>
+            <select id="c-heard" name="heard_from" required>
+              <option value="">Choose one</option>
+              <option>AI Kurd</option>
+              <option>University or lecturer</option>
+              <option>Friend or classmate</option>
+              <option>Social media</option>
+              <option>Event</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field" data-show-if="heard_from=Social media|Other|Event" hidden>
+            <label for="c-heard-detail">Which one?<span class="opt-tag">optional</span></label>
+            <input id="c-heard-detail" name="heard_detail" type="text">
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-declarations">
+          <div class="fs-h"><span class="fs-n">5 / 5</span><h2>Declarations</h2></div>
+          <div class="field">
+            <label class="opt" for="c-accurate"><input id="c-accurate" type="checkbox" name="declaration_accurate" value="Yes" required><span>The information I’ve given is accurate, and the written answers are my own work.<span class="req" aria-hidden="true">*</span></span></label>
+          </div>
+          <div class="field">
+            <label class="opt" for="c-consent"><input id="c-consent" type="checkbox" name="consent_data" value="Yes" required><span>I agree to the Hub processing my data to assess this application, as described in the <a href="{{root}}privacy.html" target="_blank">privacy notice</a>.<span class="req" aria-hidden="true">*</span></span></label>
+          </div>
+          <div class="field">
+            <label class="opt" for="c-optin"><input id="c-optin" type="checkbox" name="mailing_list" value="Yes">Add me to the mailing list for future programs and events.</label>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input id="c-website" name="website" tabindex="-1" autocomplete="off"></div>
+        </fieldset>
+
+        <div class="submit-row">
+          <button class="btn" type="submit">Submit application</button>
+          <p class="help">You can’t edit an application after submitting. Until then, your answers are saved in this browser.</p>
+          <p class="send-error note" tabindex="-1" role="alert" hidden>We couldn’t send your application. Your answers are still here, so check your connection and try again. If it keeps failing, email {{mail:email_apply}}.</p>
+        </div>
+      </form>
+
+      <div id="cohort-done" class="confirm" tabindex="-1" hidden>
+        <p class="label">Application received</p>
+        <h2>Thank you, <span data-first-name>there</span>.</h2>
+        <p>Your application for Cohort 1 is in, and a confirmation email is on its way. Here’s what happens next:</p>
+        <ol>
+          <li>Conversations with facilitators take place between {{interviews_from}} and {{interviews_to}}.</li>
+          <li>Every applicant receives a decision by {{decisions_date}}.</li>
+        </ol>
+        <p>While you wait, look through <a href="{{root}}courses/12-week-program.html#syllabus">the 12 weeks of the program</a>, or follow <a href="{{root}}news.html">News and events</a>.</p>
+        <p class="preview-note" hidden>Preview: this site isn’t connected to a form endpoint yet, so nothing was sent. Set form_endpoint in site.json before launch.</p>
+      </div>
+      </div>
+
+      <div class="notify" id="notify" data-when="closed">
+        <div class="errsum" tabindex="-1" role="alert" hidden></div>
+        <form id="interest-form" class="form" data-form="interest" data-confirm="interest-done" novalidate>
+          <fieldset class="fs">
+            <div class="fs-h"><h2>Tell me when the next cohort opens</h2></div>
+            <p class="help">We’ll email you when applications for the next cohort open.</p>
+            <div class="field">
+              <label for="i-name">Full name<span class="req" aria-hidden="true">*</span></label>
+              <input id="i-name" name="full_name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="i-email">Email<span class="req" aria-hidden="true">*</span></label>
+              <input id="i-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="i-city">City of residence<span class="opt-tag">optional</span></label>
+              <input id="i-city" name="city" type="text" autocomplete="address-level2">
+            </div>
+            <div class="field">
+              <label for="i-note">Anything you’d like us to know?<span class="opt-tag">optional</span></label>
+              <textarea id="i-note" name="note" class="short" data-max-words="150"></textarea>
+            </div>
+            <div class="field">
+              <label class="opt" for="i-consent"><input id="i-consent" type="checkbox" name="consent_contact" value="Yes" required><span>Email me when applications for the next cohort open. I can ask you to remove my details at any time.<span class="req" aria-hidden="true">*</span></span></label>
+            </div>
+            <div class="hp" aria-hidden="true"><label for="i-website">Website</label><input id="i-website" name="website" tabindex="-1" autocomplete="off"></div>
+          </fieldset>
+          <div class="submit-row">
+            <button class="btn" type="submit">Notify me</button>
+            <p class="send-error note" tabindex="-1" role="alert" hidden>We couldn’t send this. Check your connection and try again. If it keeps failing, email {{mail:email_apply}}.</p>
+          </div>
+        </form>
+        <div id="interest-done" class="confirm" tabindex="-1" hidden>
+          <p class="label">You’re on the list</p>
+          <h2>Thank you, <span data-first-name>there</span>.</h2>
+          <p>We’ll email you as soon as applications for the next cohort open.</p>
+          <p>Until then, look through <a href="{{root}}courses/12-week-program.html#syllabus">the 12 weeks of the program</a> or the <a href="{{root}}resources.html">reading library</a>.</p>
+          <p class="preview-note" hidden>Preview: this site isn’t connected to a form endpoint yet, so nothing was sent.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="form-aside">
+      <div class="box" data-sec="aside-next-cohort" data-when="closed">
+        <h2>What happens next</h2>
+        <ul>
+          <li>We’ll email you when applications for the next cohort open.</li>
+          <li>Your details are used only for this. You can ask us to remove them at any time.</li>
+        </ul>
+        <p class="small muted">Questions? Email {{mail:email_apply}}.</p>
+      </div>
+      <div class="box" data-sec="aside-before-you-start" data-when="open">
+        <h2>Before you start</h2>
+        <ul>
+          <li>A link to your CV or LinkedIn profile, if you have one</li>
+          <li>About 15 minutes for the two written answers. Write them yourself; we’re looking for your thinking, not polish.</li>
+          <li>Your weekly timetable, to mark the hours you’re free</li>
+        </ul>
+      </div>
+      <div class="box" data-sec="aside-after-you-apply" data-when="open">
+        <h2>After you apply</h2>
+        <ol>
+          <li>A 20-minute conversation</li>
+          <li>Decision by {{decisions_date}}</li>
+        </ol>
+        <p class="small muted">Read <a href="{{root}}courses/12-week-program.html#needs">what you need</a> first. Questions? Email {{mail:email_apply}}.</p>
+      </div>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% block title %}Courses · {{ u.name_en or u.name_ku }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">{% if is_staff(me) %}<a href="/admin/universities">Universities</a> / <a href="/admin/universities/{{ u.id }}">{{ u.name_en or u.name_ku }}</a>{% else %}<a href="/admin/uni">{{ u.name_en or u.name_ku }}</a>{% endif %}</p>
+  <h1>Courses and applications</h1>
+  <p class="lede">Each course gets its own page with an application form. You choose the questions, and the answers arrive here.</p>
+  <div class="actions"><a class="btn" href="/admin/universities/{{ u.id }}/courses/new">Open a new course</a></div>
+</header>
+<section class="adm-card">
+  {% if courses %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Course</th><th>Deadline</th><th>Applications</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for c in courses %}
+      <tr>
+        <td><a href="/admin/courses/{{ c.id }}"><b>{{ c.title_en or c.title_ku }}</b></a>{% if c.title_en and c.title_ku %}<br><span class="muted" lang="ckb" dir="rtl">{{ c.title_ku }}</span>{% endif %}</td>
+        <td class="nowrap">{{ fmt(c.deadline, 'en') if c.deadline else '—' }}</td>
+        <td><a href="/admin/courses/{{ c.id }}/applications">{{ apps[c.id] }}</a></td>
+        <td>{% if not c.published %}<span class="chip-draft">Draft</span>{% elif is_open(c) %}<span class="chip-ok">Taking applications</span>{% else %}<span class="chip-draft">Closed</span>{% endif %}</td>
+        <td class="row-actions"><a href="/admin/courses/{{ c.id }}">Edit</a><a href="/admin/courses/{{ c.id }}/applications">Applications</a><a href="/universities/{{ u.slug }}/courses/{{ c.slug }}" target="_blank" rel="noopener">View ↗</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">No courses yet. Open one, and it appears on the university's page with its own application form.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,128 @@
+<!--
+out: profile/edit.html
+nav: account
+title: دەستکاریکردنی پرۆفایل · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: پرۆفایلەکەت لە ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد نوێ بکەرەوە.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap pe-wrap">
+    <header class="pe-head">
+      <p class="eyebrow"><a href="{{root}}profile">پرۆفایلەکەم</a></p>
+      <h1>دەستکاریکردنی پرۆفایلەکەت</h1>
+    </header>
+    <p class="acct-alert" role="alert"{{show_err_name}}>ناوەکەت نابێت بەتاڵ بێت.</p>
+    <p class="acct-alert" role="alert"{{show_err_link}}>ناونیشانی ماڵپەڕ بە https:// دەست پێ دەکات (بۆ نموونە https://github.com/yourname).</p>
+    <p class="acct-alert" role="alert"{{show_err_picture}}>ئەو فایلە وێنەیەک نییە کە بتوانین بەکاری بهێنین. وێنەیەکی JPEG، PNG یان WebP بچووکتر لە ٨ مێگابایت بار بکە.</p>
+    <p class="acct-alert" role="alert"{{show_err_expired}}>ماوەی ئەم پەڕەیە بەسەرچوو. تکایە دووبارە هەوڵ بدەرەوە.</p>
+    <p class="acct-alert ok" role="status"{{show_pw_changed}}>وشەی نهێنییەکەت گۆڕدرا.</p>
+    <p class="acct-alert ok" role="status"{{show_must_change}}>بە وشەی نهێنییەکی کاتی لە تیمی ناوەندەکەوە هاتیتە ژوورەوە. لە خوارەوە وشەی نهێنیی خۆت هەڵبژێرە.</p>
+    <form class="pe-form" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf" value="{{csrf}}">
+      <input type="hidden" name="action" value="profile">
+      <div class="pe-grid">
+        <div class="pe-pic">
+          <div class="portrait portrait-sm" id="pe-portrait">{{m_portrait}}</div>
+          <div class="field">
+            <label for="p-picture">وێنەکەت</label>
+            <p class="help" id="p-picture-help">وێنەیەکی ڕوونی ڕووخسارت باشترینە. بە شێوەی چوارگۆشە دەیبڕین.</p>
+            <input id="p-picture" name="picture" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="p-picture-help">
+          </div>
+          <label class="opt" for="p-remove"{{show_remove}}><input id="p-remove" type="checkbox" name="remove_picture" value="1">وێنەکەم لاببە</label>
+        </div>
+        <div class="pe-fields">
+          <div class="field">
+            <label for="p-name">ناوی تەواو<span class="req" aria-hidden="true">*</span></label>
+            <input id="p-name" dir="auto" name="full_name" type="text" autocomplete="name" maxlength="80" required value="{{f_name}}">
+          </div>
+          <div class="field">
+            <label for="p-name-ku">ناوەکەت بە پیتی کوردی<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="p-name-ku-help">لە پرۆفایلەکەتدا لە ژێر ناوەکەتەوە پیشان دەدرێت.</p>
+            <input id="p-name-ku" name="name_ku" type="text" dir="rtl" lang="ckb" maxlength="80" aria-describedby="p-name-ku-help" value="{{f_name_ku}}">
+          </div>
+          <div class="field">
+            <label for="p-occ">چی دەکەیت<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="p-occ" dir="auto" name="occupation" type="text" maxlength="120" placeholder="خوێندکاری ئەندازیاریی کۆمپیوتەر، زانکۆی سەڵاحەددین" value="{{f_occupation}}">
+          </div>
+          <div class="field">
+            <label for="p-city">شار یان شارۆچکە<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="p-city" dir="auto" name="city" type="text" autocomplete="address-level2" maxlength="60" value="{{f_city}}">
+          </div>
+          <div class="field">
+            <label for="p-bio">دەربارەی خۆت<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="p-bio-help">چەند ڕستەیەک: لەسەر چی کار دەکەیت، و چی تۆی هێنایە ناو سەلامەتیی زیرەکیی دەستکرد.</p>
+            <textarea id="p-bio" dir="auto" name="bio" class="short" maxlength="600" aria-describedby="p-bio-help">{{f_bio}}</textarea>
+          </div>
+          <fieldset class="field">
+            <legend class="q">ئەو بەشانەی سەلامەتیی زیرەکیی دەستکرد کە گرنگن بۆت<span class="opt-tag">ئارەزوومەندانە</span></legend>
+            <div class="weave-chips">
+              <label class="weave" for="p-i-interp"><input id="p-i-interp" type="checkbox" name="interests" value="interp"{{chk_int_interp}}><span>ڕاڤەپێکراوی</span></label>
+              <label class="weave" for="p-i-evals"><input id="p-i-evals" type="checkbox" name="interests" value="evals"{{chk_int_evals}}><span>هەڵسەنگاندن</span></label>
+              <label class="weave" for="p-i-align"><input id="p-i-align" type="checkbox" name="interests" value="align"{{chk_int_align}}><span>هاوئاهەنگی</span></label>
+              <label class="weave" for="p-i-robust"><input id="p-i-robust" type="checkbox" name="interests" value="robust"{{chk_int_robust}}><span>پتەوی و ئاسایش</span></label>
+              <label class="weave" for="p-i-gov"><input id="p-i-gov" type="checkbox" name="interests" value="gov"{{chk_int_gov}}><span>حوکمڕانیی زیرەکیی دەستکرد</span></label>
+              <label class="weave" for="p-i-ml"><input id="p-i-ml" type="checkbox" name="interests" value="ml"{{chk_int_ml}}><span>بنەماکانی فێربوونی ئامێر</span></label>
+              <label class="weave" for="p-i-kurdish"><input id="p-i-kurdish" type="checkbox" name="interests" value="kurdish"{{chk_int_kurdish}}><span>زیرەکیی دەستکرد بۆ زمانی کوردی</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="p-link">ماڵپەڕ یان بەستەری پرۆفایل<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="p-link" name="link" type="url" maxlength="200" placeholder="https://" value="{{f_link}}">
+          </div>
+          <fieldset class="field">
+            <legend class="q">دوای چوونەژوورەوە ماڵپەڕەکە بە چ زمانێک پیشان بدەین؟</legend>
+            <div class="opts inline">
+              <label class="opt" for="p-lang-en"><input id="p-lang-en" type="radio" name="language" value="en"{{chk_lang_en}}>English</label>
+              <label class="opt" for="p-lang-ku"><input id="p-lang-ku" type="radio" name="language" value="ku"{{chk_lang_ku}}>کوردی (سۆرانی)</label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="pe-save">
+        <button class="btn" type="submit">پاشەکەوتکردنی پرۆفایل</button>
+        <a class="pe-cancel" href="{{root}}profile">پاشگەزبوونەوە</a>
+      </div>
+    </form>
+
+    <section class="pe-more" aria-labelledby="pe-pw">
+      <h2 id="pe-pw">گۆڕینی وشەی نهێنی</h2>
+      <p class="acct-alert" role="alert"{{show_err_pw_current}}>وشەی نهێنیی ئێستات دروست نییە.</p>
+      <p class="acct-alert" role="alert"{{show_err_pw_short}}>وشەی نهێنیی نوێ دەبێت لانیکەم ١٠ پیت بێت، نەک تەنها یەک پیتی دووبارەکراوە.</p>
+      <p class="acct-alert" role="alert"{{show_err_pw_match}}>دوو وشە نهێنییە نوێیەکە وەک یەک نین.</p>
+      <form class="pe-form-sm" method="post">
+        <input type="hidden" name="csrf" value="{{csrf}}">
+        <input type="hidden" name="action" value="password">
+        <div class="field">
+          <label for="pw-current">وشەی نهێنیی ئێستا</label>
+          <input id="pw-current" name="current" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="pw-new">وشەی نهێنیی نوێ</label>
+          <input id="pw-new" name="new" type="password" autocomplete="new-password" minlength="10" required>
+        </div>
+        <div class="field">
+          <label for="pw-confirm">وشەی نهێنیی نوێ دووبارە</label>
+          <input id="pw-confirm" name="confirm" type="password" autocomplete="new-password" minlength="10" required>
+        </div>
+        <button class="btn btn-quiet" type="submit">گۆڕینی وشەی نهێنی</button>
+      </form>
+    </section>
+
+    <section class="pe-more pe-danger" aria-labelledby="pe-del">
+      <h2 id="pe-del">سڕینەوەی هەژمارەکەت</h2>
+      <p>ئەمە هەژمار، پرۆفایل و وێنەکەت بۆ هەمیشە دەسڕێتەوە. داواکاریی خول ناکشێنێتەوە؛ بۆ ئەوە، نامە بۆ {{mail:email_apply}} بنێرە.</p>
+      <p class="acct-alert" role="alert"{{show_err_delete}}>وشەی نهێنییەکە دروست نییە، یان خانەکەت نیشان نەکردووە.</p>
+      <form class="pe-form-sm" method="post">
+        <input type="hidden" name="csrf" value="{{csrf}}">
+        <input type="hidden" name="action" value="delete">
+        <div class="field">
+          <label for="del-pass">وشەی نهێنییەکەت</label>
+          <input id="del-pass" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <label class="opt" for="del-sure"><input id="del-sure" type="checkbox" name="sure" value="1" required>تێدەگەم کە ئەمە ناگەڕێتەوە.</label>
+        <button class="btn btn-danger" type="submit">سڕینەوەی هەژمارەکەم</button>
+      </form>
+    </section>
+  </div>
+</section>

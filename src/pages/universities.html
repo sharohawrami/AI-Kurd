@@ -1,0 +1,32 @@
+<!--
+out: universities.html
+nav: universities
+title: Universities · Kurdistan AI Safety Hub
+description: Universities in the Kurdistan Region share their news, events and courses on the Kurdistan AI Safety Hub.
+dynamic: yes
+index: yes
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">Home</a> / Universities</p>
+    <h1>Universities</h1>
+    <p class="lede">Universities across the Kurdistan Region share their news, events and courses here. Each university has one page, kept up to date by its own representatives.</p>
+  </div>
+</header>
+
+<section class="sec uni-dir" data-sec="list">
+  <div class="wrap">
+    {{uni_list}}
+    <p class="news-note"{{uni_empty}}>No universities have joined yet. The first pages will appear here soon.</p>
+  </div>
+</section>
+
+<section class="sec" data-sec="join">
+  <div class="wrap sec-grid">
+    <p class="sec-label">For universities</p>
+    <div class="sec-body">
+      <h2>Bring your university to the Hub</h2>
+      <p class="prose">A university page lets you post news and events and open applications for your courses, in Kurdish and English. Write to {{mail:email_hello}} and we will set up your page and an account for your representatives.</p>
+    </div>
+  </div>
+</section>

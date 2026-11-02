@@ -1,0 +1,148 @@
+<!--
+out: index.html
+nav: home
+title: ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: ناساندنی سەلامەتیی زیرەکیی دەستکرد و گەشەپێدانی پیشەیی، بۆ خوێندکاران و پیشەگەرانی گەنجی هەرێمی کوردستان.
+-->
+<section class="hero" data-sec="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow">ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد · هەولێر</p>
+      <h1>توانای توێژینەوە بنیات دەنێین بۆ سەلامەتکردنی زیرەکیی دەستکردی پێشکەوتوو، و لە کوردستانەوە دەست پێ دەکەین.</h1>
+      <p class="lede">سەلامەتیی زیرەکیی دەستکرد بە خوێندکاران و پیشەگەرانی گەنج دەناسێنین: زیرەکیی دەستکردی نوێ چۆن جیهان دەگۆڕێت، چی لەوانەیە هەڵە بڕوات، و چۆن دەتوانن پیشەیەک بنیات بنێن کە یارمەتیدەر بێت. خولی بچووک، گفتوگۆی ئازاد، و پەیوەندییەکی ڕاستەوخۆ لەگەڵ کۆمەڵگەی جیهانیی سەلامەتیی زیرەکیی دەستکرد.</p>
+      <div class="actions">
+        <a class="btn" href="{{root}}apply.html" data-when="open">داواکاری بۆ خولی یەکەم</a>
+        <a class="btn" href="{{root}}apply.html#notify" data-when="closed">کاتێک خولی داهاتوو کرایەوە ئاگادارم بکەرەوە</a>
+        <a class="btn btn-quiet" href="{{root}}courses/12-week-program.html#syllabus">سەیری پرۆگرامەکە بکە</a>
+      </div>
+      <p class="status"><span>خولی یەکەم</span><span>١٢ هەفتە</span><span>دەستپێک: {{cohort_start}}</span><span>بەخۆڕایی</span><span data-when="open">دوا وادەی داواکاری: {{apply_deadline}}</span><span data-when="closed">وەرگرتنی داواکاری داخراوە</span></p>
+    </div>
+    <figure class="plate">
+      <div class="plate-frame">{{attention_svg}}</div>
+      <figcaption><span class="plate-no">وێنەی یەکەم</span>نەخشێک لە ناو مۆدێلێکی زمانەوە، کە وەک بەڕە چنراوە. هەر ڕیزێک وشەیەکە، و هەر خانەیەک وشەیەکە کە ئەو وشەیە ئاوڕی لێ دەداتەوە. توێژەران لێکۆڵینەوە لە نەخشی لەم جۆرە دەکەن بۆ ئەوەی تێبگەن سیستەمەکانی زیرەکیی دەستکرد چی دەکەن، کە یەکێکە لەو جۆرە کارانەی لە هەفتەی ٥دا گفتوگۆی لەسەر دەکەین.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec" data-sec="why-the-hub-exists">
+  <div class="wrap sec-grid">
+    <p class="sec-label">بۆچی ناوەندەکە هەیە</p>
+    <div class="sec-body">
+      <h2>بەهرە لە هەموو شوێنێک هەیە. بەڵام دەستگەیشتن بەم بوارە نا.</h2>
+      <div class="prose-stack">
+        <p class="dropcap">کار لەسەر سەلامەتکردنی سیستەمەکانی زیرەکیی دەستکرد لە چەند شارێکی کەمدا کۆبووەتەوە. خوێندکارانی هەولێر، سلێمانی، دهۆک و هەڵەبجە بەهرەی ئەوەیان هەیە بەشداری بکەن، بەڵام ڕێگای ڕێکخراو بۆ چوونە ناو ئەم بوارە کەمە: نە کۆمەڵگەیەکی ناوخۆیی هەیە، نە ڕاوێژکار، نە کەسێک کە لێی بپرسیت لە کوێوە دەست پێ بکەیت.</p>
+        <p>ناوەندەکە ئەو ڕێگایەیە: بە پێوەری پرۆگرامە نێودەوڵەتییە ناسراوەکان دروست کراوە و ڕەگی لە بارودۆخی خۆماندا داکوتاوە.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="program" data-sec="program">
+  <div class="wrap sec-grid">
+    <p class="sec-label">پرۆگرامی سەرەکی</p>
+    <div class="sec-body">
+      <article class="feature">
+        <p class="live" data-when="open"><span class="dot" aria-hidden="true"></span>وەرگرتنی داواکاری کراوەیە</p>
+        <p class="live live-off" data-when="closed"><span class="dot" aria-hidden="true"></span>وەرگرتنی داواکاری بۆ خولی یەکەم داخراوە</p>
+        <h2>{{program_name}}</h2>
+        <p class="lede">دوازدە هەفتە گفتوگۆی ڕێکخراو: سەلامەتیی زیرەکیی دەستکرد چییە و بۆچی گرنگە، و چۆن وەک کەسێکی پیشەیی گەشە بکەیت و پیشەیەکی سەرکەوتوو بنیات بنێیت.</p>
+        <dl class="facts">
+          <div data-sec="program-fact-1"><dt>ماوە</dt><dd>١٢ هەفتە، لە {{cohort_start}} تا {{cohort_end}}</dd></div>
+          <div data-sec="program-fact-2"><dt>شێواز</dt><dd>نیوەکاتی و تێکەڵاو: دانیشتنێکی هەفتانە لە هەولێر، لەگەڵ بەشێکی ئۆنلاین</dd></div>
+          <div data-sec="program-fact-3"><dt>کاتی پێویست لە هەفتەیەکدا</dt><dd>یەک دانیشتنی گفتوگۆ</dd></div>
+          <div data-sec="program-fact-4"><dt>پێشمەرجەکان</dt><dd>هیچ. پێویستی بە کۆدنووسین یان پاشخانی تەکنیکی نییە</dd></div>
+          <div data-sec="program-fact-5"><dt>تێچوو</dt><dd>بەخۆڕایی</dd></div>
+          <div data-sec="program-fact-6"><dt>قەبارەی خول</dt><dd>تا {{cohort_size}} بەشداربوو</dd></div>
+        </dl>
+        <div class="actions">
+          <a class="btn" href="{{root}}apply.html" data-when="open">تا {{apply_deadline}} داواکاری پێشکەش بکە</a>
+          <a class="btn" href="{{root}}apply.html#notify" data-when="closed">کاتێک خولی داهاتوو کرایەوە ئاگادارم بکەرەوە</a>
+          <a class="more" href="{{root}}courses/12-week-program.html">پرۆگرامەکە بە تەواوی ببینە</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" data-sec="what-we-do">
+  <div class="wrap sec-grid">
+    <p class="sec-label">ئەوەی دەیکەین</p>
+    <div class="sec-body">
+      <div class="cols-3">
+        <div class="pillar" data-sec="pillar-education-and-cohorts">
+          <p class="label">پەروەردە و خولەکان</p>
+          <h3>پرۆگرامی ڕێکخراو بە خولێکی جێگیر</h3>
+          <p>گفتوگۆی هەفتانە لە گروپی بچووکدا بە ڕێبەرایەتیی ڕێکخەری دانیشتن. یەکەم پرۆگراممان، {{program_name}}، ١٢ هەفتە دەخایەنێت، و هەموو پرۆگرامێک کە دیزاینی دەکەین بە ئاشکرا بڵاو دەکرێتەوە.</p>
+          <a class="more" href="{{root}}courses/12-week-program.html">پرۆگرامەکە ببینە</a>
+        </div>
+        <div class="pillar" data-sec="pillar-technical-reading-groups">
+          <p class="label">گروپی خوێندنەوەی تەکنیکی</p>
+          <h3>هەر جارەی یەک وتار، بە وردی</h3>
+          <p>گروپی بچووک لە بوارەکانی ڕاڤەپێکراوی (interpretability)، هەڵسەنگاندن، چاودێریی فراوانبوو (scalable oversight) و حوکمڕانی، کە هەریەکەیان کەسێک سەرپەرشتیی دەکات کە وتارەکە باش دەناسێت. یەکەم گروپەکان لە {{reading_groups_start}} بۆ بەشداربووانی خولی یەکەم و توێژەرانی بانگهێشتکراو دەکرێنەوە.</p>
+          <a class="more" href="{{root}}resources.html">سەیری کتێبخانەی خوێندنەوە بکە</a>
+        </div>
+        <div class="pillar" data-sec="pillar-field-building">
+          <p class="label">بنیاتنانی بوار</p>
+          <h3>پەیوەندییەک بە بواری نێودەوڵەتییەوە</h3>
+          <p>ناساندن بە ڕاوێژکاران، ڕێنمایی بۆ پێشکەشکردن بە زەمالە و پرۆگرامە توێژینەوەییە نێودەوڵەتییەکان، و سیمیناری ئەو توێژەرانەی لەسەر ئەم کێشانە کار دەکەن. هەروەها ڕێکخەری دانیشتنی ناوخۆیی ڕادەهێنین تا ناوەندەکە لە یەک خول زیاتر گەشە بکات.</p>
+          <a class="more" href="{{root}}join-us.html">پەیوەندی بە تیمەکەمانەوە بکە</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" data-sec="after-12-weeks">
+  <div class="wrap sec-grid">
+    <p class="sec-label">دوای ١٢ هەفتە</p>
+    <div class="sec-body">
+      <h2>دەتوانیت چی بکەیت</h2>
+      <div class="cols-2">
+        <div class="outcome">
+          <h3>تێی بگە</h3>
+          <p>بە زمانێکی سادە ڕوونی دەکەیتەوە کە سیستەمەکانی زیرەکیی دەستکردی ئەمڕۆ چۆن دروست دەکرێن، لە چیدا باشن، و لە کوێدا شکست دەهێنن.</p>
+        </div>
+        <div class="outcome">
+          <h3>بیری لێ بکەرەوە</h3>
+          <p>بەڵگە سەرەکییەکانی مەترسیی زیرەکیی دەستکرد هەڵدەسەنگێنیت، و دەتوانیت بڵێیت کامیان قایلت دەکات و بۆچی.</p>
+        </div>
+        <div class="outcome">
+          <h3>خۆت بناسێنە</h3>
+          <p>بە ڕوونی قسە دەکەیت و دەنووسیت، لە تیمدا باش کار دەکەیت، و CV و پرۆفایلێکی ئامادەت بۆ دەرفەتەکان هەیە.</p>
+        </div>
+        <div class="outcome">
+          <h3>هەنگاوی داهاتوو بنێ</h3>
+          <p>بە پلانێکی کەسییەوە بۆ شەش مانگی داهاتووت دەڕۆیت: پرۆگرامێک بۆ پێشکەشکردنی داواکاری، توانایەک بۆ بەهێزکردن، یان کەسێک بۆ فێربوون لێی.</p>
+        </div>
+      </div>
+      <p class="footnote">پرۆگرامەکەمان پشت بە ماددەی بە ئاشکرا بڵاوکراوەی پرۆگرامە ناسراوەکانی سەلامەتیی زیرەکیی دەستکرد دەبەستێت. ئێمە بە شێوەیەکی فەرمی سەر بەو ڕێکخراوانە نین.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="news" data-sec="news">
+  <div class="wrap sec-grid">
+    <p class="sec-label">هەواڵ و چالاکییەکان</p>
+    <div class="sec-body">
+      <div class="news-head"><h2>لە ناوەندەکەوە</h2><a class="more" href="{{root}}news.html">هەموو هەواڵ و چالاکییەکان</a></div>
+      {{news_latest}}
+      <p class="news-note"{{news_hidden}}>هەواڵ و وێنەکانی دانیشتن، وتار و چالاکییەکانمان لێرە دەردەکەون.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" data-sec="closing-band">
+  <div class="wrap band-in">
+    <p class="label" data-when="open">خولی یەکەم</p>
+    <p class="label" data-when="closed">خولی داهاتوو</p>
+    <h2 data-when="open">خولی یەکەم لە {{cohort_start}} دەست پێ دەکات.</h2>
+    <h2 data-when="closed">دەتەوێت بەشداری خولی داهاتوو بکەیت؟</h2>
+    <p class="lede" data-when="closed">وەرگرتنی داواکاری بۆ خولی یەکەم داخراوە. ناو و ئیمەیڵەکەت بهێڵەوە، هەر کە وەرگرتنی داواکاری بۆ خولی داهاتوو کرایەوە بۆت دەنووسین.</p>
+    <p class="lede" data-when="open">وەرگرتنی داواکاری لە {{apply_deadline}} کاتژمێر ٢٣:٥٩ بە کاتی هەولێر کۆتایی دێت. پڕکردنەوەی فۆڕمەکە نزیکەی ٢٠ خولەک دەخایەنێت، و هەر داواکارییەک لانیکەم دوو ئەندامی تیمەکەمان دەیخوێننەوە.</p>
+    <div class="actions">
+      <a class="btn" href="{{root}}apply.html" data-when="open">داواکاری بۆ خولی یەکەم</a>
+      <a class="btn" href="{{root}}apply.html#notify" data-when="closed">کاتێک خولی داهاتوو کرایەوە ئاگادارم بکەرەوە</a>
+      <a class="btn btn-quiet" href="{{root}}join-us.html">دەتەوێت وانە بڵێیتەوە یان ببیتە ڕاوێژکار؟ پەیوەندی بە تیمەکەمانەوە بکە</a>
+    </div>
+  </div>
+</section>

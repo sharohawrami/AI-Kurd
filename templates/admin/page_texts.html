@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow"><a href="/admin/pages">Pages and text</a> · {{ lang_names[lang] }}</p>
+  <h1 {% if lang == 'ku' %}lang="ckb" dir="rtl"{% endif %}>{{ title }}</h1>
+  <p class="lede">Change any text, then save. Clear a box or press <b>Undo edit</b> to go back to the original wording. Words in <code>{{ '{{' }}double braces{{ '}}' }}</code> are filled in from <a href="/admin/settings">Dates and details</a>; keep them as they are.</p>
+  <div class="actions">
+    {% if url %}<a class="btn btn-quiet" href="{{ url }}?edit=1" target="_blank" rel="noopener">Edit on the page ↗</a>{% endif %}
+    {% if name != '_layout' %}<a class="btn btn-quiet" href="/admin/pages/{{ lang }}/_layout">Header and footer texts</a>{% endif %}
+  </div>
+</header>
+
+<form method="post" class="adm-card texts-form" id="texts-form">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <div class="texts-tools">
+    <label class="sr" for="filter">Find a text</label>
+    <input id="filter" type="text" placeholder="Find a text on this page…" autocomplete="off">
+    <label class="only-edited"><input type="checkbox" id="only-edited"> Show only edited texts</label>
+    <span class="muted" id="count">{{ items|length }} texts</span>
+  </div>
+  <ol class="texts">
+    {% for it in items %}
+    {% set field = 't|' ~ it.scope ~ '|' ~ it.key %}
+    <li class="text-row{% if it.value is not none %} is-edited{% endif %}" data-original="{{ it.text }}">
+      <div class="text-meta"><span class="kind">{{ it.label }}</span>{% if it.value is not none %}<span class="chip-ok">Edited</span>{% endif %}</div>
+      <textarea name="{{ field }}" rows="{{ 1 if it.text|length < 70 else (2 if it.text|length < 180 else 4) }}" {% if lang == 'ku' %}dir="rtl" lang="ckb"{% endif %} aria-label="{{ it.label }}: {{ it.text[:60] }}">{{ it.value if it.value is not none else it.text }}</textarea>
+      {% if it.value is not none %}<p class="orig" {% if lang == 'ku' %}dir="rtl" lang="ckb"{% endif %}><span>Original:</span> {{ it.text }}</p>{% endif %}
+      <button type="button" class="linkbtn undo" {% if it.value is none %}hidden{% endif %}>Undo edit</button>
+    </li>
+    {% endfor %}
+  </ol>
+  <div class="sticky-save">
+    <button class="btn" type="submit">Save changes</button>
+    <span class="muted" id="dirty"></span>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var rows = Array.prototype.slice.call(document.querySelectorAll(".text-row"));
+  var filter = document.getElementById("filter"), only = document.getElementById("only-edited");
+  var count = document.getElementById("count"), dirty = document.getElementById("dirty");
+  var changed = new Set();
+  function apply() {
+    var q = filter.value.trim().toLowerCase(), shown = 0;
+    rows.forEach(function (r) {
+      var t = r.querySelector("textarea").value.toLowerCase() + " " + r.dataset.original.toLowerCase();
+      var ok = (!q || t.indexOf(q) !== -1) && (!only.checked || r.classList.contains("is-edited") || changed.has(r));
+      r.hidden = !ok; if (ok) shown++;
+    });
+    count.textContent = shown + (shown === 1 ? " text" : " texts");
+  }
+  filter.addEventListener("input", apply);
+  only.addEventListener("change", apply);
+  rows.forEach(function (r) {
+    var ta = r.querySelector("textarea"), undo = r.querySelector(".undo"), start = ta.value;
+    ta.addEventListener("input", function () {
+      if (ta.value !== start) changed.add(r); else changed.delete(r);
+      undo.hidden = ta.value === r.dataset.original && !r.classList.contains("is-edited");
+      dirty.textContent = changed.size ? changed.size + " unsaved change" + (changed.size === 1 ? "" : "s") : "";
+    });
+    undo.addEventListener("click", function () { ta.value = r.dataset.original; ta.dispatchEvent(new Event("input")); });
+  });
+  window.addEventListener("beforeunload", function (e) { if (changed.size) { e.preventDefault(); e.returnValue = ""; } });
+  // Send only the texts changed here, so edits someone else saved meanwhile are kept.
+  document.getElementById("texts-form").addEventListener("submit", function () {
+    rows.forEach(function (r) { if (!changed.has(r)) r.querySelector("textarea").disabled = true; });
+    changed.clear();
+  });
+})();
+</script>
+{% endblock %}

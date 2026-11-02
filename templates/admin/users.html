@@ -1,0 +1,76 @@
+{% extends "admin/base.html" %}
+{% block title %}Admins{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Admins</p>
+  <h1>Who can sign in</h1>
+  <p class="lede"><b>Admins</b> can edit text, news, dates and read applications. <b>Superadmins</b> can also add, change and remove admins. <b>University representatives</b> can only manage their own university; add them from the university's page under <a href="/admin/universities">Universities</a>.</p>
+</header>
+
+<section class="adm-card">
+  <h2>Add an admin</h2>
+  <form method="post" action="/admin/users" class="add-user">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="nu-username">Username</label><input id="nu-username" name="username" type="text" autocapitalize="none" spellcheck="false" required pattern="[a-z0-9._-]{3,32}" placeholder="e.g. rezhna"><p class="help">Lowercase letters, numbers, dots or dashes.</p></div>
+    <div class="field"><label for="nu-name">Full name</label><input id="nu-name" name="display_name" type="text" required></div>
+    <div class="field"><label for="nu-role">Access</label>
+      <select id="nu-role" name="role"><option value="admin">Admin</option><option value="superadmin">Superadmin</option></select></div>
+    <div class="field add-btn"><button class="btn" type="submit">Add and create a password</button></div>
+  </form>
+  <p class="help">You'll see a one-time password to give them. They choose their own password the first time they sign in.</p>
+</section>
+
+<section class="adm-card">
+  <h2>Accounts</h2>
+  <div class="table-scroll-x">
+  <table class="adm-table users-table">
+    <thead><tr><th>Name</th><th>Access</th><th>Status</th><th>Last sign-in</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for u in users %}
+      <tr>
+        <td><b>{{ u.display_name }}</b><br><span class="muted">{{ u.username }}{% if u.id == me.id %} · you{% endif %}</span></td>
+        <td colspan="2">
+          <form method="post" action="/admin/users/{{ u.id }}/update" class="inline-form">
+            <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+            {% if u.role == 'university' %}
+            <span class="role-note">Representative of <a href="/admin/universities/{{ u.university_id }}">{{ u.uni_name or 'a university' }}</a></span>
+            {% else %}
+            <label class="sr" for="role-{{ u.id }}">Access for {{ u.username }}</label>
+            <select id="role-{{ u.id }}" name="role" {% if u.id == me.id %}disabled{% endif %}>
+              <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Admin</option>
+              <option value="superadmin" {% if u.role == 'superadmin' %}selected{% endif %}>Superadmin</option>
+            </select>
+            {% endif %}
+            <label class="sr" for="active-{{ u.id }}">Status for {{ u.username }}</label>
+            <select id="active-{{ u.id }}" name="active" {% if u.id == me.id %}disabled{% endif %}>
+              <option value="1" {% if u.active %}selected{% endif %}>Active</option>
+              <option value="0" {% if not u.active %}selected{% endif %}>Deactivated</option>
+            </select>
+            {% if u.id != me.id %}<button class="btn btn-sm btn-quiet" type="submit">Update</button>{% endif %}
+          </form>
+          {% if u.must_change_password %}<span class="chip-draft">Must choose a password</span>{% endif %}
+        </td>
+        <td class="nowrap">{{ u.last_login[:16].replace('T', ' ') if u.last_login else 'Never' }}</td>
+        <td class="row-actions">
+          <form method="post" action="/admin/users/{{ u.id }}/reset" data-confirm="Reset"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn" type="submit">Reset password</button></form>
+          {% if u.id != me.id %}<form method="post" action="/admin/users/{{ u.id }}/delete" data-confirm="Delete"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn danger-link" type="submit">Delete</button></form>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+  var armed = false, btn = f.querySelector("button"), label = btn.textContent;
+  f.addEventListener("submit", function (e) {
+    if (armed) return;
+    e.preventDefault(); armed = true; btn.textContent = "Click again to confirm";
+    setTimeout(function () { armed = false; btn.textContent = label; }, 5000);
+  });
+});
+</script>
+{% endblock %}

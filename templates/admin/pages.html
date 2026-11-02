@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% block title %}Pages and text{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Pages and text</p>
+  <h1>Edit any text on the site</h1>
+  <p class="lede">Open a page to edit it directly with <b>Edit this page</b>, or use <b>All texts</b> for a list of every sentence, button, label and placeholder on it.</p>
+</header>
+
+{% for lang in ['en', 'ku'] %}
+<section class="adm-card">
+  <h2>{{ lang_names[lang] }} pages</h2>
+  <table class="adm-table">
+    <thead><tr><th>Page</th><th>Edited texts</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for r in rows if r.lang == lang %}
+      <tr>
+        <td {% if lang == 'ku' %}lang="ckb" dir="rtl" class="ku-cell"{% endif %}>{{ r.title }}</td>
+        <td>{% if r.edited %}<span class="chip-ok">{{ r.edited }}</span>{% else %}<span class="muted">None</span>{% endif %}</td>
+        <td class="row-actions">
+          {% if r.url %}<a href="{{ r.url }}?edit=1" target="_blank" rel="noopener">Edit this page ↗</a>{% endif %}
+          <a href="/admin/pages/{{ r.lang }}/{{ r.name }}">All texts</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endfor %}
+{% endblock %}

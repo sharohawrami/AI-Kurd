@@ -1,0 +1,23 @@
+<!--
+out: news/post.html
+nav: news
+title: {{post_title}} · Kurdistan AI Safety Hub
+description: {{post_summary}}
+-->
+<article class="post">
+  <header class="page-head">
+    <div class="wrap page-head-in">
+      <p class="crumb"><a href="{{root}}index.html">Home</a> / <a href="{{root}}news.html">News and events</a></p>
+      {{post_draft}}
+      <p class="post-kind" data-kind="{{post_kind}}"><span class="k-news">News</span><span class="k-event">Event</span></p>
+      <h1>{{post_title}}</h1>
+      <p class="factrow">{{post_facts}}</p>
+      <p class="post-source"{{post_source_hidden}}>Posted by {{post_source}}</p>
+    </div>
+  </header>
+  <div class="wrap post-wrap">
+    {{post_image}}
+    {{post_body}}
+    <p><a class="more" href="{{root}}news.html">Back to news and events</a></p>
+  </div>
+</article>

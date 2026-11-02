@@ -1,0 +1,400 @@
+<!--
+out: join-us/apply.html
+nav: join
+title: داواکاری بۆ بەشداری لە تیمەکە · ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد
+description: داواکاری بۆ ڕۆڵێکی ستاف لە ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد پێشکەش بکە. داواکارییەکان بە بەردەوامی هەڵدەسەنگێنرێن؛ هەموو پێشکەشکارێک لە ماوەی {{reply_days}} ڕۆژدا وەڵام وەردەگرێت.
+newsletter: no
+-->
+<header class="page-head" data-sec="intro">
+  <div class="wrap page-head-in">
+    <p class="crumb"><a href="{{root}}index.html">سەرەکی</a> / <a href="{{root}}join-us.html">پەیوەندی بە تیمەکەمانەوە بکە</a> / پێشکەشکردنی داواکاری</p>
+    <h1>داواکاری بۆ بەشداری لە تیمەکە</h1>
+    <p class="lede">پڕکردنەوەی ئەم فۆرمە ١٥ بۆ ٢٥ خولەک دەخایەنێت. داواکارییەکان بە بەردەوامی هەڵدەسەنگێنین، و هەموو پێشکەشکارێک لە ماوەی {{reply_days}} ڕۆژدا وەڵام وەردەگرێت. وەرگرتنی داواکاری بۆ ڕۆڵەکانی خولی یەکەم لە {{staff_deadline}} دادەخرێت.</p>
+  </div>
+</header>
+
+<div class="wrap form-page">
+  <div class="form-layout">
+    <div class="form-col">
+      <p class="draft" hidden>ئەو وەڵامانەی پێشتر لەم وێبگەڕەدا نووسیبووت و نەتناردبوون گەڕێندرانەوە. <button type="button" class="linkbtn">سڕینەوەی هەموو وەڵامەکان</button></p>
+      <div class="errsum" tabindex="-1" role="alert" hidden></div>
+
+      <form id="staff-form" class="form" data-form="staff" data-confirm="staff-done" novalidate>
+        <input type="hidden" name="language" value="Kurdish (Sorani)">
+
+        <fieldset class="fs" data-sec="form-role">
+          <div class="fs-h"><span class="fs-n">١ / ٧</span><h2>ڕۆڵ</h2></div>
+          <fieldset class="field" data-required-group="roles">
+            <legend class="q">داواکاری بۆ کام ڕۆڵ یان ڕۆڵەکان پێشکەش دەکەیت؟<span class="req" aria-hidden="true">*</span></legend>
+            <p class="help">ئەگەر ئامادەیت، دەتوانیت زیاتر لە یەک ڕۆڵ هەڵبژێریت. <a href="{{root}}join-us.html#roles">وەسفی ڕۆڵەکان</a> بخوێنەوە.</p>
+            <div class="opts">
+              <label class="opt" for="s-r-fac"><input id="s-r-fac" type="checkbox" name="roles" value="Course Facilitator / TA">ڕێکخەری دانیشتنەکانی کۆرس / یاریدەدەری وانە</label>
+              <label class="opt" for="s-r-lead"><input id="s-r-lead" type="checkbox" name="roles" value="Research and Reading Group Lead">سەرپەرشتیاری توێژینەوە و گروپی خوێندنەوە</label>
+              <label class="opt" for="s-r-ops"><input id="s-r-ops" type="checkbox" name="roles" value="Operations and Community Manager">بەڕێوەبەری کارگێڕی و کۆمەڵگە</label>
+              <label class="opt" for="s-r-other"><input id="s-r-other" type="checkbox" name="roles" value="Other contribution">بەشدارییەکی تر: وتاری میوان، ڕێنماییکردنی پیشەیی یان پێداچوونەوەی پرۆگرام</label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-if="roles=Other contribution" hidden>
+            <label for="s-other">ئەو بەشدارییە وەسف بکە کە لە بیرتدایە<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="s-other" name="other_contribution" class="short" data-max-words="150" required></textarea>
+          </div>
+          <fieldset class="field" data-required-group="work_mode">
+            <legend class="q">پێت باشترە چۆن کار بکەیت؟<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-wm-person"><input id="s-wm-person" type="radio" name="work_mode" value="In person in Erbil">ڕووبەڕوو لە هەولێر</label>
+              <label class="opt" for="s-wm-remote"><input id="s-wm-remote" type="radio" name="work_mode" value="Remote">لە دوورەوە</label>
+              <label class="opt" for="s-wm-either"><input id="s-wm-either" type="radio" name="work_mode" value="Either">هەردووکیان</label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="fs">
+          <div class="fs-h"><span class="fs-n">٢ / ٧</span><h2>دەربارەی تۆ</h2></div>
+          <div class="field">
+            <label for="s-name">ناوی تەواو<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-name" name="full_name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="s-email">ئیمەیڵ<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="s-phone">ژمارەی تەلەفۆن یان واتسئاپ<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-phone-help">تەنها بۆ دیاریکردنی کاتی پەیوەندییەکی تەلەفۆنی بەکاردێت.</p>
+            <input id="s-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="s-phone-help">
+          </div>
+          <div class="field">
+            <label for="s-loc">شار و وڵاتی نیشتەجێبوون<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-loc" name="location" type="text" placeholder="هەولێر، عێراق" required>
+          </div>
+          <fieldset class="field" data-required-group="languages">
+            <legend class="q">ئەو زمانانەی دەتوانیت کاریان پێ بکەیت<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-l-en"><input id="s-l-en" type="checkbox" name="languages" value="English">ئینگلیزی</label>
+              <label class="opt" for="s-l-ckb"><input id="s-l-ckb" type="checkbox" name="languages" value="Kurdish (Sorani)">کوردی (سۆرانی)</label>
+              <label class="opt" for="s-l-kmr"><input id="s-l-kmr" type="checkbox" name="languages" value="Kurdish (Kurmanji)">کوردی (کرمانجی)</label>
+              <label class="opt" for="s-l-ar"><input id="s-l-ar" type="checkbox" name="languages" value="Arabic">عەرەبی</label>
+              <label class="opt" for="s-l-oth"><input id="s-l-oth" type="checkbox" name="languages" value="Other">تر</label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-if="languages=Other" hidden>
+            <label for="s-l-detail">کام زمانەکانی تر؟<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-l-detail" name="languages_other" type="text" required>
+          </div>
+          <fieldset class="field" data-required-group="english_level">
+            <legend class="q">ئاستی زمانی ئینگلیزیت<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-en-w"><input id="s-en-w" type="radio" name="english_level" value="Working">ئاستی کارپێکردن</label>
+              <label class="opt" for="s-en-f"><input id="s-en-f" type="radio" name="english_level" value="Fluent">ڕەوان</label>
+              <label class="opt" for="s-en-n"><input id="s-en-n" type="radio" name="english_level" value="Native">زمانی دایک</label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-background-and-links">
+          <div class="fs-h"><span class="fs-n">٣ / ٧</span><h2>پاشخان و بەستەرەکان</h2></div>
+          <div class="field">
+            <label for="s-role">ڕۆڵ و دامەزراوەی ئێستات<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="s-role-help">خوێندکار، فەرمانبەر، توێژەر یان هەر شتێکی تر.</p>
+            <input id="s-role" name="current_role" type="text" aria-describedby="s-role-help" required>
+          </div>
+          <div class="field">
+            <label for="s-qual">بەرزترین بڕوانامە: بابەت و دامەزراوە<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="s-qual-help">ئەو بڕوانامانەش بنووسە کە هێشتا خەریکی خوێندنیانیت.</p>
+            <input id="s-qual" name="qualification" type="text" aria-describedby="s-qual-help" required>
+          </div>
+          <div class="field">
+            <label for="s-cv">بەستەری CV ـیەکەت<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="s-cv-help">بەستەرێکی Google Drive، Dropbox یان OneDrive کە هەر کەسێک بەستەرەکەی هەبێت بتوانێت بیبینێت، یان پرۆفایلی LinkedIn ـەکەت.</p>
+            <input id="s-cv" name="cv_link" type="url" inputmode="url" placeholder="https://" aria-describedby="s-cv-help" required>
+          </div>
+          <div class="field">
+            <label for="s-linkedin">LinkedIn<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="s-linkedin" name="linkedin" type="url" inputmode="url" placeholder="https://linkedin.com/in/">
+          </div>
+          <div class="field">
+            <label for="s-github">GitHub<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-github-help">بۆ ڕۆڵەکانی ڕێکخەری دانیشتن و سەرپەرشتیار زۆر پێشنیار دەکرێت.</p>
+            <input id="s-github" name="github" type="url" inputmode="url" placeholder="https://github.com/" aria-describedby="s-github-help">
+          </div>
+          <div class="field">
+            <label for="s-site">Google Scholar، ماڵپەڕی کەسی یان پۆرتفۆلیۆ<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <input id="s-site" name="scholar_or_site" type="url" inputmode="url" placeholder="https://">
+          </div>
+          <div class="field">
+            <label for="s-links">تا سێ بەستەر کە باشترین شێوە کارەکانت پیشان دەدەن<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-links-help">پرۆژەیەک، توێژینەوەیەک، بابەتێکی بلۆگ، وتارێک یان چالاکییەک کە ڕێکتخستبێت. هەر بەستەرێک لە دێڕێکی جیادا.</p>
+            <textarea id="s-links" name="work_links" class="short" aria-describedby="s-links-help"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-relevant-experience">
+          <div class="fs-h"><span class="fs-n">٤ / ٧</span><h2>ئەزموونی پەیوەندیدار</h2></div>
+          <div class="field">
+            <label for="s-exp">ئەو ئەزموونە وەسف بکە کە زۆرترین پەیوەندی بەو ڕۆڵ یان ڕۆڵانەوە هەیە کە هەڵتبژاردوون<span class="req" aria-hidden="true">*</span></label>
+            <p class="help" id="s-exp-help">بە وردی بڵێ خۆت چیت کردووە.</p>
+            <textarea id="s-exp" name="relevant_experience" data-min-words="150" data-max-words="300" aria-describedby="s-exp-help" required></textarea>
+          </div>
+
+          <div class="cond" data-show-if="roles=Course Facilitator / TA" hidden>
+            <p class="sub-h">بۆ ڕۆڵی ڕێکخەری دانیشتنەکانی کۆرس / یاریدەدەری وانە</p>
+            <fieldset class="field">
+              <legend class="q">چەندە ئامادەیت بۆ وانەوتنەوەی هەر یەک لەم بابەتانە؟<span class="req" aria-hidden="true">*</span></legend>
+              <div class="rates">
+                <fieldset class="rate" data-required-group="teach_ai_basics"><legend>زیرەکیی دەستکردی ئەمڕۆ چۆن کار دەکات، بە زمانێکی سادە</legend><div class="seg">
+                  <label for="s-t1-0"><input id="s-t1-0" type="radio" name="teach_ai_basics" value="Not yet">هێشتا نا</label>
+                  <label for="s-t1-1"><input id="s-t1-1" type="radio" name="teach_ai_basics" value="With preparation">بە خۆئامادەکردن</label>
+                  <label for="s-t1-2"><input id="s-t1-2" type="radio" name="teach_ai_basics" value="Ready now">ئێستا ئامادەم</label>
+                </div></fieldset>
+                <fieldset class="rate" data-required-group="teach_safety"><legend>سەلامەتیی زیرەکیی دەستکرد و گفتوگۆ سەرەکییەکانی</legend><div class="seg">
+                  <label for="s-t2-0"><input id="s-t2-0" type="radio" name="teach_safety" value="Not yet">هێشتا نا</label>
+                  <label for="s-t2-1"><input id="s-t2-1" type="radio" name="teach_safety" value="With preparation">بە خۆئامادەکردن</label>
+                  <label for="s-t2-2"><input id="s-t2-2" type="radio" name="teach_safety" value="Ready now">ئێستا ئامادەم</label>
+                </div></fieldset>
+                <fieldset class="rate" data-required-group="teach_society"><legend>زیرەکیی دەستکرد، کۆمەڵگە و حوکمڕانی</legend><div class="seg">
+                  <label for="s-t3-0"><input id="s-t3-0" type="radio" name="teach_society" value="Not yet">هێشتا نا</label>
+                  <label for="s-t3-1"><input id="s-t3-1" type="radio" name="teach_society" value="With preparation">بە خۆئامادەکردن</label>
+                  <label for="s-t3-2"><input id="s-t3-2" type="radio" name="teach_society" value="Ready now">ئێستا ئامادەم</label>
+                </div></fieldset>
+                <fieldset class="rate" data-required-group="teach_communication"><legend>پەیوەندیکردن و قسەکردن لەبەردەم خەڵک</legend><div class="seg">
+                  <label for="s-t4-0"><input id="s-t4-0" type="radio" name="teach_communication" value="Not yet">هێشتا نا</label>
+                  <label for="s-t4-1"><input id="s-t4-1" type="radio" name="teach_communication" value="With preparation">بە خۆئامادەکردن</label>
+                  <label for="s-t4-2"><input id="s-t4-2" type="radio" name="teach_communication" value="Ready now">ئێستا ئامادەم</label>
+                </div></fieldset>
+                <fieldset class="rate" data-required-group="teach_careers"><legend>CV، داواکاری و پیشە</legend><div class="seg">
+                  <label for="s-t5-0"><input id="s-t5-0" type="radio" name="teach_careers" value="Not yet">هێشتا نا</label>
+                  <label for="s-t5-1"><input id="s-t5-1" type="radio" name="teach_careers" value="With preparation">بە خۆئامادەکردن</label>
+                  <label for="s-t5-2"><input id="s-t5-2" type="radio" name="teach_careers" value="Ready now">ئێستا ئامادەم</label>
+                </div></fieldset>
+              </div></fieldset>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="s-programs">ئەو کۆرس یان پرۆگرامانەی سەلامەتیی زیرەکیی دەستکرد کە تەواوت کردوون یان ڕێکخەری دانیشتنەکانیان بوویت<span class="opt-tag">ئارەزوومەندانە</span></label>
+              <p class="help" id="s-programs-help">بۆ نموونە ARENA، BlueDot، MATS یان کۆرسێکی زانکۆ.</p>
+              <textarea id="s-programs" name="programs_completed" class="short" aria-describedby="s-programs-help"></textarea>
+            </div>
+            <fieldset class="field" data-required-group="explain_topic">
+              <legend class="q">یەکێک لەم بابەتانە هەڵبژێرە بۆ ئەوەی بۆ خوێندکارێکی قۆناغی یەکەمی زانکۆ ڕوونی بکەیتەوە<span class="req" aria-hidden="true">*</span></legend>
+              <div class="opts">
+                <label class="opt" for="s-ex-a"><input id="s-ex-a" type="radio" name="explain_topic" value="Unintended behaviour">بۆچی سیستەمێکی زیرەکیی دەستکرد لەوانەیە بە شێوەیەک ڕەفتار بکات کە دروستکەرانی مەبەستیان نەبووە</label>
+                <label class="opt" for="s-ex-b"><input id="s-ex-b" type="radio" name="explain_topic" value="What is AI safety">سەلامەتیی زیرەکیی دەستکرد چییە، بۆ کەسێک کە هەرگیز ناوی نەبیستووە</label>
+                <label class="opt" for="s-ex-c"><input id="s-ex-c" type="radio" name="explain_topic" value="First CV">چۆن CVیەکی بەهێز بۆ یەکەم کار بنووسیت</label>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="s-explain">ڕوونکردنەوەکەت<span class="req" aria-hidden="true">*</span></label>
+              <p class="help" id="s-explain-help">بەو شێوەیە بینووسە کە بە ڕاستی لە دانیشتنێکدا ڕوونی دەکەیتەوە.</p>
+              <textarea id="s-explain" name="explanation" data-max-words="200" aria-describedby="s-explain-help" required></textarea>
+            </div>
+            <div class="field">
+              <label for="s-taught">پێشتر وانەت وتووەتەوە، وانەی تایبەتت داوە یان ڕێنمایی کەسێکت کردووە؟<span class="opt-tag">ئارەزوومەندانە</span></label>
+              <p class="help" id="s-taught-help">هەم فەرمی و هەم نافەرمی هەژمار دەکرێن.</p>
+              <textarea id="s-taught" name="teaching_experience" class="short" aria-describedby="s-taught-help"></textarea>
+            </div>
+          </div>
+
+          <div class="cond" data-show-if="roles=Research and Reading Group Lead" hidden>
+            <p class="sub-h">بۆ ڕۆڵی سەرپەرشتیاری توێژینەوە و گروپی خوێندنەوە</p>
+            <fieldset class="field" data-required-group="lead_areas">
+              <legend class="q">دەتوانیت سەرپەرشتیی کام بواران بکەیت؟<span class="req" aria-hidden="true">*</span></legend>
+              <div class="opts">
+                <label class="opt" for="s-a-mi"><input id="s-a-mi" type="checkbox" name="lead_areas" value="Mechanistic interpretability">ڕاڤەپێکراویی میکانیکی</label>
+                <label class="opt" for="s-a-ev"><input id="s-a-ev" type="checkbox" name="lead_areas" value="Evaluations">هەڵسەنگاندنەکان</label>
+                <label class="opt" for="s-a-so"><input id="s-a-so" type="checkbox" name="lead_areas" value="Scalable oversight and alignment training">چاودێریی بەرفراوانکراو (scalable oversight) و ڕاهێنان بۆ هاوئاهەنگی (alignment)</label>
+                <label class="opt" for="s-a-rb"><input id="s-a-rb" type="checkbox" name="lead_areas" value="Robustness and adversarial ML">خۆڕاگری (robustness) و فێربوونی ئامێری دژبەرانە (adversarial ML)</label>
+                <label class="opt" for="s-a-gov"><input id="s-a-gov" type="checkbox" name="lead_areas" value="AI governance and policy">حوکمڕانی و سیاسەتی زیرەکیی دەستکرد</label>
+                <label class="opt" for="s-a-oth"><input id="s-a-oth" type="checkbox" name="lead_areas" value="Other">تر</label>
+              </div>
+            </fieldset>
+            <div class="field" data-show-if="lead_areas=Other" hidden>
+              <label for="s-a-detail">کام بواری تر؟<span class="req" aria-hidden="true">*</span></label>
+              <input id="s-a-detail" name="lead_areas_other" type="text" required>
+            </div>
+            <div class="field">
+              <label for="s-paper">ناوی توێژینەوەیەک بنووسە کە دەیخەیتە لیستی گروپێکی خوێندنەوەوە. بۆچی ئەو توێژینەوەیە، و بە چ پرسیارێک گفتوگۆکە دەست پێ دەکەیت؟<span class="req" aria-hidden="true">*</span></label>
+              <textarea id="s-paper" name="paper_pick" data-min-words="150" data-max-words="250" required></textarea>
+            </div>
+            <div class="field">
+              <label for="s-outputs">بەرهەمە توێژینەوەییەکانت<span class="opt-tag">ئارەزوومەندانە</span></label>
+              <p class="help" id="s-outputs-help">نامەی ئەکادیمی، توێژینەوە، پێشچاپ (preprint) یان بابەتی تەکنیکیی بلۆگ، لەگەڵ بەستەرەکانیان.</p>
+              <textarea id="s-outputs" name="research_outputs" class="short" aria-describedby="s-outputs-help"></textarea>
+            </div>
+            <fieldset class="field" data-required-group="participants_to_mentor">
+              <legend class="q">دەتوانیت لە ماوەی پرۆگرامەکەدا ڕێنمایی چەند بەشداربوو بکەیت؟<span class="req" aria-hidden="true">*</span></legend>
+              <div class="opts inline">
+                <label class="opt" for="s-cap-0"><input id="s-cap-0" type="radio" name="participants_to_mentor" value="0">٠</label>
+                <label class="opt" for="s-cap-1"><input id="s-cap-1" type="radio" name="participants_to_mentor" value="1">١</label>
+                <label class="opt" for="s-cap-2"><input id="s-cap-2" type="radio" name="participants_to_mentor" value="2">٢</label>
+                <label class="opt" for="s-cap-3"><input id="s-cap-3" type="radio" name="participants_to_mentor" value="3">٣</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="cond" data-show-if="roles=Operations and Community Manager" hidden>
+            <p class="sub-h">بۆ ڕۆڵی بەڕێوەبەری کارگێڕی و کۆمەڵگە</p>
+            <div class="field">
+              <label for="s-story">باسی پرۆگرامێک، چالاکییەک یان پرۆژەیەکمان بۆ بکە کە ڕێکتخستووە: بەرپرسیاری چی بوویت، چی بە هەڵەدا چوو، و چۆن مامەڵەت لەگەڵ کرد.<span class="req" aria-hidden="true">*</span></label>
+              <textarea id="s-story" name="organising_story" data-min-words="150" data-max-words="250" required></textarea>
+            </div>
+            <fieldset class="field" data-required-group="tools">
+              <legend class="q">ئەو ئامرازانەی بە ئاسانی کاریان پێ دەکەیت<span class="req" aria-hidden="true">*</span></legend>
+              <div class="opts inline">
+                <label class="opt" for="s-tl-gw"><input id="s-tl-gw" type="checkbox" name="tools" value="Google Workspace">Google Workspace</label>
+                <label class="opt" for="s-tl-no"><input id="s-tl-no" type="checkbox" name="tools" value="Notion">Notion</label>
+                <label class="opt" for="s-tl-at"><input id="s-tl-at" type="checkbox" name="tools" value="Airtable">Airtable</label>
+                <label class="opt" for="s-tl-ca"><input id="s-tl-ca" type="checkbox" name="tools" value="Canva">Canva</label>
+                <label class="opt" for="s-tl-nl"><input id="s-tl-nl" type="checkbox" name="tools" value="Email newsletter tools">ئامرازەکانی ناردنی هەواڵنامەی ئیمەیڵی</label>
+                <label class="opt" for="s-tl-cms"><input id="s-tl-cms" type="checkbox" name="tools" value="Website builders or CMS">ئامرازەکانی دروستکردنی ماڵپەڕ یان CMS</label>
+                <label class="opt" for="s-tl-oth"><input id="s-tl-oth" type="checkbox" name="tools" value="Other">تر</label>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="s-reach">ئەو زانکۆ، گروپە خوێندکاری یان کۆمەڵگایانەی ناوچەکە کە دەتوانیت یارمەتیمان بدەیت پێیان بگەین<span class="opt-tag">ئارەزوومەندانە</span></label>
+              <textarea id="s-reach" name="outreach_networks" class="short"></textarea>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-motivation">
+          <div class="fs-h"><span class="fs-n">٥ / ٧</span><h2>هاندەر</h2></div>
+          <div class="field">
+            <label for="s-why">بۆچی دەتەوێت یارمەتی بنیاتنانی ناوەندی کوردستان بۆ سەلامەتیی زیرەکیی دەستکرد بدەیت؟<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="s-why" name="motivation" data-min-words="150" data-max-words="250" required></textarea>
+          </div>
+          <div class="field">
+            <label for="s-gain">هیواداریت چی لەم ڕۆڵە بەدەست بهێنیت؟<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-gain-help">کارامەیی، تۆڕی پەیوەندی، ئەزموون: هەموویان وەڵامی باشن.</p>
+            <textarea id="s-gain" name="hope_to_gain" class="short" aria-describedby="s-gain-help"></textarea>
+          </div>
+          <div class="field">
+            <label for="s-diff">پرۆگرامێکی سەلامەتیی زیرەکیی دەستکرد لەم ناوچەیەدا دەبێت چ شتێک جیاواز لە پرۆگرامەکانی دەرەوەی وڵات بکات؟<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <textarea id="s-diff" name="regional_difference" class="short" data-max-words="150"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-availability">
+          <div class="fs-h"><span class="fs-n">٦ / ٧</span><h2>کاتی بەردەست</h2></div>
+          <fieldset class="field" data-required-group="hours_per_week">
+            <legend class="q">چەند کاتژمێر لە هەفتەیەکدا دەتوانیت تەرخان بکەیت<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-h-1"><input id="s-h-1" type="radio" name="hours_per_week" value="2 to 4">٢ بۆ ٤</label>
+              <label class="opt" for="s-h-2"><input id="s-h-2" type="radio" name="hours_per_week" value="4 to 6">٤ بۆ ٦</label>
+              <label class="opt" for="s-h-3"><input id="s-h-3" type="radio" name="hours_per_week" value="6 to 8">٦ بۆ ٨</label>
+              <label class="opt" for="s-h-4"><input id="s-h-4" type="radio" name="hours_per_week" value="8 to 10">٨ بۆ ١٠</label>
+              <label class="opt" for="s-h-5"><input id="s-h-5" type="radio" name="hours_per_week" value="More than 10">زیاتر لە ١٠</label>
+            </div>
+          </fieldset>
+          <fieldset class="field" data-required-group="full_cohort">
+            <legend class="q">دەتوانیت بۆ هەموو ماوەی خولی یەکەم، لە {{cohort_start}} تا {{cohort_end}}، پابەند بیت؟<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-fc-yes"><input id="s-fc-yes" type="radio" name="full_cohort" value="Yes">بەڵێ</label>
+              <label class="opt" for="s-fc-part"><input id="s-fc-part" type="radio" name="full_cohort" value="Partly">بە بەشێکی</label>
+              <label class="opt" for="s-fc-no"><input id="s-fc-no" type="radio" name="full_cohort" value="No">نەخێر</label>
+            </div>
+          </fieldset>
+          <div class="field" data-show-if="full_cohort=Partly|No" hidden>
+            <label for="s-fc-detail">لە کام هەفتەکاندا ناتوانیت؟<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-fc-detail" name="full_cohort_detail" type="text" required>
+          </div>
+          <fieldset class="field" data-required-group="available_times">
+            <legend class="q">بە زۆری کەی کاتت بەردەستە؟ بە کاتی هەولێر، UTC+3<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-av-wm"><input id="s-av-wm" type="checkbox" name="available_times" value="Weekday mornings">بەیانیانی ڕۆژانی کار</label>
+              <label class="opt" for="s-av-wa"><input id="s-av-wa" type="checkbox" name="available_times" value="Weekday afternoons">پاشنیوەڕۆی ڕۆژانی کار</label>
+              <label class="opt" for="s-av-we"><input id="s-av-we" type="checkbox" name="available_times" value="Weekday evenings">ئێوارانی ڕۆژانی کار</label>
+              <label class="opt" for="s-av-fri"><input id="s-av-fri" type="checkbox" name="available_times" value="Friday">هەینی</label>
+              <label class="opt" for="s-av-sat"><input id="s-av-sat" type="checkbox" name="available_times" value="Saturday">شەممە</label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="s-start">زووترین بەرواری دەستپێکردن<span class="req" aria-hidden="true">*</span></label>
+            <input id="s-start" name="earliest_start" type="date" required>
+          </div>
+          <div class="field">
+            <label for="s-away">ئەو ماوانەی دەزانیت کاتت بەردەست نابێت<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-away-help">تاقیکردنەوە، گەشت، پابەندبوونی تر.</p>
+            <input id="s-away" name="unavailable_periods" type="text" aria-describedby="s-away-help">
+          </div>
+          <fieldset class="field" data-required-group="arrangement">
+            <legend class="q">بەدوای کارێکی مووچەدار یان خۆبەخشانەدا دەگەڕێیت؟<span class="req" aria-hidden="true">*</span></legend>
+            <div class="opts inline">
+              <label class="opt" for="s-arr-paid"><input id="s-arr-paid" type="radio" name="arrangement" value="Paid">مووچەدار</label>
+              <label class="opt" for="s-arr-vol"><input id="s-arr-vol" type="radio" name="arrangement" value="Voluntary">خۆبەخشانە</label>
+              <label class="opt" for="s-arr-either"><input id="s-arr-either" type="radio" name="arrangement" value="Either">هەردووکیان</label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="fs" data-sec="form-declarations">
+          <div class="fs-h"><span class="fs-n">٧ / ٧</span><h2>پاڵپشت و ڕاگەیاندنەکان</h2></div>
+          <div class="field">
+            <label for="s-ref">یەک کەسی پاڵپشت: ناو، چۆن دەتناسێت، و ئیمەیڵەکەی<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <p class="help" id="s-ref-help">تەنها دوای ئەوەی لە خۆتمان پرسی پەیوەندی بە کەسی پاڵپشتەوە دەکەین.</p>
+            <input id="s-ref" name="reference" type="text" aria-describedby="s-ref-help">
+          </div>
+          <div class="field">
+            <label for="s-heard">چۆن دەربارەی ئەم ڕۆڵە زانیت؟<span class="req" aria-hidden="true">*</span></label>
+            <select id="s-heard" name="heard_from" required>
+              <option value="">یەکێک هەڵبژێرە</option>
+              <option value="AI Kurd">AI Kurd</option>
+              <option value="University or lecturer">زانکۆ یان مامۆستا</option>
+              <option value="Friend or colleague">هاوڕێ یان هاوکار</option>
+              <option value="Social media">تۆڕە کۆمەڵایەتییەکان</option>
+              <option value="AI safety community">کۆمەڵگەی سەلامەتیی زیرەکیی دەستکرد</option>
+              <option value="Other">تر</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="s-access">هەر شتێک کە پێویستە بیزانین بۆ ئەوەی پرۆسەکەمان بۆ تۆ گونجاو و دەستڕاگەیشتوو بێت<span class="opt-tag">ئارەزوومەندانە</span></label>
+            <textarea id="s-access" name="accessibility" class="short"></textarea>
+          </div>
+          <div class="field">
+            <label class="opt" for="s-accurate"><input id="s-accurate" type="checkbox" name="declaration_accurate" value="Yes" required><span>ئەو زانیارییانەی داومن ڕاستن، و وەڵامە نووسراوەکان هی خۆمن.<span class="req" aria-hidden="true">*</span></span></label>
+          </div>
+          <div class="field">
+            <label class="opt" for="s-consent"><input id="s-consent" type="checkbox" name="consent_data" value="Yes" required><span>ڕازیم کە ناوەندەکە زانیارییەکانم بۆ هەڵسەنگاندنی ئەم داواکارییە بەکار بهێنێت، بەو شێوەیەی لە <a href="{{root}}privacy.html" target="_blank">ڕاگەیەندراوی تایبەتمەندی</a>دا ڕوون کراوەتەوە.<span class="req" aria-hidden="true">*</span></span></label>
+          </div>
+          <div class="field">
+            <label class="opt" for="s-keep"><input id="s-keep" type="checkbox" name="keep_for_future_roles" value="Yes">زانیارییەکانم بۆ ڕۆڵەکانی داهاتوو تا ١٢ مانگ هەڵبگرن.</label>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="s-website">ماڵپەڕ</label><input id="s-website" name="website" tabindex="-1" autocomplete="off"></div>
+        </fieldset>
+
+        <div class="submit-row">
+          <button class="btn" type="submit">ناردنی داواکاری</button>
+          <p class="help">تا داواکارییەکە نەنێریت، وەڵامەکانت لەم وێبگەڕەدا پاشەکەوت دەکرێن.</p>
+          <p class="send-error note" tabindex="-1" role="alert" hidden>نەمانتوانی داواکارییەکەت بنێرین. وەڵامەکانت هێشتا لێرەن، بۆیە پەیوەندیی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە. ئەگەر هەر سەرکەوتوو نەبوو، ئیمەیڵ بنێرە بۆ {{mail:email_team}}.</p>
+        </div>
+      </form>
+
+      <div id="staff-done" class="confirm" tabindex="-1" hidden>
+        <p class="label">داواکارییەکەت گەیشت</p>
+        <h2>سوپاس بۆ پێشکەشکردنی داواکارییەکەت، <span data-first-name>هاوڕێ</span>.</h2>
+        <p>داواکارییەکەتمان بۆ <strong data-roles>ڕۆڵێک لە تیمەکە</strong> وەرگرت، و ئیمەیڵێکی پشتڕاستکردنەوەت بۆ دێت. لە ماوەی {{reply_days}} ڕۆژدا وەڵامی هەموو پێشکەشکارێک دەدەینەوە. ئەگەر بمانەوێت قسەت لەگەڵ بکەین، بەستەرێکت بۆ دەنێرین بۆ ئەوەی کاتی پەیوەندییەکی ٣٠ خولەکی دیاری بکەیت.</p>
+        <p>لەم ماوەیەدا، سەیری <a href="{{root}}resources.html">کتێبخانەی خوێندنەوە</a> یان ئەو <a href="{{root}}courses/12-week-program.html#syllabus">پلانی خوێندنی پرۆگرامە</a> بکە کە یارمەتی وانەوتنەوەی دەدەیت.</p>
+        <p class="preview-note" hidden>پێشاندانی تاقیکاری: ئەم ماڵپەڕە هێشتا بە خاڵی وەرگرتنی فۆرم (form endpoint) نەبەستراوەتەوە، بۆیە هیچ شتێک نەنێردرا. پێش بڵاوکردنەوەی ماڵپەڕەکە، form_endpoint لە site.json دا دابنێ.</p>
+      </div>
+    </div>
+
+    <aside class="form-aside">
+      <div class="box" data-sec="aside-before-you-start">
+        <h2>پێش ئەوەی دەست پێ بکەیت</h2>
+        <ul>
+          <li>بەستەری CV ـیەکەت، یان پرۆفایلی LinkedIn ـەکەت</li>
+          <li>هەر بەستەرێکی GitHub، Google Scholar یان پۆرتفۆلیۆ کە کارەکانت پیشان بدات</li>
+        </ul>
+        <p class="small muted">دڵنیا نیت کام ڕۆڵ گونجاوە؟ <a href="{{root}}join-us.html#roles">وەسفی ڕۆڵەکان</a> بخوێنەوە، یان زیاتر لە یەک ڕۆڵ هەڵبژێرە.</p>
+      </div>
+      <div class="box" data-sec="aside-after-you-apply">
+        <h2>دوای پێشکەشکردنی داواکاری</h2>
+        <ol>
+          <li>گفتوگۆیەکی ٣٠ خولەکی</li>
+          <li>هەنگاوێکی کرداریی کورت</li>
+          <li>بڕیار لە ماوەی {{reply_days}} ڕۆژدا</li>
+        </ol>
+        <p class="small muted">پرسیارت هەیە؟ ئیمەیڵ بنێرە بۆ {{mail:email_team}}.</p>
+      </div>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% block title %}News and events{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">News and events</p>
+  <h1>News and events</h1>
+  {% if is_staff(me) %}<p class="lede">The Hub's own posts appear on the homepage (newest three) and on the News page. Posts by a university appear on that university's page.</p>
+  {% else %}<p class="lede">Your posts appear on your university's page, in both languages.</p>{% endif %}
+  <div class="actions"><a class="btn" href="/admin/news/new">Add news or an event</a></div>
+</header>
+<section class="adm-card">
+  {% if posts %}
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Picture</th><th>Title</th>{% if is_staff(me) %}<th>Posted by</th>{% endif %}<th>Type</th><th>Date</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for p in posts %}
+      <tr>
+        <td>{% if p.image %}<img class="thumb" src="/uploads/{{ p.image }}" alt="">{% else %}<span class="thumb thumb-empty"></span>{% endif %}</td>
+        <td><a href="/admin/news/{{ p.id }}">{{ p.title_en or p.title_ku }}</a>{% if p.title_en and p.title_ku %}<br><span class="muted" lang="ckb" dir="rtl">{{ p.title_ku }}</span>{% endif %}</td>
+        {% if is_staff(me) %}<td>{% if p.university_id and unis.get(p.university_id) %}{{ unis[p.university_id].name_en or unis[p.university_id].name_ku }}{% else %}The Hub{% endif %}</td>{% endif %}
+        <td>{{ 'Event' if p.kind == 'event' else 'News' }}</td>
+        <td class="nowrap">{{ fmt(p.event_date if p.kind == 'event' and p.event_date else (p.published_at or p.created_at), 'en') }}</td>
+        <td>{% if p.published %}<span class="chip-ok">Published</span>{% else %}<span class="chip-draft">Draft</span>{% endif %}</td>
+        <td class="row-actions"><a href="/admin/news/{{ p.id }}">Edit</a><a href="/news/{{ p.slug }}.html" target="_blank" rel="noopener">View ↗</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">{% if is_staff(me) %}No posts yet. Until the first one is published, the homepage shows empty picture frames with a note that news and photos will appear there.{% else %}No posts yet. News and events you publish appear on your university's page.{% endif %}</p>
+  {% endif %}
+</section>
+{% endblock %}

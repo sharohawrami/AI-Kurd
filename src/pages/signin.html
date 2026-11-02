@@ -1,0 +1,43 @@
+<!--
+out: signin.html
+nav: account
+title: Sign in · Kurdistan AI Safety Hub
+description: Sign in to your Kurdistan AI Safety Hub account.
+newsletter: no
+dynamic: yes
+-->
+<section class="acct-page">
+  <div class="wrap">
+    <div class="loom-card">
+      <div class="loom-band">{{kilim}}</div>
+      <div class="loom-body">
+        <span class="loom-mark">{{mark_svg}}</span>
+        <p class="eyebrow">Members</p>
+        <h1>Sign in</h1>
+        <p class="loom-lede">Welcome back. Sign in to see and update your profile.</p>
+        <p class="acct-alert" role="alert"{{show_err_login}}>That email and password don't match. Check them and try again.</p>
+        <p class="acct-alert" role="alert"{{show_err_locked}}>Too many attempts. Wait 15 minutes, then try again.</p>
+        <p class="acct-alert" role="alert"{{show_err_expired}}>This page had expired. Please try again.</p>
+        <p class="acct-alert ok" role="status"{{show_need_signin}}>Sign in to see your profile.</p>
+        <p class="acct-alert ok" role="status"{{show_signed_out}}>You've signed out. See you soon.</p>
+        <p class="acct-alert ok" role="status"{{show_deleted}}>Your account and everything in your profile have been deleted.</p>
+        <form class="acct-form" method="post">
+          <input type="hidden" name="csrf" value="{{csrf}}">
+          <div class="field">
+            <label for="a-email">Email address</label>
+            <input id="a-email" name="email" type="email" autocomplete="email" required value="{{f_email}}">
+          </div>
+          <div class="field">
+            <label for="a-pass">Password</label>
+            <input id="a-pass" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn" type="submit">Sign in</button>
+        </form>
+        <p class="loom-alt">New to the Hub? <a href="{{root}}register">Create an account</a></p>
+        <p class="loom-small">Forgot your password? Write to {{mail:email_hello}} from the address you registered with, and the team will reset it.</p>
+        <p class="loom-small">Part of the Hub team? <a href="/login">Sign in to the admin panel</a></p>
+      </div>
+      <div class="loom-band">{{kilim}}</div>
+    </div>
+  </div>
+</section>

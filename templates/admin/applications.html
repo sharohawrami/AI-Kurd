@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% from "admin/_avail.html" import avail_table %}
+{% block title %}{{ titles[form] }}{% endblock %}
+{% block main %}
+<header class="adm-head">
+  <p class="eyebrow">Applications</p>
+  <h1>{{ titles[form] }}</h1>
+  <nav class="tabs" aria-label="Forms">
+    {% for f in ['cohort', 'interest', 'staff', 'newsletter'] %}
+    <a href="/admin/applications?form={{ f }}" {% if f == form %}aria-current="page"{% endif %}>{{ titles[f] }} <span class="count">{{ counts[f] }}</span></a>
+    {% endfor %}
+  </nav>
+</header>
+{% if form in ('cohort', 'interest') %}
+<section class="adm-card state-card">
+  <form method="post" action="/admin/applications/state" class="state-form">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <input type="hidden" name="back" value="/admin/applications?form={{ form }}">
+    {% if apps_open %}
+    <p><span class="chip-ok">Open</span> <b>Cohort applications are open.</b> Visitors see the Apply buttons and the application form.</p>
+    <input type="hidden" name="open" value="0">
+    <button class="btn btn-quiet" type="submit">Close applications</button>
+    {% else %}
+    <p><span class="chip-draft">Closed</span> <b>Cohort applications are closed.</b> Visitors see “Get notified about the next cohort” instead of Apply, and can join the next cohort list.</p>
+    <input type="hidden" name="open" value="1">
+    <button class="btn btn-quiet" type="submit">Open applications</button>
+    {% endif %}
+  </form>
+</section>
+{% endif %}
+{% if form == 'interest' and emails %}
+<section class="adm-card">
+  <h2>Email everyone on the list</h2>
+  <p class="muted">When the next cohort opens, copy {{ 'this address' if emails|length == 1 else 'these ' ~ emails|length ~ ' addresses' }} into the <b>Bcc</b> box of one email, so nobody sees the others’ addresses.</p>
+  <textarea id="all-emails" class="emails-box" rows="3" readonly>{{ emails|join(', ') }}</textarea>
+  <div class="actions"><button type="button" class="btn btn-sm" id="copy-emails">Copy all addresses</button></div>
+</section>
+{% endif %}
+{% if avail %}
+<section class="adm-card">
+  <h2>When applicants are free</h2>
+  <p class="muted">Each square shows how many of the {{ avail.people }} applicants who filled in the table can attend at that hour (Erbil time). Use it to choose the weekly session time, then set it under <a href="/admin/settings">Dates and details</a>.</p>
+  {% if avail.best %}<p><b>Best hours:</b> {% for c, d, h in avail.best %}{{ d }} {{ h }} ({{ c }}){% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+  {{ avail_table(avail) }}
+</section>
+{% endif %}
+<section class="adm-card">
+  {% if items %}
+  <div class="actions table-actions"><a class="btn btn-quiet btn-sm" href="/admin/applications.csv?form={{ form }}">Download as a spreadsheet (CSV)</a></div>
+  <div class="table-scroll-x">
+  <table class="adm-table">
+    <thead><tr><th>Received</th>{% if form != 'newsletter' %}<th>Name</th>{% endif %}<th>Email</th>{% if form == 'staff' %}<th>Roles</th>{% endif %}{% if form in ('cohort', 'interest') %}<th>City</th>{% endif %}<th>Language</th><th><span class="sr">Actions</span></th></tr></thead>
+    <tbody>
+    {% for it in items %}{% set r = it.row %}
+      <tr>
+        <td class="nowrap">{{ r.created_at[:16].replace('T', ' ') }}</td>
+        {% if form != 'newsletter' %}<td><a href="/admin/applications/{{ r.id }}">{{ r.name or '—' }}</a></td>{% endif %}
+        <td>{{ r.email }}</td>
+        {% if form == 'staff' %}<td>{{ it.roles }}</td>{% endif %}
+        {% if form in ('cohort', 'interest') %}<td>{{ it.city }}</td>{% endif %}
+        <td>{{ 'Kurdish' if r.language.startswith('Kurdish') else 'English' }}</td>
+        <td class="row-actions"><a href="/admin/applications/{{ r.id }}">Open</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class="muted">{% if form == 'interest' %}Nobody has joined the next cohort list yet. While applications are closed, the Apply page shows a short form where people leave their name and email.{% else %}Nothing received yet. Submissions from the website's forms appear here as soon as they're sent.{% endif %}</p>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var b = document.getElementById("copy-emails"), t = document.getElementById("all-emails");
+  if (!b || !t) return;
+  b.addEventListener("click", function () {
+    (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).then(function () { b.textContent = "Copied"; })
+      .catch(function () { t.focus(); t.select(); });
+  });
+})();
+</script>
+{% endblock %}
