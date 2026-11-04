@@ -102,3 +102,14 @@ used before, rebuild the stylesheet once:
 
 Site-wide design tokens (colors, fonts, cards, buttons) live in
 `static/css/site.css`. Kurdish text uses the Vazirmatn font (Google Fonts).
+
+## Video uploads
+
+| Variable        | Value                                              |
+|-----------------|----------------------------------------------------|
+| `MAX_UPLOAD_MB` | Max upload size for images/videos (default `500`)  |
+
+If you run behind nginx/Apache/Cloudflare, their own body-size limit also
+applies (nginx: `client_max_body_size 500m;`). Uploaded videos are stored in
+`AIKURD_DATA_DIR/uploads/` next to the images and are included in the admin
+"Download backup" zip.

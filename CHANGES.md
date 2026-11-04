@@ -23,3 +23,10 @@
 - **Home**: the hero now fills the first screen with the latest article beside the headline; on phones a compact "Latest" strip sits at the very top so it is always visible without scrolling.
 - **Living background**: four AI/Kurdistan-themed scenes (`static/img/bg/`) crossfade and drift as you scroll. Replace them with your own 4K photos: drop files in `static/img/bg/` and edit the `BG_SCENES` list at the top of `<body>` in `templates/base.html`. (`tools/make_backgrounds.py` regenerates the built-in ones.)
 - **PS5-style hover** (desktop): hovering an article, prompt or project card fades that card's picture into the page background, blurred and darkened, with a slow zoom. Cards without a picture simply don't trigger it.
+
+## Round 3
+- **Western digits everywhere.** Aria draws 0-9 in Persian shapes, so a tiny digits-only font (`static/fonts/KurdishDigits.woff2`) now sits first in the Kurdish font stack and takes over only for 0-9. Content typed with ٠-٩ / ۰-۹ in the admin is also converted to 0-9 when rendered (see `western_digits` in `app.py`).
+
+## Round 4 — videos + image crop
+- **Videos in articles.** New `video` field: paste a YouTube / Vimeo link, or upload an MP4/WebM/MOV file (`video_file`) in the admin panel. The article page shows a player instead of the cover (the article image becomes the poster); cards get a play badge. Upload limit defaults to 500 MB — set `MAX_UPLOAD_MB` to change it (and raise your reverse proxy's limit, e.g. nginx `client_max_body_size`).
+- **Crop & preview after choosing an image.** Pick a file → a crop editor appears: choose 16:9 / 16:10 / 4:3 / 1:1, zoom with the slider, drag to reposition, and see a live preview of the article card. The crop is applied automatically when you press Save/Add (saved as 1600px JPEG). "Use original" skips cropping. No external libraries (`static/js/admin.js`).

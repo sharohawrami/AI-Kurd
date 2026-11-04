@@ -1,57 +1,281 @@
-{% extends "admin/base.html" %}
-{% block title %}Dashboard{% endblock %}
-{% block main %}
-<header class="adm-head">
-  <p class="eyebrow">Welcome back</p>
-  <h1>{{ me.display_name }}</h1>
-</header>
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — AI Kurd{% endblock %}
 
-<section class="adm-tiles" aria-label="At a glance">
-  <a class="tile" href="/admin/applications?form=cohort"><b>{{ counts.cohort }}</b><span>Cohort 1 applications</span></a>
-  <a class="tile" href="/admin/applications?form=interest"><b>{{ counts.interest }}</b><span>Next cohort list</span></a>
-  <a class="tile" href="/admin/applications?form=staff"><b>{{ counts.staff }}</b><span>Team applications</span></a>
-  <a class="tile" href="/admin/applications?form=newsletter"><b>{{ counts.newsletter }}</b><span>Mailing-list sign-ups</span></a>
-  <a class="tile" href="/admin/news"><b>{{ stats.posts }}</b><span>Published posts{% if stats.drafts %} · {{ stats.drafts }} draft{{ 's' if stats.drafts != 1 }}{% endif %}</span></a>
-  <a class="tile" href="/admin/universities"><b>{{ stats.universities }}</b><span>Universities</span></a>
-  <a class="tile" href="/admin/members"><b>{{ stats.members }}</b><span>Members</span></a>
-  <a class="tile" href="/admin/pages"><b>{{ stats.texts }}</b><span>Texts edited</span></a>
-</section>
+{% macro field_input(name, value='') -%}
+    {% set rtl = name.endswith('_ku') %}
+    {% if name in ['text', 'desc', 'bio', 'desc_en', 'desc_ku', 'tagline_en', 'tagline_ku', 'text_en', 'text_ku', 'response_en', 'response_ku', 'action_en', 'action_ku', 'body_en', 'body_ku', 'about_en', 'about_ku', 'message_en', 'message_ku'] %}
+    <textarea name="{{ name }}" rows="{{ 10 if name in ['body_en', 'body_ku'] else 6 if name in ['about_en', 'about_ku'] else 3 if name in ['text', 'message_en', 'message_ku'] else 2 }}" {% if rtl %}dir="rtl"{% endif %}
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">{{ value }}</textarea>
+    {% elif name == 'image' %}
+    <input name="{{ name }}" value="{{ value }}" placeholder="https://… or /uploads/… (or upload a file below)"
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+    {% elif name == 'video' %}
+    <input name="{{ name }}" value="{{ value }}" placeholder="YouTube / Vimeo link, or a direct .mp4 link (or upload a file below)"
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+    <p class="text-[11.5px] muted-2 mt-1.5">Plays on the site: YouTube, Vimeo, uploaded files, direct .mp4 links. A link to a news site's page (CGTN, BBC, Instagram, TikTok…) can't be played here — download the video and upload it below instead; otherwise visitors get a "Watch video ↗" button.</p>
+    {% else %}
+    <input name="{{ name }}" value="{{ value }}" {% if rtl %}dir="rtl"{% endif %}
+        class="w-full bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50 {% if rtl %}font-kurdish{% endif %}">
+    {% endif %}
+{%- endmacro %}
 
-{% if not email_on or empty_settings %}
-<section class="adm-card">
-  <h2>Before launch</h2>
-  <ul class="adm-list">
-    {% if empty_settings %}<li><a href="/admin/settings">{{ empty_settings }} dates and details are still empty.</a> They show on the site as highlighted placeholders.</li>{% endif %}
-    {% if not email_on %}<li>Confirmation emails are off. Applicants are told an email is on its way, so either set up email on the server (see the README) or edit that sentence on the application pages.</li>{% endif %}
-  </ul>
-</section>
-{% endif %}
+{% macro image_upload(item=None) -%}
+    <div class="md:col-span-2 img-uploader">
+        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">Upload image (optional — overrides the URL)</label>
+        <input type="file" name="image_file" accept="image/*"
+               class="w-full text-sm text-white/50 file:me-3 file:bg-white file:text-black file:border-0 file:rounded-lg file:px-4 file:py-2 file:text-sm file:font-medium file:cursor-pointer">
 
-<section class="adm-card">
-  <p>{% if apps_open %}<span class="chip-ok">Open</span> Cohort applications are open.{% else %}<span class="chip-draft">Closed</span> Cohort applications are closed; visitors can join the next cohort list.{% endif %}
-  <a href="/admin/applications">Change</a></p>
-</section>
+        <!-- crop & preview (appears after choosing a file) -->
+        <div class="iu-editor hidden mt-4 grid grid-cols-1 lg:grid-cols-5 gap-5">
+            <div class="lg:col-span-3">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="text-[11px] muted-2 uppercase tracking-widest me-1">Crop</span>
+                    <button type="button" class="iu-ratio chip !h-8 !text-[12px]" data-ratio="16:9">16:9</button>
+                    <button type="button" class="iu-ratio chip !h-8 !text-[12px] active" data-ratio="16:10">16:10 · cards</button>
+                    <button type="button" class="iu-ratio chip !h-8 !text-[12px]" data-ratio="4:3">4:3</button>
+                    <button type="button" class="iu-ratio chip !h-8 !text-[12px]" data-ratio="1:1">1:1</button>
+                </div>
+                <div class="iu-stage rounded-xl overflow-hidden border border-white/[.12] bg-black cursor-move">
+                    <canvas class="iu-canvas w-full block"></canvas>
+                </div>
+                <div class="flex items-center gap-3 mt-3">
+                    <span class="text-[11px] muted-2 uppercase tracking-widest">Zoom</span>
+                    <input type="range" class="iu-zoom flex-1 !bg-transparent !border-0 !shadow-none !p-0" min="1" max="4" step="0.001" value="1">
+                    <button type="button" class="iu-reset btn btn-ghost btn-sm">Use original (no crop)</button>
+                </div>
+                <p class="iu-status text-[12px] muted-2 mt-2"></p>
+            </div>
+            <div class="lg:col-span-2">
+                <p class="text-[11px] muted-2 uppercase tracking-widest mb-3">Preview on the site</p>
+                <div class="iu-preview card overflow-hidden pointer-events-none">
+                    <canvas class="w-full block border-b border-white/[.06]"></canvas>
+                    <div class="p-4">
+                        <span class="tag">Article</span>
+                        <p class="iu-preview-title text-[15px] font-semibold leading-snug mt-3 line-clamp-2">Article title</p>
+                        <p class="text-[13px] muted mt-2">This is how the card looks in the articles grid.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<section class="adm-card">
-  <h2>Quick actions</h2>
-  <div class="actions">
-    <a class="btn" href="/?edit=1">Edit the homepage</a>
-    <a class="btn btn-quiet" href="/admin/news/new">Add news or an event</a>
-    <a class="btn btn-quiet" href="/admin/settings">Update dates</a>
-  </div>
-</section>
+        {% if item and item.get('image') %}
+        <div class="mt-3 flex items-center gap-3">
+            <img src="{{ item.get('image') }}" alt="current image" class="h-20 rounded-lg border border-white/10 object-cover">
+            <span class="text-[12px] muted-2">Current image · choose a new file above to replace it</span>
+        </div>
+        {% endif %}
+    </div>
+{%- endmacro %}
 
-<section class="adm-card">
-  <h2>Recent activity</h2>
-  {% if activity %}
-  <table class="adm-table">
-    <thead><tr><th>When</th><th>Who</th><th>What</th></tr></thead>
-    <tbody>
-    {% for a in activity %}
-      <tr><td class="nowrap">{{ a.at[:16].replace('T', ' ') }}</td><td>{{ a.display_name or '—' }}</td><td>{{ a.action }}{% if a.detail %}: <span class="muted">{{ a.detail }}</span>{% endif %}</td></tr>
+{% macro video_upload(item=None) -%}
+    <div class="md:col-span-2 vid-uploader">
+        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">Upload video (optional — overrides the video URL above)</label>
+        <input type="file" name="video_file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v"
+               class="w-full text-sm text-white/50 file:me-3 file:bg-white file:text-black file:border-0 file:rounded-lg file:px-4 file:py-2 file:text-sm file:font-medium file:cursor-pointer">
+        <p class="text-[12px] muted-2 mt-1.5">MP4 (H.264) plays everywhere. Max {{ max_upload_mb }} MB. The article image is used as the poster/thumbnail.</p>
+        <div class="mt-3 rounded-xl overflow-hidden border border-white/[.12] bg-black max-w-xl">
+            <video class="w-full aspect-video {% if not (item and item.get('video') and '://' not in item.get('video')) %}hidden{% endif %}" controls preload="metadata" {% if item and item.get('video') %}src="{{ item.get('video') }}"{% endif %}></video>
+            <iframe class="w-full aspect-video hidden" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p class="vu-info text-[12px] muted-2 mt-2">{% if item and item.get('video') %}Current video: {{ item.get('video') }}{% endif %}</p>
+    </div>
+{%- endmacro %}
+
+{% block content %}
+<section class="container-x pt-14 pb-8">
+
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-2">
+        <div>
+            <p class="eyebrow mb-2">Admin panel</p>
+            <h1 class="display text-4xl">Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+            <span class="chip !cursor-default">
+                {{ me.username }} · {{ me.role }}{% if me.role == 'superadmin' %} ★{% endif %}
+            </span>
+            <a href="{{ url_for('admin.backup') }}" class="chip">⬇ Download backup</a>
+            <a href="{{ url_for('admin.logout') }}" class="chip">Log out</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+        <p class="mt-4 text-sm border {{ 'border-white/40' if cat == 'error' else 'border-white/20' }} rounded-xl px-4 py-2.5 text-white/80">{{ msg }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- ======== SITE SETTINGS ======== -->
+    <details class="mt-8 card overflow-hidden" open>
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Site Settings — hero & featured tool</summary>
+        <form method="POST" action="{{ url_for('admin.save_settings') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for f in ['hero_en_1','hero_en_2','sub_en','hero_ku_1','hero_ku_2','sub_ku'] %}
+            <div>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                {{ field_input(f, settings.get(f,'')) }}
+            </div>
+            {% endfor %}
+            <div class="md:col-span-2 border-t border-white/10 pt-4 mt-2">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-4">Featured tool</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for f in ['name','category','url','badge','tagline_en','tagline_ku'] %}
+                    <div>
+                        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        {{ field_input('featured_' + f, settings.get('featured',{}).get(f,'')) }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <button class="btn btn-primary btn-sm">Save settings</button>
+            </div>
+        </form>
+    </details>
+
+    <!-- ======== ABOUT PAGE ======== -->
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">About Page</summary>
+        <form method="POST" action="{{ url_for('admin.save_about') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for f in ['owners', 'email', 'instagram'] %}
+            <div>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f }}</label>
+                {{ field_input(f, about.get(f,'')) }}
+            </div>
+            {% endfor %}
+            <div class="md:col-span-3">
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">About us (English)</label>
+                {{ field_input('about_en', about.get('about_en','')) }}
+            </div>
+            <div class="md:col-span-3">
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">About us (Kurdish)</label>
+                {{ field_input('about_ku', about.get('about_ku','')) }}
+            </div>
+            <div class="md:col-span-3">
+                <button class="btn btn-primary btn-sm">Save about page</button>
+            </div>
+        </form>
+    </details>
+
+    <!-- ======== SERVICES PAGE ======== -->
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Services Page</summary>
+        <form method="POST" action="{{ url_for('admin.save_services') }}" class="p-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for f in ['title_en', 'title_ku', 'message_en', 'message_ku'] %}
+            <div>
+                <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                {{ field_input(f, services.get(f,'')) }}
+            </div>
+            {% endfor %}
+            <div class="md:col-span-2">
+                <button class="btn btn-primary btn-sm">Save services page</button>
+            </div>
+        </form>
+    </details>
+
+    <!-- ======== COLLECTIONS ======== -->
+    {% for coll, meta in collections.items() %}
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">
+            {{ meta.label }} <span class="text-white/30 font-normal text-sm">({{ data[coll]|length }})</span>
+        </summary>
+        <div class="border-t border-white/10 divide-y divide-white/10">
+
+            {% for item in data[coll] %}
+            <details class="group">
+                <summary class="cursor-pointer px-6 py-3.5 text-sm text-white/70 hover:bg-white/5 flex items-center justify-between transition-colors">
+                    <span>{{ item.get('name') or item.get('title') or item.get('title_en') or 'Item ' ~ loop.index }}</span>
+                    <span class="text-white/30 text-xs">edit ▾</span>
+                </summary>
+                <div class="px-6 pb-5">
+                    <form method="POST" action="{{ url_for('admin.edit_item', coll=coll, idx=loop.index0) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {% for f in meta.fields %}
+                        <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
+                            <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                            {{ field_input(f, item.get(f,'')) }}
+                        </div>
+                        {% endfor %}
+                        {% if 'image' in meta.fields %}{{ image_upload(item) }}{% endif %}
+                        {% if 'video' in meta.fields %}{{ video_upload(item) }}{% endif %}
+                        <div class="md:col-span-2">
+                            <button class="btn btn-primary btn-sm">Save</button>
+                        </div>
+                    </form>
+                    <form method="POST" action="{{ url_for('admin.delete_item', coll=coll, idx=loop.index0) }}"
+                          onsubmit="return confirm('Delete this item?')" class="mt-3">
+                        <button class="btn btn-ghost btn-sm">Delete</button>
+                    </form>
+                </div>
+            </details>
+            {% endfor %}
+
+            <!-- Add new -->
+            <div class="px-6 py-5 bg-white/[0.02]">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-3">+ Add new</p>
+                <form method="POST" action="{{ url_for('admin.add_item', coll=coll) }}" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {% for f in meta.fields %}
+                    <div class="{% if f == 'text' %}md:col-span-2{% endif %}">
+                        <label class="block text-[11px] muted-2 uppercase tracking-widest mb-1.5">{{ f.replace('_',' ') }}</label>
+                        {{ field_input(f) }}
+                    </div>
+                    {% endfor %}
+                    {% if 'image' in meta.fields %}{{ image_upload() }}{% endif %}
+                    {% if 'video' in meta.fields %}{{ video_upload() }}{% endif %}
+                    <div class="md:col-span-2">
+                        <button class="btn btn-ghost btn-sm">Add item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </details>
     {% endfor %}
-    </tbody>
-  </table>
-  {% else %}<p class="muted">Nothing yet.</p>{% endif %}
+
+    <!-- ======== ADMINS (superadmin only) ======== -->
+    {% if me.role == 'superadmin' %}
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Admins <span class="text-white/30 font-normal text-sm">({{ users|length }})</span></summary>
+        <div class="border-t border-white/10">
+            <div class="divide-y divide-white/10">
+                {% for u in users %}
+                <div class="px-6 py-3.5 flex items-center justify-between">
+                    <p class="text-sm">{{ u.username }} <span class="text-white/40 text-xs ms-2">{{ u.role }}{% if u.role == 'superadmin' %} ★{% endif %}</span></p>
+                    {% if u.username != me.username %}
+                    <form method="POST" action="{{ url_for('admin.delete_user', username=u.username) }}" onsubmit="return confirm('Remove admin {{ u.username }}?')">
+                        <button class="text-xs border border-white/20 rounded-full px-3 py-1.5 text-white/50 hover:text-white hover:border-white/60 transition-colors">Remove</button>
+                    </form>
+                    {% else %}
+                    <span class="text-xs text-white/30">you</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="px-6 py-5 bg-white/[0.02] border-t border-white/10">
+                <p class="text-xs text-white/40 uppercase tracking-widest mb-3">+ Add admin</p>
+                <form method="POST" action="{{ url_for('admin.add_user') }}" class="flex flex-col sm:flex-row gap-3">
+                    <input name="username" placeholder="username" required class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                    <input name="password" type="password" placeholder="password (min 6)" required class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                    <select name="role" class="bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+                        <option value="admin">admin</option>
+                        <option value="superadmin">superadmin ★</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm">Create</button>
+                </form>
+            </div>
+        </div>
+    </details>
+    {% endif %}
+
+    <!-- ======== MY PASSWORD ======== -->
+    <details class="mt-5 card overflow-hidden">
+        <summary class="cursor-pointer px-6 py-4 font-semibold text-lg hover:bg-white/[.04] transition-colors flex items-center justify-between">Change my password</summary>
+        <form method="POST" action="{{ url_for('admin.change_password') }}" class="p-6 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+            <input name="new_password" type="password" placeholder="new password (min 6 characters)" required
+                   class="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/50">
+            <button class="btn btn-primary btn-sm">Change</button>
+        </form>
+    </details>
+
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 {% endblock %}

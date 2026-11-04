@@ -55,7 +55,17 @@
     </header>
 
     {% set vkind, vsrc = a.video|video_embed %}
-    {% if vkind %}
+    {% if vkind == 'link' %}
+    <!-- Video lives on another site and can't be embedded: show the cover with a watch button -->
+    <a href="{{ vsrc }}" target="_blank" rel="noopener" class="group block relative mt-10 sm:mt-12 rounded-[24px] overflow-hidden border border-white/[.1] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] aspect-[16/9] reveal visible">
+        {{ cover(a, 'h-full') }}
+        <div class="cover-shade"></div>
+        <div class="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between gap-4">
+            <p class="text-[14px] text-white/80 truncate"><span class="en-only">Video hosted on</span><span class="ku-only font-kurdish">ڤیدیۆکە لەسەر</span> {{ vsrc.split('/')[2] if '://' in vsrc else vsrc }}</p>
+            <span class="btn btn-primary btn-sm shrink-0"><span class="en-only">Watch video</span><span class="ku-only">ڤیدیۆکە ببینە</span> ↗</span>
+        </div>
+    </a>
+    {% elif vkind %}
     <!-- Video -->
     <div class="mt-10 sm:mt-12 rounded-[24px] overflow-hidden border border-white/[.1] shadow-[0_50px_120px_-40px_rgba(0,0,0,.9)] bg-black aspect-video reveal visible">
         {% if vkind == 'file' %}
